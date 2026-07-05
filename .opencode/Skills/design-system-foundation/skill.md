@@ -43,6 +43,44 @@ Use structured choices and targeted confirmation questions to define a reusable 
 
 ---
 
+# Visual Reference Selection
+
+Use the visual direction library as source material for structured design decisions, not as loose inspiration.
+
+Read first:
+
+```text
+.opencode/Skills/design-system-foundation/references/visual-direction-index.md
+```
+
+Then select the smallest useful reference set:
+
+* one primary visual reference
+* zero or one secondary visual reference as a modifier
+* rejected references when they were plausible but not suitable
+
+Read only the selected reference files after consulting the index.
+
+Record why each selected reference fits the product category, primary users, launch-critical surfaces, density needs, accessibility constraints, and Stage 4 visual specs.
+
+Reject references that conflict with:
+
+* launch-critical workflow clarity
+* required information density
+* accessibility or contrast needs
+* product trust requirements
+* implementation feasibility for Stage 5
+
+Convert selected references into design-system tokens and rules before UI blueprints apply them.
+
+The traceability path is:
+
+```text
+visual style reference -> design system -> UI blueprint visual spec -> Stage 5 ticket -> Stage 6 visual QA
+```
+
+---
+
 # Design System Matrix
 
 Force the shared app design system through this matrix:
@@ -65,6 +103,9 @@ Modal And Drawer Rules
 Navigation Rules
 Responsive Breakpoints
 Visual References
+Primary Visual Reference
+Secondary Visual References
+Rejected Visual References
 Liked Patterns
 Disliked Patterns
 Accessibility Constraints
@@ -138,6 +179,19 @@ The output must include:
       "mobile_priority_content": []
     },
     "visual_references": [],
+    "visual_reference_selection": {
+      "primary_reference": {
+        "name": "",
+        "path": "",
+        "selected_because": [],
+        "applicable_surfaces": [],
+        "token_implications": [],
+        "component_implications": [],
+        "accessibility_risks": []
+      },
+      "secondary_references": [],
+      "rejected_references": []
+    },
     "liked_patterns": [],
     "disliked_patterns": [],
     "accessibility_constraints": [],
@@ -163,6 +217,8 @@ Ask the user to confirm or choose:
 * density and spacing
 * component style direction
 * visual references
+* primary visual reference
+* secondary visual reference when needed
 * liked and disliked patterns
 * approval status for the shared design system
 
@@ -178,6 +234,7 @@ Pause for user input when:
 
 * launch-critical visual specs conflict with each other
 * product visual personality is unclear
+* no primary visual reference can be selected from the visual direction index
 * color or typography direction is missing
 * component style rules are too vague for frontend implementation
 * responsive breakpoints or collapse rules are missing
@@ -191,6 +248,7 @@ Update:
 
 ```text
 design_system_foundation
+visual_reference_selection
 visual_spec_inventory
 stage_5_handoff
 interactive_guidance
@@ -211,7 +269,9 @@ Validate:
 
 * shared design system exists for launch-critical frontend work
 * design system includes color, typography, spacing, radius, elevation, icon, component, and responsive rules
-* design system records visual references, liked patterns, disliked patterns, and accessibility constraints when provided
+* design system records selected visual references, liked patterns, disliked patterns, and accessibility constraints when provided
+* selected visual references are converted into tokens, component rules, responsive rules, and accessibility constraints
+* rejected visual references include a reason when they were plausible candidates
 * launch-critical UI blueprints reference or align with the design system
 * design approval status is recorded
 * Stage 5 can consume the design system without inventing visual direction

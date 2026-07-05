@@ -35,6 +35,7 @@ This skill is the final UX synthesis and handoff engine for Stage 4.
   "ui_blueprints": {},
   "visual_spec_inventory": [],
   "design_system_foundation": {},
+  "visual_reference_selection": {},
   "complete_app_blueprint_markdown_path": "",
   "frontend_build_package": {},
   "existing_state": {}
@@ -65,7 +66,10 @@ Validate:
 * selected page and screen types are justified by upstream product, workflow, role, feature, journey, or route evidence
 * visual specs cover launch-critical pages and screens
 * visual acceptance criteria and user approval status are present for launch-critical pages
+* selected visual style references are recorded when visual references influenced the design system
 * design system foundation exists and launch-critical visual specs align with it
+* launch-critical UI blueprints reference the selected design system and selected visual style references, or record why no reference applies
+* intentional deviations from selected visual references are documented
 * complete app blueprint markdown exists and covers every launch-critical page
 * complete app blueprint markdown maps every launch-critical page to a `ui_blueprint_id`
 * complete app blueprint markdown includes page sections, components, actions, routes, states, data requirements, and frontend build package summary
@@ -131,6 +135,7 @@ Do not ask broad aesthetic preference questions at this stage. Only ask question
 * unresolved feature behavior decisions
 * unresolved UI blueprint decisions
 * unresolved visual spec decisions
+* unresolved visual reference decisions
 * unresolved design system decisions
 * unresolved accessibility decisions
 * UX risks that block Stage 5 handoff
@@ -166,6 +171,7 @@ and return the specific questions or decisions required.
   "visual_spec_inventory": [],
   "visual_approval_status": {},
   "design_system_foundation": {},
+  "visual_reference_selection": {},
   "complete_app_blueprint_markdown_path": "Build-Plans/Stage-4/09-complete-app-blueprint.md",
   "frontend_build_package": {},
   "stage_5_handoff": {},
@@ -212,6 +218,7 @@ ux_risks
 interaction_tradeoffs
 visual_spec_inventory
 design_system_foundation
+visual_reference_selection
 complete_app_blueprint_markdown_path
 stage_5_handoff
 completion_status
@@ -242,6 +249,9 @@ Stage 4 may complete only when:
 * visual specs exist for all launch-critical pages and screens
 * launch-critical visual specs include visual acceptance criteria and user approval status
 * design system foundation exists and launch-critical visual specs align with it
+* selected visual style references are recorded in the design system foundation when used
+* launch-critical visual specs reference selected visual style references or explicitly record why no visual reference applies
+* launch-critical visual specs document intentional deviations from selected references
 * complete app blueprint markdown exists at `Build-Plans/Stage-4/09-complete-app-blueprint.md`
 * complete app blueprint markdown includes every launch-critical page and maps each page to a `ui_blueprint_id`
 * complete app blueprint markdown includes page sections, components, actions, routes, states, data requirements, and frontend build package summary
@@ -270,6 +280,7 @@ Before completing Stage 4, confirm:
 * every launch-critical page has a visual spec
 * every launch-critical visual spec includes visual acceptance criteria and user approval status
 * design system foundation exists for launch-critical frontend work
+* visual reference selections are traceable into design system rules, UI blueprint visual specs, and Stage 5 handoff
 * every UI blueprint enumerates every interactive element per component per section
 * every interactive element with navigate behavior has a route_target in route_inventory
 * action_inventory covers all launch-critical pages

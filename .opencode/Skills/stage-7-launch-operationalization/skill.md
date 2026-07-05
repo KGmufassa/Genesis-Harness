@@ -138,7 +138,7 @@ blocked
 
 Use `ready_for_stage_8` only when Stage 8 can safely consume launch, monitoring, analytics, support, incident, and operational signal sources.
 
-Stage 7 must not use `ready_for_stage_8` when launch-critical frontend work has unresolved visual QA failures, unresolved design system compliance failures, missing required preview evidence, or `major_visual_drift`, unless each item is explicitly accepted as a known launch risk.
+Stage 7 must not use `ready_for_stage_8` when launch-critical frontend work has unresolved visual QA failures, unresolved visual reference compliance failures, unresolved design system compliance failures, missing required preview evidence, or `major_visual_drift`, unless each item is explicitly accepted as a known launch risk.
 
 ---
 

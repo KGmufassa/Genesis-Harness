@@ -34,6 +34,7 @@ This skill is the task decomposition layer between Stage 5 orchestration and Sta
   "ui_blueprints": {},
   "frontend_build_package": {},
   "design_system_foundation": {},
+  "visual_reference_selection": {},
   "stage_1_inputs": {},
   "stage_3_inputs": {},
   "stage_4_inputs": {},
@@ -71,6 +72,7 @@ Create build tickets from:
 * UX dependencies
 * UI blueprints
 * design system foundation
+* selected visual style references
 * frontend build package hints
 
 Each ticket must be small enough to execute in Stage 6, but large enough to represent meaningful engineering progress.
@@ -92,6 +94,7 @@ Every build ticket must include:
   "stage_4_ux_refs": [],
   "ui_blueprint_refs": [],
   "visual_spec_refs": [],
+  "visual_reference_refs": [],
   "design_system_refs": [],
   "page_refs": [],
   "component_refs": [],
@@ -102,6 +105,8 @@ Every build ticket must include:
   "frontend_task_hint": "",
   "visual_requirements": {
     "visual_style": "",
+    "visual_reference_refs": [],
+    "design_system_refs": [],
     "density": "",
     "color_direction": "",
     "typography_feel": "",
@@ -270,6 +275,9 @@ Example:
   "title": "Build login screen",
   "ui_blueprint_refs": ["UI-BLUEPRINT-LOGIN"],
   "visual_spec_refs": ["UI-BLUEPRINT-LOGIN.visual_spec"],
+  "visual_reference_refs": [
+    ".opencode/Skills/design-system-foundation/references/Bento Grid Tech Minimalist.md"
+  ],
   "design_system_refs": ["DESIGN-SYSTEM-FOUNDATION"],
   "page_refs": ["SCREEN-LOGIN"],
   "component_refs": ["LoginForm"],
@@ -279,6 +287,10 @@ Example:
   "frontend_task_hint": "Build login page from Stage 4 UI blueprint.",
   "visual_requirements": {
     "visual_style": "SaaS Dashboard",
+    "visual_reference_refs": [
+      ".opencode/Skills/design-system-foundation/references/Bento Grid Tech Minimalist.md"
+    ],
+    "design_system_refs": ["DESIGN-SYSTEM-FOUNDATION"],
     "density": "Balanced",
     "color_direction": "Neutral base with one primary action color",
     "typography_feel": "Clean and readable",
@@ -391,6 +403,7 @@ Identify:
 * tickets that depend on unresolved architecture or UX decisions
 * frontend tickets without UI blueprint references
 * frontend tickets without visual spec references
+* frontend tickets without `visual_reference_refs` when the design system selected references
 * frontend tickets without design system references
 * frontend tickets that omit page, component, route, state, action, or interactive element references when applicable
 * frontend tickets that omit visual requirements or visual acceptance criteria when applicable
@@ -439,6 +452,7 @@ Pause for user input when ticket uncertainty blocks Stage 6 execution.
   "ticket_skill_assignments": [],
   "ticket_ui_blueprint_assignments": [],
   "ticket_visual_spec_assignments": [],
+  "ticket_visual_reference_assignments": [],
   "ticket_design_system_assignments": [],
   "visual_acceptance_criteria_ticket_map": [],
   "frontend_task_groups": [],
@@ -485,8 +499,9 @@ Validate:
 * every ticket has acceptance criteria and validation steps
 * every frontend ticket references applicable UI blueprint IDs or explicitly records why no UI blueprint applies
 * every frontend ticket references applicable visual spec IDs or explicitly records why no visual spec applies
+* every frontend ticket references selected visual style references or explicitly records why no visual reference applies
 * every frontend ticket references applicable design system IDs or explicitly records why no design system applies
-* every frontend ticket preserves page, component, route, action, state, interactive element, validation, accessibility, responsive, visual, and design system requirements from Stage 4
+* every frontend ticket preserves page, component, route, action, state, interactive element, validation, accessibility, responsive, visual, visual reference, and design system requirements from Stage 4
 * every frontend ticket preserves visual style, density, color direction, typography feel, component style, primary visual focus, visual do and don't rules, visual acceptance criteria, and user approval status from Stage 4
 * every frontend ticket maps visual acceptance criteria to validation steps
 * every frontend ticket requiring browser validation sets preview and visual QA requirements

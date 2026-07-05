@@ -14,6 +14,14 @@
     "artifact_evidence_registry": { "type": "object" },
     "risk_acceptance_ledger": { "type": "object" },
     "reference_integrity": { "type": "object" },
+    "visual_design_continuity": {
+      "type": "object",
+      "properties": {
+        "visual_reference_refs_present": { "type": "boolean" },
+        "visual_reference_compliance_recorded": { "type": "boolean" }
+      },
+      "additionalProperties": true
+    },
     "revision_loops": { "type": "array" },
     "blocking_gaps": { "type": "array" },
     "warnings": { "type": "array" },

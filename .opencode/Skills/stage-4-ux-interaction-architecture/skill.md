@@ -92,6 +92,11 @@ The command must load this file at the beginning of Stage 4, update it after eac
   "ui_blueprints": {},
   "visual_spec_inventory": [],
   "design_system_foundation": {},
+  "visual_reference_selection": {
+    "primary_reference": {},
+    "secondary_references": [],
+    "rejected_references": []
+  },
   "frontend_build_package": {},
   "ux_decisions": [],
   "ux_risks": [],
@@ -274,8 +279,8 @@ Run Stage 4 skills in this order:
 3. screen-system-design
 4. feature-behavior-specification
 5. state-transition-and-accessibility-design
-6. ui-blueprint-specification
-7. design-system-foundation
+6. design-system-foundation
+7. ui-blueprint-specification
 8. ux-interaction-synthesis
 ```
 
@@ -385,14 +390,14 @@ interactive_guidance
 
 ---
 
-## 8. Run `ui-blueprint-specification`
+## 8. Run `design-system-foundation`
 
 Required shared state updates:
 
 ```text
-ui_blueprints
+design_system_foundation
+visual_reference_selection
 visual_spec_inventory
-frontend_build_package
 stage_5_handoff
 ux_confidence_gaps
 interactive_guidance
@@ -400,13 +405,15 @@ interactive_guidance
 
 ---
 
-## 9. Run `design-system-foundation`
+## 9. Run `ui-blueprint-specification`
 
 Required shared state updates:
 
 ```text
-design_system_foundation
+ui_blueprints
 visual_spec_inventory
+visual_reference_selection
+frontend_build_package
 stage_5_handoff
 ux_confidence_gaps
 interactive_guidance
@@ -422,6 +429,7 @@ Required shared state updates:
 ui_blueprints
 visual_spec_inventory
 design_system_foundation
+visual_reference_selection
 frontend_build_package
 ux_decisions
 ux_risks
@@ -531,7 +539,9 @@ Stage 4 may complete only when:
 * complete app blueprint markdown includes every launch-critical page and maps each page to a `ui_blueprint_id`
 * complete app blueprint markdown includes page sections, components, actions, routes, states, data requirements, and frontend build package summary
 * design system foundation exists and defines shared color, typography, spacing, radius, elevation, icon, component, and responsive rules
+* design system foundation records selected visual style references and converts them into shared design-system rules
 * launch-critical visual specs reference or align with the design system foundation
+* launch-critical visual specs reference selected visual style references or explicitly record why no visual reference applies
 * launch-critical visual specs and design system approval statuses are approved or explicitly accepted as assumptions
 * frontend build package includes page inventory, component inventory, shared components, routes, actions, states, frontend task hints, and recommended frontend skills
 * high and critical UX risks have mitigation paths
@@ -571,6 +581,7 @@ Before completing Stage 4, confirm:
 * every UI blueprint uses the page-definition matrix
 * every launch-critical UI blueprint uses the visual spec matrix
 * design system foundation exists for launch-critical frontend work
+* selected visual style references are recorded before UI blueprints are finalized
 * every UI blueprint maps page -> section -> component -> interactive element -> route_target
 * every launch-critical button, link, and interactive element has a defined route_target or action behavior
 * route_inventory contains every path used by interactive elements across all pages
@@ -596,7 +607,7 @@ Stage 4 must reference:
 System-References/Schemas/stage-4-output.schema.json
 ```
 
-UI blueprints, visual specs, design system decisions, accessibility proof, and reference assets should be recorded or referenced in:
+UI blueprints, visual specs, selected visual style references, design system decisions, accessibility proof, and reference assets should be recorded or referenced in:
 
 ```text
 Build-Plans/Build-status/Artifact-evidence-registry.json

@@ -12,6 +12,15 @@
   "feature_behaviors": {},
   "state_transition_map": {},
   "accessibility_framework": {},
+  "ui_blueprints": {},
+  "visual_spec_inventory": [],
+  "design_system_foundation": {},
+  "visual_reference_selection": {
+    "primary_reference": {},
+    "secondary_references": [],
+    "rejected_references": []
+  },
+  "frontend_build_package": {},
   "ux_decisions": [],
   "ux_risks": [],
   "interaction_tradeoffs": [],

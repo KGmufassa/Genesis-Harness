@@ -29,6 +29,7 @@ agent_skill_instructions
 skill_match
 ui_blueprint_refs
 visual_spec_refs
+visual_reference_refs
 design_system_refs
 page_refs
 component_refs
@@ -60,6 +61,7 @@ Its job is to find, assign, or generate an agent capable of using those required
   "agent_generation_policy": {},
   "skill_registry": {},
   "ui_blueprint_inputs": {},
+  "visual_reference_inputs": {},
   "design_system_inputs": {},
   "frontend_build_package": {},
   "existing_state": {}
@@ -136,6 +138,7 @@ Assign build tickets using:
 * ticket `skill_match`
 * ticket UI blueprint references
 * ticket visual spec references and visual requirements
+* ticket `visual_reference_refs`
 * ticket design system references
 * frontend build package hints
 * architecture domains
@@ -156,6 +159,7 @@ For each ticket, score available agents against:
 * UX references
 * UI blueprint references
 * visual spec references and visual requirements
+* `visual_reference_refs`
 * design system references and compliance requirements
 * page, component, route, state, and action references
 * validation requirements
@@ -207,6 +211,7 @@ Each agent assignment must include:
   "handoff_inputs": [],
   "ui_blueprint_refs": [],
   "visual_spec_refs": [],
+  "visual_reference_refs": [],
   "design_system_refs": [],
   "visual_requirements": {},
   "responsive_requirements": {},
@@ -282,6 +287,7 @@ Generate the prompt body from:
 * handoff inputs
 * UI blueprint references when assigned frontend tickets
 * visual spec references and visual requirements when assigned frontend tickets
+* `visual_reference_refs` when assigned frontend tickets
 * design system references when assigned frontend tickets
 * frontend build package references when assigned frontend tickets
 * validation requirements
@@ -312,6 +318,7 @@ Do not edit:
 Use these handoff inputs:
 - [handoff file]
 - [UI blueprint file when assigned frontend tickets]
+- [visual style reference file when assigned frontend tickets]
 - [design system file when assigned frontend tickets]
 
 Preserve these visual requirements when assigned frontend tickets:
@@ -368,6 +375,7 @@ Provide constructive feedback without making direct changes.
   "agent_handoff_packages": [],
   "ui_blueprint_handoff_packages": [],
   "visual_spec_handoff_packages": [],
+  "visual_reference_handoff_packages": [],
   "design_system_handoff_packages": [],
   "assignment_risks": []
 }
@@ -405,8 +413,9 @@ Validate:
 * assigned agents can use ticket-required skills
 * frontend agents receive `Build-Plans/Stage-4/07-ui-blueprint-specification.json` when assigned frontend tickets with UI blueprint references
 * frontend agents receive visual spec references and visual requirements when assigned frontend tickets with visual spec references
+* frontend agents receive selected visual style reference files when assigned frontend tickets with `visual_reference_refs`
 * frontend agents receive `Build-Plans/Stage-4/08-design-system-foundation.json` when assigned frontend tickets with design system references
-* agent handoff packages preserve ticket UI blueprint, visual spec, design system, page, component, route, state, action, interactive element (element_type, label, route_target, behavior), visual requirements, responsive requirements, preview requirements, visual QA requirements, and frontend task hint references
+* agent handoff packages preserve ticket UI blueprint, visual spec, visual style reference, design system, page, component, route, state, action, interactive element (element_type, label, route_target, behavior), visual requirements, responsive requirements, preview requirements, visual QA requirements, and frontend task hint references
 * generated agents are written under `.opencode/agents/`
 * generated agents include valid frontmatter and complete prompt bodies
 * generated agent permissions match assigned role and risk level

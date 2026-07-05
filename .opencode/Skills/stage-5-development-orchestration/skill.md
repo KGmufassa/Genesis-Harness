@@ -85,6 +85,7 @@ The command must load this file at the beginning of Stage 5, update it after eac
   "ui_blueprint_inputs": {},
   "visual_spec_inputs": {},
   "design_system_inputs": {},
+  "visual_reference_inputs": {},
   "frontend_build_package": {},
   "development_roadmap": {},
   "implementation_sequence": {},
@@ -244,13 +245,14 @@ Before development orchestration, validate:
 * Stage 4 UX outputs exist and are readable
 * Stage 4 UI blueprint output exists and is readable
 * Stage 4 design system foundation exists and is readable
+* Stage 4 selected visual style references exist when referenced by the design system foundation
 * Stage 4 complete app blueprint markdown exists and is readable
 * launch-critical features are known
 * service, data, API, and infrastructure dependencies are available
 * feature behaviors and state transitions are clear enough to sequence implementation
 * UI blueprints define launch-critical pages, components, routes, actions, states, interactive elements (buttons, links, menu items, etc.) with route_targets, visual specs, visual acceptance criteria, and frontend build package hints
 * complete app blueprint markdown maps launch-critical pages to UI blueprint IDs and summarizes page sections, components, actions, routes, states, and data requirements
-* design system foundation defines shared visual tokens, component rules, responsive rules, and design approval status
+* design system foundation defines shared visual tokens, component rules, responsive rules, selected visual style references, and design approval status
 * accessibility and security requirements are available for test planning
 * earlier-stage risks do not block engineering planning
 
@@ -298,6 +300,7 @@ stage_4_inputs
 ui_blueprint_inputs
 visual_spec_inputs
 design_system_inputs
+visual_reference_inputs
 frontend_build_package
 ```
 
@@ -459,6 +462,7 @@ Each output must include:
 * related Stage 4 UI blueprint dependencies where applicable
 * related Stage 4 visual spec dependencies where applicable
 * related Stage 4 design system dependencies where applicable
+* related Stage 4 visual style reference dependencies where applicable
 * execution decisions
 * risks and constraints
 * unresolved questions
@@ -472,6 +476,7 @@ The build ticket output must include:
 * UI blueprint references for frontend tickets
 * visual spec references and visual requirements for frontend tickets
 * design system references for frontend tickets
+* `visual_reference_refs` for frontend tickets
 * page, component, shared component, route, state, and action references when applicable
 * frontend task hints from the Stage 4 frontend build package
 * primary skill from the skill registry
@@ -523,7 +528,8 @@ Stage 5 may complete only when:
 * frontend build tickets reference `09-complete-app-blueprint.md` when page structure, component structure, route structure, or state structure matters
 * frontend build tickets reference applicable visual spec IDs or explicitly record why no visual spec applies
 * frontend build tickets reference applicable design system IDs or explicitly record why no design system applies
-* frontend build tickets preserve page, component, route, action, state, interactive element, validation, accessibility, responsive, visual, and design system requirements from Stage 4
+* frontend build tickets reference selected visual style references or explicitly record why no visual reference applies
+* frontend build tickets preserve page, component, route, action, state, interactive element, validation, accessibility, responsive, visual, visual reference, and design system requirements from Stage 4
 * agent assignment plan scans available agents before assignment
 * agent assignment plan assigns every MVP ticket to the most suitable available agent that can use the ticket-required skills, or records why it requires manual ownership
 * generated agents are written under `.opencode/agents/`
@@ -559,7 +565,7 @@ Before completing Stage 5, confirm:
 * testing strategy includes validation checkpoints
 * build tickets exist for every MVP implementation slice
 * build tickets include primary skill, recommended skill chain, agent-required skills, skill usage instructions, acceptance criteria, and validation steps
-* frontend build tickets include UI blueprint references, visual spec references, design system references, component references, route references, state references, action references, interactive element references, visual requirements, and frontend task hints
+* frontend build tickets include UI blueprint references, visual spec references, `visual_reference_refs`, design system references, component references, route references, state references, action references, interactive element references, visual requirements, and frontend task hints
 * frontend build tickets reference `09-complete-app-blueprint.md` when page structure, component structure, route structure, or state structure matters
 * agent assignment plan gives each agent clear ownership and handoff inputs
 * generated agents have valid markdown definitions in `.opencode/agents/`, safe permission settings, and complete prompt bodies

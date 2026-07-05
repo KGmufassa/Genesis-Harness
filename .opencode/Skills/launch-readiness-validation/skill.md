@@ -11,6 +11,7 @@ It confirms:
 * onboarding readiness
 * support readiness
 * visual QA readiness
+* visual reference compliance readiness
 * design system compliance readiness
 * accepted launch risks
 
@@ -28,6 +29,7 @@ Validate:
 * system health
 * visual QA results
 * responsive validation results
+* visual reference compliance
 * design system compliance
 * visual drift status
 * unresolved repair items
@@ -79,6 +81,7 @@ Return:
   "launch_blockers": [],
   "readiness_gates": [],
   "visual_launch_readiness": {},
+  "visual_reference_launch_readiness": {},
   "design_system_launch_readiness": {},
   "deployment_proof_readiness": {},
   "onboarding_gaps": [],
@@ -91,6 +94,7 @@ Block launch readiness when launch-critical frontend work has:
 * missing required preview URL or preview evidence
 * unresolved visual QA failures
 * unresolved responsive validation failures
+* unresolved visual reference compliance failures
 * unresolved design system compliance failures
 * `major_visual_drift`
 

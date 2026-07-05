@@ -73,7 +73,7 @@ Validate:
 * `Build-Plans/Build-status/Artifact-evidence-registry.json` exists when artifact evidence is required
 * `Build-Plans/Build-status/Risk-acceptance-ledger.json` exists when progression depends on accepted risk
 * cross-stage references are present, unique, and resolvable when used by required outputs
-* frontend-facing work preserves UI blueprint, visual spec, and design system continuity when applicable
+* frontend-facing work preserves UI blueprint, visual spec, visual style reference, and design system continuity when applicable
 * blockers have next actions and failed checks produce revision-loop records
 
 ---
@@ -145,8 +145,10 @@ using this structure:
     "required": false,
     "ui_blueprint_refs_present": false,
     "visual_spec_refs_present": false,
+    "visual_reference_refs_present": false,
     "design_system_refs_present": false,
     "visual_acceptance_criteria_mapped": false,
+    "visual_reference_compliance_recorded": false,
     "preview_or_visual_qa_evidence_present": false,
     "design_system_compliance_recorded": false,
     "visual_drift_status_recorded": false,

@@ -340,6 +340,7 @@ The `stage_5_handoff` object must include:
   "accessibility_requirement_ids": [],
   "ui_blueprint_ids": [],
   "visual_spec_ids": [],
+  "visual_reference_refs": [],
   "design_system_ref": "Build-Plans/Stage-4/08-design-system-foundation.json",
   "component_candidates": [],
   "component_inventory": [],
@@ -871,8 +872,8 @@ Run Stage 4 skills in this order:
 3. screen-system-design
 4. feature-behavior-specification
 5. state-transition-and-accessibility-design
-6. ui-blueprint-specification
-7. design-system-foundation
+6. design-system-foundation
+7. ui-blueprint-specification
 8. ux-interaction-synthesis
 ```
 
@@ -1676,6 +1677,7 @@ interactive_guidance.ux_confidence_gaps
   "page_inventory": [],
   "component_inventory": [],
   "visual_spec_inventory": [],
+  "visual_reference_selection": {},
   "shared_components": [],
   "navigation_inventory": [],
   "route_inventory": [],
@@ -2121,8 +2123,17 @@ Each `ui_blueprints[]` entry must include:
 {
   "ui_blueprint_id": "",
   "page_ref": "",
+  "design_system_refs": [],
+  "visual_reference_refs": [],
+  "design_system_alignment": {
+    "aligned": false,
+    "alignment_notes": [],
+    "intentional_deviations": []
+  },
   "visual_spec": {
     "visual_style": "",
+    "design_system_refs": [],
+    "visual_reference_refs": [],
     "density": "",
     "color_direction": "",
     "typography_feel": "",
@@ -2132,6 +2143,11 @@ Each `ui_blueprints[]` entry must include:
     "visual_do_rules": [],
     "visual_dont_rules": [],
     "reference_apps": [],
+    "design_system_alignment": {
+      "aligned": false,
+      "alignment_notes": [],
+      "intentional_deviations": []
+    },
     "visual_acceptance_criteria": [],
     "user_approval_status": "unconfirmed"
   }
@@ -2171,6 +2187,11 @@ Each `ui_blueprints[]` entry must include:
       "mobile_priority_content": []
     },
     "visual_references": [],
+    "visual_reference_selection": {
+      "primary_reference": {},
+      "secondary_references": [],
+      "rejected_references": []
+    },
     "liked_patterns": [],
     "disliked_patterns": [],
     "accessibility_constraints": [],
@@ -2286,8 +2307,9 @@ Stage 4 may complete only when:
 * each launch-critical UI blueprint includes page purpose, primary user, screen type, layout type, sections, components, actions, data needs, states, validation, and navigation
 * each selected page or screen type includes `page_type_selection_rationale`
 * each launch-critical UI blueprint includes a visual spec with style, density, color direction, typography feel, component style, primary visual focus, responsive behavior, visual do and don't rules, visual acceptance criteria, and user approval status
-* design system foundation exists and defines shared color, typography, spacing, radius, elevation, icon, component, responsive, and accessibility rules
+* design system foundation exists and defines shared color, typography, spacing, radius, elevation, icon, component, responsive, selected visual style references, and accessibility rules
 * launch-critical visual specs reference or align with the design system foundation
+* launch-critical visual specs reference selected visual style references or explicitly record why no visual reference applies
 * launch-critical visual specs and design system approval statuses are approved or explicitly accepted as assumptions
 * frontend build package includes page inventory, component inventory, shared components, routes, actions, states, frontend task hints, and recommended frontend skills
 * complete app blueprint markdown exists at `Build-Plans/Stage-4/09-complete-app-blueprint.md`

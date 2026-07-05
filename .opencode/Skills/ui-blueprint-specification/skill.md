@@ -24,6 +24,8 @@ It defines:
 
 This skill is the bridge between Stage 4 UX architecture and Stage 5 frontend implementation planning.
 
+It consumes the selected Stage 4 design system and visual references from `design-system-foundation`. It applies those decisions per page instead of inventing a separate visual direction for each blueprint.
+
 ---
 
 # Operating Rule
@@ -56,6 +58,8 @@ Then force every launch-critical page through the visual spec matrix:
 ```text
 VISUAL SPEC
 Visual Style
+Design System Refs
+Visual Reference Refs
 Density
 Color Direction
 Typography Feel
@@ -65,6 +69,7 @@ Responsive Behavior
 Visual Do Rules
 Visual Don't Rules
 Reference Apps
+Design System Alignment
 Visual Acceptance Criteria
 User Approval Status
 ```
@@ -419,6 +424,8 @@ Pause for user input when:
   "feature_behaviors": {},
   "state_transition_map": {},
   "accessibility_framework": {},
+  "design_system_foundation": {},
+  "visual_reference_selection": {},
   "existing_state": {}
 }
 ```
@@ -450,6 +457,7 @@ The output must include:
   "page_type_selection_rationale": [],
   "component_inventory": [],
   "visual_spec_inventory": [],
+  "visual_reference_selection": {},
   "shared_components": [],
   "navigation_inventory": [],
   "route_inventory": [],
@@ -486,6 +494,13 @@ Each `ui_blueprints[]` entry must include the page-definition matrix, interactiv
   "screen_type": "",
   "layout_type": "",
   "route": "",
+  "design_system_refs": [],
+  "visual_reference_refs": [],
+  "design_system_alignment": {
+    "aligned": false,
+    "alignment_notes": [],
+    "intentional_deviations": []
+  },
   "sections": [
     {
       "section_id": "",
@@ -550,6 +565,8 @@ Each `ui_blueprints[]` entry must include the page-definition matrix, interactiv
   "recommended_skills": ["frontend-design", "frontend-builder"],
   "visual_spec": {
     "visual_style": "",
+    "design_system_refs": [],
+    "visual_reference_refs": [],
     "density": "",
     "color_direction": "",
     "typography_feel": "",
@@ -559,6 +576,11 @@ Each `ui_blueprints[]` entry must include the page-definition matrix, interactiv
     "visual_do_rules": [],
     "visual_dont_rules": [],
     "reference_apps": [],
+    "design_system_alignment": {
+      "aligned": false,
+      "alignment_notes": [],
+      "intentional_deviations": []
+    },
     "visual_acceptance_criteria": [],
     "user_approval_status": "unconfirmed"
   },
@@ -587,6 +609,7 @@ Update:
 ```text
 ui_blueprints
 visual_spec_inventory
+visual_reference_selection
 frontend_build_package
 stage_5_handoff
 interactive_guidance
@@ -610,6 +633,9 @@ Validate:
 * every selected page type has an inclusion rationale tied to upstream product, workflow, role, feature, journey, or route evidence
 * every UI blueprint has purpose, primary user, screen type, layout type, sections, components, actions, data needs, states, validation, and navigation
 * every launch-critical UI blueprint has a visual spec with style, density, color direction, typography feel, component style, primary visual focus, responsive behavior, visual do and don't rules, visual acceptance criteria, and user approval status
+* every launch-critical UI blueprint references the selected design system or explicitly records why no design system applies
+* every launch-critical UI blueprint references selected visual style references or explicitly records why no visual reference applies
+* every launch-critical UI blueprint records design system alignment and any intentional deviations
 * every UI blueprint maps page -> section -> component -> interactive element -> route -> data source -> validation -> states
 * every interactive element has an element_type, label, and either a route_target or action_id
 * every interactive element with navigate behavior has a route_target that exists in route_inventory

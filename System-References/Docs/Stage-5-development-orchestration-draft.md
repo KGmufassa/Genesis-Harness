@@ -143,6 +143,7 @@ The command must load this file at the beginning of Stage 5, update it after eac
   "preflight": {},
   "ui_blueprint_inputs": {},
   "visual_spec_inputs": {},
+  "visual_reference_inputs": {},
   "design_system_inputs": {},
   "frontend_build_package": {},
   "development_roadmap": {},
@@ -371,6 +372,7 @@ The `stage_6_handoff` object must include:
   "required_skills_by_ticket": {},
   "ui_blueprint_refs_by_ticket": {},
   "visual_spec_refs_by_ticket": {},
+  "visual_reference_refs_by_ticket": {},
   "design_system_refs_by_ticket": {},
   "visual_requirements_by_ticket": {},
   "frontend_build_package_refs": {},
@@ -1024,6 +1026,7 @@ Every build ticket must include:
   "stage_4_ux_refs": [],
   "ui_blueprint_refs": [],
   "visual_spec_refs": [],
+  "visual_reference_refs": [],
   "design_system_refs": [],
   "page_refs": [],
   "component_refs": [],
@@ -1034,6 +1037,8 @@ Every build ticket must include:
   "frontend_task_hint": "",
   "visual_requirements": {
     "visual_style": "",
+    "visual_reference_refs": [],
+    "design_system_refs": [],
     "density": "",
     "color_direction": "",
     "typography_feel": "",
@@ -2492,6 +2497,7 @@ Build-Plans/Stage-5/08-release-plan.json
   "ticket_skill_assignments": [],
   "ticket_ui_blueprint_assignments": [],
   "ticket_visual_spec_assignments": [],
+  "ticket_visual_reference_assignments": [],
   "ticket_design_system_assignments": [],
   "visual_acceptance_criteria_ticket_map": [],
   "ticket_artifact_expectations": [],
@@ -2678,6 +2684,7 @@ Stage 5 may complete only when:
 * build tickets include acceptance criteria and validation steps
 * frontend build tickets reference applicable UI blueprint IDs or explicitly record why no UI blueprint applies
 * frontend build tickets reference applicable visual spec IDs or explicitly record why no visual spec applies
+* frontend build tickets reference selected visual style references or explicitly record why no visual reference applies
 * frontend build tickets reference applicable design system IDs or explicitly record why no design system applies
 * frontend build tickets preserve page, component, route, action, state, validation, accessibility, responsive, visual, and design system requirements from Stage 4
 * frontend build tickets map visual acceptance criteria to validation steps
@@ -2718,7 +2725,7 @@ Before completing Stage 5, confirm:
 * testing strategy includes validation checkpoints
 * build tickets exist for every MVP implementation slice
 * build tickets include primary skill, recommended skill chain, agent-required skills, skill usage instructions, acceptance criteria, and validation steps
-* frontend build tickets include UI blueprint references, visual spec references, design system references, component references, route references, state references, action references, visual requirements, and frontend task hints
+* frontend build tickets include UI blueprint references, visual spec references, `visual_reference_refs`, design system references, component references, route references, state references, action references, visual requirements, and frontend task hints
 * frontend build tickets reference `09-complete-app-blueprint.md` when page structure, component structure, route structure, or state structure matters
 * agent assignment plan gives each agent clear ownership and handoff inputs
 * agent assignment plan records available-agent scan results, suitability scores, and unassigned ticket reasons

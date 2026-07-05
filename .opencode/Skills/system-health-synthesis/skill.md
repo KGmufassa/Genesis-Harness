@@ -60,6 +60,7 @@ Each output must include references to relevant:
 * validation gates
 * UI blueprint IDs
 * visual spec IDs
+* visual style reference refs
 * design system IDs
 * unresolved blockers
 
@@ -87,6 +88,7 @@ The validation results output must include:
 * coverage gaps
 * visual QA results
 * responsive validation results
+* visual reference compliance results
 * design system compliance results
 * visual drift status
 
@@ -145,7 +147,7 @@ Stage 6 may complete only when:
 * high and critical defects have repairs, blockers, or escalation paths
 * repair work has been revalidated
 * system health is synthesized from implementation, validation, regression, and repair results
-* launch-critical frontend tickets include visual QA, responsive validation, design system compliance, and visual drift status when required
+* launch-critical frontend tickets include visual QA, responsive validation, visual reference compliance, design system compliance, and visual drift status when required
 * ticket `expected_artifacts` are recorded in `Build-Plans/Build-status/Artifact-evidence-registry.json` or documented as blockers
 * Stage 7 handoff contains unresolved operational, deployment, monitoring, analytics, and support needs
 
@@ -156,6 +158,7 @@ Stage 6 is `ready_for_stage_7` only when:
 * no unresolved critical regressions remain
 * all launch-critical tickets are implemented and validated
 * no launch-critical frontend ticket has unresolved `major_visual_drift`
+* visual reference compliance is validated or explicitly accepted as known risk for launch-critical frontend work
 * design system compliance is validated or explicitly accepted as known risk for launch-critical frontend work
 * all high-risk repairs are verified or explicitly accepted as known risk
 
@@ -199,7 +202,7 @@ Before completing Stage 6, confirm:
 * every parallel batch has validation status
 * validation results map to ticket acceptance criteria
 * expected artifact evidence maps back to Stage 5 ticket IDs
-* frontend validation results map to UI blueprint, visual spec, and design system IDs when present
+* frontend validation results map to UI blueprint IDs, visual spec IDs, visual style reference refs, and design system IDs when present
 * visual QA and responsive validation results are included for frontend tickets when required
 * regression analysis maps failures back to affected tickets, agents, batches, workflows, and features
 * repair log includes verification results
