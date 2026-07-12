@@ -169,7 +169,11 @@ def stage_conversation_analysis(content: str, filepath: Path) -> dict[str, Any]:
 
     # Locked Decisions (exclude brainstorming)
     locked = grep_lines(content, PATTERNS["locked_decisions"])
-    locked = [l for l in locked if not re.search(r"(?i)maybe|draft|consider", l)]
+    locked = [
+        decision_line
+        for decision_line in locked
+        if not re.search(r"(?i)maybe|draft|consider", decision_line)
+    ]
 
     # New Knowledge
     new_knowledge = grep_lines(content, PATTERNS["new_knowledge"])
