@@ -30,6 +30,38 @@
         "package_manager": { "type": "string" },
         "ai_and_external_services": { "type": "array" },
         "rationale": { "type": "string" },
+        "stack_evaluation": {
+          "type": "object",
+          "properties": {
+            "overall_grade": { "type": "string", "enum": ["A", "B", "C", "D", "F"] },
+            "overall_score": { "type": "number", "minimum": 0, "maximum": 100 },
+            "strength_grade": { "type": "string", "enum": ["A", "B", "C", "D", "F"] },
+            "strength_score": { "type": "number", "minimum": 0, "maximum": 100 },
+            "compatibility_grade": { "type": "string", "enum": ["A", "B", "C", "D", "F"] },
+            "compatibility_score": { "type": "number", "minimum": 0, "maximum": 100 },
+            "evaluated_against": { "type": "array" },
+            "strengths": { "type": "array" },
+            "weaknesses": { "type": "array" },
+            "decision": { "type": "string", "enum": ["proceed", "revise", "blocked"] }
+          },
+          "required": ["overall_grade", "overall_score", "strength_grade", "strength_score", "compatibility_grade", "compatibility_score", "evaluated_against", "strengths", "weaknesses", "decision"],
+          "additionalProperties": true
+        },
+        "component_rationales": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["component", "choice", "why_chosen", "app_fit", "tradeoffs"],
+            "properties": {
+              "component": { "type": "string" },
+              "choice": { "type": "string" },
+              "why_chosen": { "type": "string" },
+              "app_fit": { "type": "string" },
+              "tradeoffs": { "type": "array" }
+            },
+            "additionalProperties": true
+          }
+        },
         "rejected_alternatives": { "type": "array" },
         "risks": { "type": "array" },
         "stage_4_implications": { "type": "array" },
@@ -44,6 +76,23 @@
         "stage": { "type": "string" },
         "brief_path": { "type": "string" },
         "recommended_direction": { "type": ["object", "string"] },
+        "stack_evaluation": {
+          "type": "object",
+          "properties": {
+            "overall_grade": { "type": "string" },
+            "overall_score": { "type": "number", "minimum": 0, "maximum": 100 },
+            "strength_grade": { "type": "string" },
+            "strength_score": { "type": "number", "minimum": 0, "maximum": 100 },
+            "compatibility_grade": { "type": "string" },
+            "compatibility_score": { "type": "number", "minimum": 0, "maximum": 100 },
+            "evaluated_against": { "type": "array" },
+            "strengths": { "type": "array" },
+            "weaknesses": { "type": "array" },
+            "decision": { "type": "string" }
+          },
+          "additionalProperties": true
+        },
+        "component_rationales": { "type": "array" },
         "alternatives_considered": { "type": "array" },
         "key_decisions": { "type": "array" },
         "assumptions": { "type": "array" },

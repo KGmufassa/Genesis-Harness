@@ -92,6 +92,19 @@ The command must load this file at the beginning of Stage 3, update it after eac
     "package_manager": "",
     "ai_and_external_services": [],
     "rationale": "",
+    "stack_evaluation": {
+      "overall_grade": "",
+      "overall_score": 0,
+      "strength_grade": "",
+      "strength_score": 0,
+      "compatibility_grade": "",
+      "compatibility_score": 0,
+      "evaluated_against": [],
+      "strengths": [],
+      "weaknesses": [],
+      "decision": ""
+    },
+    "component_rationales": [],
     "rejected_alternatives": [],
     "risks": []
   },
@@ -206,6 +219,31 @@ Selection rules:
 * use `none_for_mvp` for stack areas intentionally excluded from the MVP
 * do not leave unresolved choices such as `or`, `TBD`, `to decide later`, `optional`, or `depends`
 * if the user rejects the stack, update `stack_decision_status`, revise `selected_stack`, and regenerate affected architecture outputs before completion
+
+## Stack Evaluation And Rationale
+
+Before generating the Stage 3 decision brief, evaluate the selected stack against the actual app being created. Do not grade the stack in isolation or use popularity as a substitute for fit.
+
+Record `selected_stack.stack_evaluation` with:
+
+* `overall_grade` and `overall_score` on a 0-100 scale
+* `strength_grade` and `strength_score`, covering implementation maturity, maintainability, security, delivery speed, operational burden, and scalability
+* `compatibility_grade` and `compatibility_score`, covering the Stage 1 workflows/capabilities and Stage 2 feasibility findings, constraints, risks, and expected usage pattern
+* `evaluated_against`, naming the concrete product capabilities, workflows, constraints, and evidence used
+* `strengths` and `weaknesses`, including material tradeoffs
+* `decision`, which must be `proceed`, `revise`, or `blocked`
+
+Use letter grades consistently: `A` = 90-100, `B` = 80-89, `C` = 70-79, `D` = 60-69, and `F` = below 60. A score below 70 in either strength or compatibility requires `decision = revise` or `blocked` and a recorded mitigation or revision path.
+
+Record `selected_stack.component_rationales` as one entry for every selected stack element, including frontend framework/language/styling, backend framework/runtime/API, database/query layer, authentication, storage, hosting/deployment, testing, package manager, and AI/external services. Each entry must include:
+
+* `component`
+* `choice`
+* `why_chosen`
+* `app_fit`
+* `tradeoffs`
+
+The explanation must be specific to this app and must cite relevant Stage 1 or Stage 2 IDs/files where available. Do not use generic claims such as “popular” or “industry standard” without connecting them to an app requirement.
 
 Stage 3 must block completion when `selected_stack` is missing, incomplete, or contains unresolved alternatives.
 
@@ -519,6 +557,47 @@ The brief confirms the selected concrete architecture stack before UX/UI plannin
 
 The brief must present one selected concrete stack, not multiple unresolved options.
 
+In addition to the shared decision brief fields, the Stage 3 brief must include:
+
+* a `Stack evaluation` section showing overall, strength, and compatibility grades and scores
+* the evidence and app characteristics used for the evaluation
+* a `Why each stack element was chosen` table containing every `component_rationales` entry
+* material weaknesses, tradeoffs, and mitigations
+
+The Markdown brief must be generated from `selected_stack.stack_evaluation` and `selected_stack.component_rationales`; do not invent a separate explanation that can drift from the shared architecture state.
+
+Use this minimum brief structure:
+
+```markdown
+# Stage 3 Decision Brief — System Architecture
+
+## Recommended architecture and stack
+<!-- one concrete stack and the app capabilities it supports -->
+
+## Stack evaluation
+| Measure | Grade | Score |
+| --- | --- | --- |
+| Overall | ... | .../100 |
+| Strength | ... | .../100 |
+| App compatibility | ... | .../100 |
+
+### Evaluation basis
+<!-- evaluated_against, strengths, weaknesses, and mitigations -->
+
+## Why each stack element was chosen
+| Component | Choice | Why chosen | App fit | Tradeoffs |
+| --- | --- | --- | --- | --- |
+<!-- one row per component_rationales entry -->
+
+## Alternatives and downstream impact
+<!-- rejected alternatives, Stage 4/5 implications, and risks -->
+
+## Decision required
+Do you approve this selected concrete stack for the build?
+```
+
+Do not mark the brief complete when the evaluation table or any required component row is absent.
+
 Ask:
 
 ```text
@@ -575,6 +654,7 @@ Stage 3 may complete only when:
 * API surfaces are mapped to workflows
 * integrations and infrastructure are defined
 * selected concrete stack is complete and approved
+* stack evaluation is complete, evidence-backed, and has `decision = proceed`
 * security foundations are present
 * scalability framework exists
 * high and critical architecture risks have mitigation paths
@@ -606,6 +686,8 @@ Before completing Stage 3, confirm:
 * every external dependency has an integration strategy
 * selected stack has exactly one concrete choice for frontend, backend, database, auth, deployment, testing, and package manager
 * rejected stack alternatives are recorded with rationale
+* stack strength and app compatibility are graded with evidence-backed scores
+* every selected stack element has an app-specific rationale and tradeoffs
 * security and scalability risks are recorded
 * critical interactive guidance questions are answered or converted into recorded assumptions
 * Stage 4 handoff is usable for UX architecture

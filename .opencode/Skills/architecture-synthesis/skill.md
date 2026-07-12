@@ -30,7 +30,9 @@ This skill is the final architecture synthesis and handoff engine for Stage 3.
   "data_architecture": {},
   "api_architecture": {},
   "integration_architecture": {},
-  "selected_stack": {},
+    "selected_stack": {},
+    "stack_evaluation": {},
+    "component_rationales": [],
   "security_foundations": {},
   "infrastructure_model": {},
   "scalability_framework": {},
@@ -72,6 +74,26 @@ Record:
 * deferred architecture concerns
 * Stage 4 handoff implications
 * Stage 5 execution implications
+
+## Stack Evaluation And Decision Brief Content
+
+Before writing `Build-Plans/Stage-3/00-stage-decision-brief.md`, evaluate the concrete selected stack against the app described by Stage 1 and the evidence and constraints carried from Stage 2.
+
+Persist the result under `selected_stack.stack_evaluation` with:
+
+* `overall_grade` and `overall_score` (0-100)
+* `strength_grade` and `strength_score`
+* `compatibility_grade` and `compatibility_score`
+* `evaluated_against`
+* `strengths`
+* `weaknesses`
+* `decision` (`proceed`, `revise`, or `blocked`)
+
+Use `A` for 90-100, `B` for 80-89, `C` for 70-79, `D` for 60-69, and `F` below 60. Scores below 70 require a revision or blocking decision and a mitigation path.
+
+Persist `selected_stack.component_rationales` with one object per selected stack element. Each object must contain `component`, `choice`, `why_chosen`, `app_fit`, and `tradeoffs`. Rationales must explain the choice in relation to this app’s workflows, capabilities, risks, constraints, and Stage 2 evidence; generic popularity claims are insufficient.
+
+The generated decision brief must render these persisted fields in a `Stack evaluation` section and a per-component rationale table. The brief is incomplete if either section is missing, if a stack element lacks a rationale, or if the scores are unsupported by named app/evidence inputs.
 
 ## Completion Determination
 
@@ -262,6 +284,9 @@ Stage 3 may complete only when:
 * integrations and infrastructure are defined
 * selected concrete stack is complete
 * selected stack contains no unresolved alternatives
+* stack evaluation includes strength and app-compatibility grades with named evidence
+* every selected stack element has a rationale, app fit, and tradeoffs
+* stack evaluation decision is `proceed`
 * security foundations are present
 * scalability framework exists
 * high and critical architecture risks have mitigation paths
@@ -284,6 +309,8 @@ Before completing Stage 3, confirm:
 * every external dependency has an integration strategy
 * selected stack has exactly one concrete choice for frontend, backend, database, auth, deployment, testing, and package manager
 * rejected stack alternatives are recorded with rationale
+* stack strength and app compatibility are graded with evidence-backed scores
+* every selected stack element has an app-specific rationale and tradeoffs
 * security and scalability risks are recorded
 * critical interactive guidance questions are answered or converted into recorded assumptions
 * Stage 4 handoff is usable for UX architecture
