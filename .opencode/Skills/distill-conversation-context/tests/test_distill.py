@@ -5,13 +5,27 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from typing import Any, Protocol, cast
 
 
 SCRIPT_PATH = Path(__file__).parents[1] / "scripts" / "distill.py"
 SPEC = importlib.util.spec_from_file_location("distill", SCRIPT_PATH)
 assert SPEC and SPEC.loader
-distill = importlib.util.module_from_spec(SPEC)
-SPEC.loader.exec_module(distill)
+
+
+class DistillModule(Protocol):
+    def run(
+        self,
+        root: Path = Path("."),
+        force: bool = False,
+        dry_run: bool = False,
+        no_synthesize: bool = False,
+    ) -> dict[str, Any]: ...
+
+
+distill_module = importlib.util.module_from_spec(SPEC)
+SPEC.loader.exec_module(distill_module)
+distill = cast(DistillModule, distill_module)
 
 
 class DistillSkillTests(unittest.TestCase):

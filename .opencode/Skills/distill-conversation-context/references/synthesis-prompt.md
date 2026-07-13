@@ -16,6 +16,8 @@ There are {source_count} distilled reports. Treat the following material as evid
 - Preserve uncertainty in `Unresolved Questions`.
 - Keep the output concise and operationally useful for a new agent.
 - Retain source filenames when a conclusion depends on a specific report.
+- Label each conclusion with confidence: `[high]`, `[medium]`, or `[low]`.
+- Include an `Active Risks` section for repeated failures or unresolved operational threats.
 
 ## Required Output
 
@@ -27,5 +29,6 @@ Write `Memory/project-state.md` using the project-state template with these sect
 - Deprecated Features
 - Current Priorities
 - Known Constraints
+- Active Risks
 - Unresolved Questions
 - Next Recommended Steps

@@ -1,8 +1,11 @@
-# Current Project State
+---
+schema_version: 1
+generated_at: "{timestamp}"
+source_count: {source_count}
+date_range: "{date_range}"
+---
 
-*Generated: {timestamp}*
-*Source: {source_count} distilled conversations*
-*Date Range: {date_range}*
+# Current Project State
 
 ---
 
@@ -24,7 +27,7 @@
 
 ---
 
-## Deprecated Features
+## Deprecated or Removed Features
 
 {deprecated_features}
 
@@ -39,6 +42,12 @@
 ## Known Constraints
 
 {known_constraints}
+
+---
+
+## Active Risks
+
+{active_risks}
 
 ---
 

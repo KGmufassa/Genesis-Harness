@@ -337,6 +337,7 @@ def stage_synthesize_project_state(distilled_dir: Path) -> None:
         "deprecated_features": [],
         "current_priorities": [],
         "known_constraints": [],
+        "active_risks": [],
         "unresolved_questions": [],
         "next_recommended_steps": [],
     }
@@ -347,36 +348,41 @@ def stage_synthesize_project_state(distilled_dir: Path) -> None:
         def strip_bullet(s: str) -> str:
             return s[2:] if s.startswith("- ") else s
 
+        def evidence(s: str) -> str:
+            return f"[medium] {s} (Source: `{data['source']}`)"
+
         # State Changes -> Architecture/Stack
         for item in sec.get("State Changes", []):
             clean = strip_bullet(item)
             if "architect" in clean.lower():
-                merged["current_architecture"] = clean
+                merged["current_architecture"] = evidence(clean)
             if any(k in clean.lower() for k in ["stack", "language", "framework", "database", "switched", "go", "python", "rust", "node", "java"]):
-                merged["current_stack"] = clean
+                merged["current_stack"] = evidence(clean)
 
         # Locked Decisions -> Architecture/Stack/Features
         for item in sec.get("Locked Decisions", []):
             clean = strip_bullet(item)
             if "architect" in clean.lower():
-                merged["current_architecture"] = clean
+                merged["current_architecture"] = evidence(clean)
             if any(k in clean.lower() for k in ["stack", "language", "framework", "database", "switched", "go", "python", "rust", "node", "java"]):
-                merged["current_stack"] = clean
+                merged["current_stack"] = evidence(clean)
 
         # New Knowledge -> Constraints
-        merged["known_constraints"].extend(strip_bullet(x) for x in sec.get("New Knowledge", []))
+        merged["known_constraints"].extend(
+            evidence(strip_bullet(x)) for x in sec.get("New Knowledge", [])
+        )
 
         # Active/Deprecated Features
         for item in sec.get("State Changes", []):
             clean = strip_bullet(item)
             if "removed" in clean.lower() or "deprecat" in clean.lower() or "dropped" in clean.lower():
-                merged["deprecated_features"].append(clean)
+                merged["deprecated_features"].append(evidence(clean))
             elif "added" in clean.lower() or "new" in clean.lower() or "implement" in clean.lower():
-                merged["active_features"].append(clean)
+                merged["active_features"].append(evidence(clean))
 
         # Priorities are only extracted from explicitly priority-oriented lines.
         priority_lines = [
-            strip_bullet(x)
+            evidence(strip_bullet(x))
             for x in sec.get("Locked Decisions", [])
             if re.search(r"(?i)priority|prioritize|focus|next", x)
         ]
@@ -384,12 +390,15 @@ def stage_synthesize_project_state(distilled_dir: Path) -> None:
 
         # Unresolved questions and problems remain visible to the next agent.
         merged["unresolved_questions"].extend(
-            strip_bullet(p) for p in sec.get("Unresolved Problems", [])
+            evidence(strip_bullet(p)) for p in sec.get("Unresolved Problems", [])
+        )
+        merged["active_risks"].extend(
+            evidence(strip_bullet(p)) for p in sec.get("Repeated Mistakes", [])
         )
 
         # Next steps are inferred only from explicit action language.
         action_lines = [
-            strip_bullet(x)
+            evidence(strip_bullet(x))
             for x in sec.get("State Changes", []) + sec.get("Locked Decisions", [])
             if re.search(r"(?i)next|implement|add|build|resolve|investigate|follow up", x)
         ]
@@ -400,6 +409,7 @@ def stage_synthesize_project_state(distilled_dir: Path) -> None:
         "active_features",
         "deprecated_features",
         "known_constraints",
+        "active_risks",
         "unresolved_questions",
         "next_recommended_steps",
     ]:
@@ -428,6 +438,7 @@ def stage_synthesize_project_state(distilled_dir: Path) -> None:
         deprecated_features=fmt("deprecated_features"),
         current_priorities=fmt("current_priorities"),
         known_constraints=fmt("known_constraints"),
+        active_risks=fmt("active_risks"),
         unresolved_questions=fmt("unresolved_questions"),
         next_recommended_steps=fmt("next_recommended_steps"),
     )
