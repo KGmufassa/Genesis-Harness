@@ -493,6 +493,8 @@ Stage 6 must validate referenced UI blueprint requirements for:
 * routes
 * user actions
 * interactive elements (buttons, links, menu items) with element_type, label, route_target, and behavior
+* interaction contracts with stable `UI-ELEMENT-`, `ROUTE-`, and `ACTION-` IDs
+* route types, action outcomes, confirmations, permission-denied behavior, recovery behavior, responsive behavior, accessibility behavior, and design-system component mappings
 * required UI states
 * data requirements
 * validation requirements
@@ -1291,6 +1293,8 @@ Stage 6 is `ready_for_stage_7` only when:
 * no unresolved critical regressions remain
 * all launch-critical tickets are implemented and validated
 * all launch-critical frontend tickets preserve referenced UI blueprint page, component, route, action, state, interactive element (element_type, label, route_target, behavior), validation, accessibility, responsive, visual, and design system requirements
+* all launch-critical frontend tickets preserve stable interaction IDs and applicable route, outcome, confirmation, permission, recovery, mobile, accessibility, and design-system behavior
+* every dropped, renamed, rerouted, or behavior-changed interaction has an approved deviation record
 * all launch-critical frontend tickets requiring preview have a recorded preview URL or accepted blocker
 * all launch-critical frontend tickets have no `major_visual_drift` unless explicitly accepted as known release risk
 * all launch-critical expected artifacts are recorded in the artifact evidence registry or explicitly accepted as known release risk
@@ -1335,9 +1339,11 @@ Before completing Stage 6, confirm:
 * validation results map to ticket acceptance criteria
 * expected artifact evidence maps back to Stage 5 ticket IDs
 * frontend validation results map to referenced UI blueprint IDs when present
+* frontend validation results map to interaction contract, `UI-ELEMENT-`, `ROUTE-`, and `ACTION-` IDs when present
 * frontend validation results map to referenced visual spec IDs when present
 * frontend validation results map to referenced design system IDs when present
 * visual QA, responsive validation, design system compliance, and visual drift status are recorded for frontend tickets when required
+* interaction conformance results and approved deviations are recorded when interaction references are present
 * regression analysis maps failures back to affected tickets, agents, batches, workflows, and features
 * repair log includes verification results
 * completion_status includes completed_at and recorded_at timestamps

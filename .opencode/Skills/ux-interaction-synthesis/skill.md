@@ -73,6 +73,8 @@ Validate:
 * complete app blueprint markdown exists and covers every launch-critical page
 * complete app blueprint markdown maps every launch-critical page to a `ui_blueprint_id`
 * complete app blueprint markdown includes page sections, components, actions, routes, states, data requirements, and frontend build package summary
+* complete app blueprint markdown includes an app-level Mermaid route map and required page, workflow, destructive, and recovery maps
+* every page in `page_inventory` or `ui_blueprints` has a reconciled interaction contract
 * frontend build package can be consumed by Stage 5 without reinterpreting UI intent
 
 ## Tradeoff Documentation
@@ -259,6 +261,14 @@ Stage 4 may complete only when:
 * high and critical UX risks have mitigation paths
 * critical interactive guidance questions are answered or converted into recorded assumptions
 * no interaction-blocking Stage 3 unknowns remain unresolved
+* every created page has a criticality and interaction approval status
+* every created page enumerates every clickable or interactive element with a stable `UI-ELEMENT-` ID
+* every interactive element resolves to a `ROUTE-` ID, an `ACTION-` ID, or explicit `no_navigation`
+* route, action, navigation, and interactive element inventories reconcile without orphaned or duplicate references
+* high-risk actions define confirmation, permission-denied, success, failure, loading, and recovery behavior where applicable
+* launch-critical elements map to the design system and include responsive and accessibility behavior, or an approved exception
+* all required Mermaid maps reconcile with the structured inventories
+* no required interaction contract remains `needs_user_review` or `blocked`
 * Stage 4 decision brief exists and is approved
 
 ---
@@ -281,11 +291,16 @@ Before completing Stage 4, confirm:
 * every launch-critical visual spec includes visual acceptance criteria and user approval status
 * design system foundation exists for launch-critical frontend work
 * visual reference selections are traceable into design system rules, UI blueprint visual specs, and Stage 5 handoff
-* every UI blueprint enumerates every interactive element per component per section
-* every interactive element with navigate behavior has a route_target in route_inventory
-* action_inventory covers all launch-critical pages
+* every created page enumerates every interactive element per component per section
+* every element has a stable ID, owner, label or accessible name, behavior, source trace, and route, action, or `no_navigation` classification
+* every internal navigation target resolves to route_inventory and every external target is explicitly classified
+* action_inventory covers all created pages and records triggering elements and outcomes
 * route_inventory covers all navigation and action targets
 * navigation items have structured route_target entries that resolve
+* destructive and permission-gated interactions have confirmation, denied, and recovery behavior where applicable
+* clickable containers do not conflict with nested buttons or row actions
+* duplicate labels do not map to conflicting behavior without contextual accessible names
+* required Mermaid maps reconcile with page, element, route, and action IDs
 * UI blueprints are usable by Stage 5 development orchestration
 * complete app blueprint markdown is usable by Stage 5 without reinterpreting page, component, route, action, state, or data requirements
 * every core workflow has states and recovery behavior

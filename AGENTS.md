@@ -110,7 +110,8 @@ check-jsonschema --schemafile System-References/Schemas/stage-1-output.schema.js
 USER-  WORKFLOW-  CAP-  FEATURE-  BOUNDARY-  DEP-  RISK-  ASSUMPTION-
 SERVICE-  ENTITY-  API-  INTEGRATION-  INFRA-  SECURITY-  SCALE-
 JOURNEY-  SCREEN-  BEHAVIOR-  STATE-  A11Y-  UI-BLUEPRINT-  VISUAL-SPEC-
-DESIGN-SYSTEM-  SLICE-  TICKET-  AGENT-  BATCH-  VALIDATION-  VISUAL-QA-
+UI-ELEMENT-  ROUTE-  ACTION-  DESIGN-SYSTEM-  SLICE-  TICKET-  AGENT-
+BATCH-  VALIDATION-  VISUAL-QA-
 ARTIFACT-  LAUNCH-GATE-  TELEMETRY-  EXPERIMENT-
 ```
 
@@ -178,4 +179,3 @@ Stage 6 cannot complete visual-QA tickets without recording preview
 evidence, responsive validation, and design system compliance. Stage 7
 cannot mark launch readiness complete with unresolved visual QA failures
 unless explicitly accepted as a launch risk.
-

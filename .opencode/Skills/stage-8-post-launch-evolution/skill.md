@@ -69,6 +69,8 @@ Required Stage 7 files:
 
 Live-product inputs may include telemetry data, analytics data, support logs, incident logs, AI quality reports, user feedback, cost metrics, and scalability metrics.
 
+When interaction telemetry exists, normalize events to stable Stage 4 `UI-ELEMENT-`, `ROUTE-`, and `ACTION-` IDs and preserve related Stage 5 ticket and Stage 6 validation references. Record unmapped events as telemetry gaps.
+
 ---
 
 # Orchestrated Skills
@@ -143,6 +145,11 @@ Feedback route object:
 {
   "feedback_route_id": "",
   "source_signal_ids": [],
+  "ui_element_refs": [],
+  "route_refs": [],
+  "action_refs": [],
+  "stage_5_ticket_refs": [],
+  "stage_6_validation_refs": [],
   "finding": "",
   "recommended_target_stage": "",
   "severity": "",

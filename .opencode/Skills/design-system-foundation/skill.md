@@ -164,12 +164,33 @@ The output must include:
     "icon_rules": {},
     "component_style_rules": {
       "buttons": {},
+      "links": {},
+      "menus": {},
+      "tabs": {},
+      "interactive_cards_and_rows": {},
       "cards": {},
       "forms": {},
       "tables": {},
       "modals": {},
       "drawers": {},
       "navigation": {}
+    },
+    "interactive_component_mapping": {
+      "primary_action": "Button.Primary",
+      "secondary_action": "Button.Secondary",
+      "destructive_action": "Button.Destructive",
+      "navigation_link": "Link.Navigation",
+      "menu_item": "Menu.Item",
+      "tab_item": "Tab.Item"
+    },
+    "interaction_state_rules": {
+      "hover": {},
+      "focus_visible": {},
+      "pressed": {},
+      "selected": {},
+      "disabled": {},
+      "loading": {},
+      "error": {}
     },
     "responsive_breakpoints": {
       "desktop": "",
@@ -216,6 +237,8 @@ Ask the user to confirm or choose:
 * typography feel
 * density and spacing
 * component style direction
+* button hierarchy and link, menu, tab, interactive card, and row-action treatment
+* destructive, disabled, loading, selected, pressed, hover, and focus-visible treatment
 * visual references
 * primary visual reference
 * secondary visual reference when needed
@@ -237,6 +260,7 @@ Pause for user input when:
 * no primary visual reference can be selected from the visual direction index
 * color or typography direction is missing
 * component style rules are too vague for frontend implementation
+* launch-critical interactive elements cannot be mapped to a shared component treatment
 * responsive breakpoints or collapse rules are missing
 * design approval status is unconfirmed
 
@@ -271,6 +295,8 @@ Validate:
 * design system includes color, typography, spacing, radius, elevation, icon, component, and responsive rules
 * design system records selected visual references, liked patterns, disliked patterns, and accessibility constraints when provided
 * selected visual references are converted into tokens, component rules, responsive rules, and accessibility constraints
+* shared rules define button hierarchy, links, menus, tabs, destructive controls, disabled and loading states, focus-visible behavior, and mobile interaction affordances
+* launch-critical `UI-ELEMENT-` entries map to a design-system component treatment or record an intentional deviation
 * rejected visual references include a reason when they were plausible candidates
 * launch-critical UI blueprints reference or align with the design system
 * design approval status is recorded

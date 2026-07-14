@@ -162,6 +162,7 @@ For each ticket, score available agents against:
 * `visual_reference_refs`
 * design system references and compliance requirements
 * page, component, route, state, and action references
+* interaction contract and interactive element references
 * validation requirements
 * risk level
 * file ownership permissions
@@ -210,6 +211,8 @@ Each agent assignment must include:
   "missing_skills": [],
   "handoff_inputs": [],
   "ui_blueprint_refs": [],
+  "interaction_contract_refs": [],
+  "interactive_element_refs": [],
   "visual_spec_refs": [],
   "visual_reference_refs": [],
   "design_system_refs": [],
@@ -286,6 +289,7 @@ Generate the prompt body from:
 * restricted file scopes
 * handoff inputs
 * UI blueprint references when assigned frontend tickets
+* page interaction contract and stable interactive element, route, and action references when assigned frontend tickets
 * visual spec references and visual requirements when assigned frontend tickets
 * `visual_reference_refs` when assigned frontend tickets
 * design system references when assigned frontend tickets
@@ -318,6 +322,7 @@ Do not edit:
 Use these handoff inputs:
 - [handoff file]
 - [UI blueprint file when assigned frontend tickets]
+- [interaction contract and complete app blueprint when assigned frontend tickets]
 - [visual style reference file when assigned frontend tickets]
 - [design system file when assigned frontend tickets]
 
@@ -326,6 +331,9 @@ Preserve these visual requirements when assigned frontend tickets:
 
 Preserve these design system requirements when assigned frontend tickets:
 - [design tokens, component rules, responsive breakpoints, accessibility constraints]
+
+Preserve these interaction requirements when assigned frontend tickets:
+- [UI-ELEMENT, ROUTE, and ACTION IDs, labels, route types, outcomes, confirmations, permission-denied behavior, recovery behavior, mobile behavior, and accessibility behavior]
 
 Preview and visual QA:
 - [whether local preview is required]
@@ -374,6 +382,8 @@ Provide constructive feedback without making direct changes.
   "generated_agent_files": [],
   "agent_handoff_packages": [],
   "ui_blueprint_handoff_packages": [],
+  "interaction_contract_handoff_packages": [],
+  "interactive_element_handoff_packages": [],
   "visual_spec_handoff_packages": [],
   "visual_reference_handoff_packages": [],
   "design_system_handoff_packages": [],
@@ -416,6 +426,7 @@ Validate:
 * frontend agents receive selected visual style reference files when assigned frontend tickets with `visual_reference_refs`
 * frontend agents receive `Build-Plans/Stage-4/08-design-system-foundation.json` when assigned frontend tickets with design system references
 * agent handoff packages preserve ticket UI blueprint, visual spec, visual style reference, design system, page, component, route, state, action, interactive element (element_type, label, route_target, behavior), visual requirements, responsive requirements, preview requirements, visual QA requirements, and frontend task hint references
+* agent handoff packages preserve stable `UI-ELEMENT-`, `ROUTE-`, and `ACTION-` IDs, interaction contract status, route types, action outcomes, confirmation, permission-denied, recovery, design-system component, mobile, and accessibility behavior
 * generated agents are written under `.opencode/agents/`
 * generated agents include valid frontmatter and complete prompt bodies
 * generated agent permissions match assigned role and risk level

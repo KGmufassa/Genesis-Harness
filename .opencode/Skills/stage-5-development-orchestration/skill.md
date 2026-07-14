@@ -251,6 +251,9 @@ Before development orchestration, validate:
 * service, data, API, and infrastructure dependencies are available
 * feature behaviors and state transitions are clear enough to sequence implementation
 * UI blueprints define launch-critical pages, components, routes, actions, states, interactive elements (buttons, links, menu items, etc.) with route_targets, visual specs, visual acceptance criteria, and frontend build package hints
+* every Stage 4 created page has a reconciled interaction contract and stable `UI-ELEMENT-`, `ROUTE-`, and `ACTION-` references
+* Stage 4 interaction contracts have no required `needs_user_review` or `blocked` status
+* required Stage 4 Mermaid maps reconcile with the structured page, element, route, action, and navigation inventories
 * complete app blueprint markdown maps launch-critical pages to UI blueprint IDs and summarizes page sections, components, actions, routes, states, and data requirements
 * design system foundation defines shared visual tokens, component rules, responsive rules, selected visual style references, and design approval status
 * accessibility and security requirements are available for test planning
@@ -530,6 +533,8 @@ Stage 5 may complete only when:
 * frontend build tickets reference applicable design system IDs or explicitly record why no design system applies
 * frontend build tickets reference selected visual style references or explicitly record why no visual reference applies
 * frontend build tickets preserve page, component, route, action, state, interactive element, validation, accessibility, responsive, visual, visual reference, and design system requirements from Stage 4
+* frontend build tickets reference applicable interaction contracts and stable `UI-ELEMENT-`, `ROUTE-`, and `ACTION-` IDs
+* frontend build tickets preserve route types, action outcomes, confirmation, permission-denied, recovery, design-system component mapping, mobile behavior, and accessibility behavior where applicable
 * agent assignment plan scans available agents before assignment
 * agent assignment plan assigns every MVP ticket to the most suitable available agent that can use the ticket-required skills, or records why it requires manual ownership
 * generated agents are written under `.opencode/agents/`
@@ -566,6 +571,8 @@ Before completing Stage 5, confirm:
 * build tickets exist for every MVP implementation slice
 * build tickets include primary skill, recommended skill chain, agent-required skills, skill usage instructions, acceptance criteria, and validation steps
 * frontend build tickets include UI blueprint references, visual spec references, `visual_reference_refs`, design system references, component references, route references, state references, action references, interactive element references, visual requirements, and frontend task hints
+* frontend build tickets include interaction contract references and preserve stable Stage 4 interaction IDs without replacement
+* tickets covering complex pages reference the applicable Mermaid maps in `09-complete-app-blueprint.md`
 * frontend build tickets reference `09-complete-app-blueprint.md` when page structure, component structure, route structure, or state structure matters
 * agent assignment plan gives each agent clear ownership and handoff inputs
 * generated agents have valid markdown definitions in `.opencode/agents/`, safe permission settings, and complete prompt bodies

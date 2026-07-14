@@ -3,7 +3,105 @@
   "$id": "stage-4-output.schema.json",
   "title": "Stage 4 Output",
   "allOf": [{ "$ref": "stage-output-common.schema.json" }],
+  "$defs": {
+    "interactive_element": {
+      "type": "object",
+      "properties": {
+        "element_id": { "type": "string", "pattern": "^UI-ELEMENT-" },
+        "element_type": { "type": "string", "default": "" },
+        "label": { "type": "string", "default": "" },
+        "accessible_name": { "type": "string", "default": "" },
+        "route_id": { "type": "string", "pattern": "^(ROUTE-.*)?$", "default": "" },
+        "route_target": { "type": "string", "default": "" },
+        "route_type": { "type": "string", "default": "" },
+        "action_id": { "type": "string", "pattern": "^(ACTION-.*)?$", "default": "" },
+        "behavior": { "type": "string", "default": "" },
+        "behavior_target": { "type": "string", "default": "" },
+        "states": { "type": "object", "default": {} },
+        "responsive_behavior": { "type": "object", "default": {} },
+        "accessibility_behavior": { "type": "object", "default": {} },
+        "source_trace": { "type": "array", "default": [] }
+      },
+      "required": ["element_id", "element_type", "behavior"],
+      "anyOf": [
+        { "required": ["route_id"], "properties": { "route_id": { "minLength": 7 } } },
+        { "required": ["action_id"], "properties": { "action_id": { "minLength": 8 } } },
+        { "properties": { "behavior": { "const": "no_navigation" } }, "required": ["behavior"] }
+      ],
+      "additionalProperties": true
+    },
+    "route": {
+      "type": "object",
+      "properties": {
+        "route_id": { "type": "string", "pattern": "^ROUTE-" },
+        "path": { "type": "string", "default": "" },
+        "page_ref": { "type": "string", "default": "" },
+        "role_access": { "type": "array", "default": [] },
+        "source_trace": { "type": "array", "default": [] }
+      },
+      "required": ["route_id", "path"],
+      "additionalProperties": true
+    },
+    "action": {
+      "type": "object",
+      "properties": {
+        "action_id": { "type": "string", "pattern": "^ACTION-" },
+        "name": { "type": "string", "default": "" },
+        "owning_page_refs": { "type": "array", "default": [] },
+        "owning_component_refs": { "type": "array", "default": [] },
+        "triggering_element_refs": { "type": "array", "default": [] },
+        "success_destination": { "type": "string", "default": "" },
+        "failure_destination": { "type": "string", "default": "" },
+        "loading_state": { "type": "string", "default": "" },
+        "permission_denied_behavior": { "type": "string", "default": "" },
+        "undo_or_recovery_path": { "type": "string", "default": "" },
+        "source_trace": { "type": "array", "default": [] }
+      },
+      "required": ["action_id", "name", "owning_page_refs", "triggering_element_refs"],
+      "additionalProperties": true
+    },
+    "interaction_contract": {
+      "type": "object",
+      "properties": {
+        "page_ref": { "type": "string", "default": "" },
+        "ui_blueprint_id": { "type": "string", "default": "" },
+        "route_id": { "type": "string", "default": "" },
+        "criticality": { "enum": ["launch_critical", "standard", "supporting", "deferred"], "default": "standard" },
+        "interactive_element_count": { "type": "integer", "minimum": 0, "default": 0 },
+        "interactive_element_refs": { "type": "array", "default": [] },
+        "unresolved_element_refs": { "type": "array", "default": [] },
+        "assumptions": { "type": "array", "default": [] },
+        "approval_status": { "enum": ["approved", "assumed_low_risk", "needs_user_review", "blocked"], "default": "needs_user_review" },
+        "mermaid_map_required": { "type": "boolean", "default": false }
+      },
+      "required": ["page_ref", "ui_blueprint_id", "criticality", "interactive_element_count", "interactive_element_refs", "approval_status"],
+      "additionalProperties": true
+    }
+  },
   "properties": {
+    "page_inventory": { "type": "array", "default": [] },
+    "ui_blueprints": { "type": "array", "default": [] },
+    "interaction_contracts": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/interaction_contract" },
+      "default": []
+    },
+    "interactive_element_inventory": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/interactive_element" },
+      "default": []
+    },
+    "route_inventory": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/route" },
+      "default": []
+    },
+    "action_inventory": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/action" },
+      "default": []
+    },
+    "navigation_inventory": { "type": "array", "default": [] },
     "visual_reference_selection": {
       "type": "object",
       "properties": {

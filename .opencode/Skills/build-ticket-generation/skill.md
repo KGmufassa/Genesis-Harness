@@ -93,6 +93,7 @@ Every build ticket must include:
   "stage_3_architecture_refs": [],
   "stage_4_ux_refs": [],
   "ui_blueprint_refs": [],
+  "interaction_contract_refs": [],
   "visual_spec_refs": [],
   "visual_reference_refs": [],
   "design_system_refs": [],
@@ -102,6 +103,18 @@ Every build ticket must include:
   "route_refs": [],
   "state_refs": [],
   "action_refs": [],
+  "interactive_element_refs": [],
+  "complete_app_blueprint_refs": [],
+  "interaction_requirements": {
+    "route_types": [],
+    "action_outcomes": [],
+    "confirmation_requirements": [],
+    "permission_denied_behaviors": [],
+    "recovery_requirements": [],
+    "design_system_component_mappings": [],
+    "mobile_behaviors": [],
+    "accessibility_behaviors": []
+  },
   "frontend_task_hint": "",
   "visual_requirements": {
     "visual_style": "",
@@ -406,6 +419,8 @@ Identify:
 * frontend tickets without `visual_reference_refs` when the design system selected references
 * frontend tickets without design system references
 * frontend tickets that omit page, component, route, state, action, or interactive element references when applicable
+* frontend tickets that replace or omit stable `UI-ELEMENT-`, `ROUTE-`, or `ACTION-` references
+* frontend tickets that omit interaction contract references, route types, action outcomes, confirmation, permission-denied, recovery, design-system component, mobile, or accessibility behavior when applicable
 * frontend tickets that omit visual requirements or visual acceptance criteria when applicable
 * frontend tickets that omit responsive requirements when applicable
 * browser-validated frontend tickets without preview requirements
@@ -451,6 +466,8 @@ Pause for user input when ticket uncertainty blocks Stage 6 execution.
   "ticket_dependency_graph": [],
   "ticket_skill_assignments": [],
   "ticket_ui_blueprint_assignments": [],
+  "ticket_interaction_contract_assignments": [],
+  "ticket_interactive_element_assignments": [],
   "ticket_visual_spec_assignments": [],
   "ticket_visual_reference_assignments": [],
   "ticket_design_system_assignments": [],
@@ -498,10 +515,13 @@ Validate:
 * every ticket has skill suitability scoring and selection rationale
 * every ticket has acceptance criteria and validation steps
 * every frontend ticket references applicable UI blueprint IDs or explicitly records why no UI blueprint applies
+* every frontend ticket references applicable page interaction contracts and interactive element IDs, or explicitly records why none apply
 * every frontend ticket references applicable visual spec IDs or explicitly records why no visual spec applies
 * every frontend ticket references selected visual style references or explicitly records why no visual reference applies
 * every frontend ticket references applicable design system IDs or explicitly records why no design system applies
 * every frontend ticket preserves page, component, route, action, state, interactive element, validation, accessibility, responsive, visual, visual reference, and design system requirements from Stage 4
+* every frontend ticket preserves stable `UI-ELEMENT-`, `ROUTE-`, and `ACTION-` IDs plus route types, action outcomes, confirmation, permission-denied, recovery, design-system component mapping, mobile behavior, and accessibility behavior when applicable
+* every frontend ticket for a complex page references the applicable Mermaid map in `09-complete-app-blueprint.md`
 * every frontend ticket preserves visual style, density, color direction, typography feel, component style, primary visual focus, visual do and don't rules, visual acceptance criteria, and user approval status from Stage 4
 * every frontend ticket maps visual acceptance criteria to validation steps
 * every frontend ticket requiring browser validation sets preview and visual QA requirements

@@ -10,6 +10,7 @@ It transforms:
 * Stage 6 system health
 * Stage 6 repair and validation evidence
 * Stage 6 visual QA and design system compliance evidence
+* Stage 6 interaction contract conformance and approved deviation evidence
 * deployment prerequisites
 * operational requirements
 
@@ -139,6 +140,8 @@ blocked
 Use `ready_for_stage_8` only when Stage 8 can safely consume launch, monitoring, analytics, support, incident, and operational signal sources.
 
 Stage 7 must not use `ready_for_stage_8` when launch-critical frontend work has unresolved visual QA failures, unresolved visual reference compliance failures, unresolved design system compliance failures, missing required preview evidence, or `major_visual_drift`, unless each item is explicitly accepted as a known launch risk.
+
+Stage 7 must also block `ready_for_stage_8` when a launch-critical `UI-ELEMENT-`, `ROUTE-`, or `ACTION-` has unresolved interaction conformance failures; missing required route, outcome, confirmation, permission, recovery, mobile, accessibility, or design-system behavior; or an unapproved material deviation. Record accepted exceptions as launch risks tied to the affected stable IDs.
 
 ---
 

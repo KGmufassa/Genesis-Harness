@@ -90,6 +90,12 @@ The command must load this file at the beginning of Stage 4, update it after eac
   "state_transition_map": {},
   "accessibility_framework": {},
   "ui_blueprints": {},
+  "page_inventory": [],
+  "interaction_contracts": [],
+  "interactive_element_inventory": [],
+  "route_inventory": [],
+  "action_inventory": [],
+  "navigation_inventory": [],
   "visual_spec_inventory": [],
   "design_system_foundation": {},
   "visual_reference_selection": {
@@ -163,6 +169,28 @@ The command should pause for user input when:
 * a Stage 3 architecture constraint changes user interaction
 
 The command should not ask the user to choose implementation details that belong to Stage 5 unless the decision changes Stage 4 interaction architecture.
+
+For every created page, infer a complete interactive element proposal before asking the user. A created page is any page or screen recorded in `page_inventory` or `ui_blueprints`.
+
+Classify each created page as:
+
+```text
+launch_critical
+standard
+supporting
+deferred
+```
+
+Present the proposed interactive elements for approval only when the choice materially changes workflow scope, permissions, destructive behavior, route or action outcomes, accessibility, or Stage 5 implementation. Ask the user to approve, remove, rename, reroute, or add elements. Record low-risk inferred elements in `interactive_guidance.assumptions_made`.
+
+Every page interaction contract must use one approval status:
+
+```text
+approved
+assumed_low_risk
+needs_user_review
+blocked
+```
 
 ---
 
@@ -411,6 +439,12 @@ Required shared state updates:
 
 ```text
 ui_blueprints
+page_inventory
+interaction_contracts
+interactive_element_inventory
+route_inventory
+action_inventory
+navigation_inventory
 visual_spec_inventory
 visual_reference_selection
 frontend_build_package
@@ -538,6 +572,7 @@ Stage 4 may complete only when:
 * complete app blueprint markdown exists at `Build-Plans/Stage-4/09-complete-app-blueprint.md`
 * complete app blueprint markdown includes every launch-critical page and maps each page to a `ui_blueprint_id`
 * complete app blueprint markdown includes page sections, components, actions, routes, states, data requirements, and frontend build package summary
+* complete app blueprint markdown includes an app-level Mermaid route map and Mermaid detail maps for launch-critical or complex interaction flows
 * design system foundation exists and defines shared color, typography, spacing, radius, elevation, icon, component, and responsive rules
 * design system foundation records selected visual style references and converts them into shared design-system rules
 * launch-critical visual specs reference or align with the design system foundation
@@ -547,10 +582,16 @@ Stage 4 may complete only when:
 * high and critical UX risks have mitigation paths
 * critical interactive guidance questions are answered or converted into recorded assumptions
 * no interaction-blocking Stage 3 unknowns remain unresolved
-* every launch-critical UI blueprint enumerates every interactive element (buttons, links, menu items, etc.) on the page
-* every interactive element with navigate behavior has a route_target that exists in the route inventory
-* action_inventory is complete for all launch-critical pages and maps every action to its route_target
+* every created page has a page interaction contract, criticality, and approval status
+* every created page enumerates every clickable or interactive element, including buttons, links, icon controls, menus, tabs, form controls, clickable cards or rows, pagination, breadcrumbs, modal or drawer triggers, downloads, and global navigation
+* every interactive element uses a stable `UI-ELEMENT-` ID and resolves to a `ROUTE-` ID, an `ACTION-` ID, or an explicit `no_navigation` behavior
+* every navigate or open-link element has a route target that exists in the route inventory or is recorded as an external URL
+* action_inventory is complete for all created pages and maps every action to its owning page, component, triggering element, and outcome
 * route_inventory covers all navigation paths used by interactive elements
+* destructive, security-sensitive, payment, admin, permission-sensitive, and mutation actions define confirmation, success, failure, loading, permission-denied, and recovery behavior where applicable
+* launch-critical interactive elements map to design-system components and define responsive and accessibility behavior, or record an approved exception
+* pages with branching, destructive, mutation, modal, drawer, or complex routing behavior have Mermaid interaction maps in `09-complete-app-blueprint.md`
+* no required interaction contract remains `needs_user_review` or `blocked`
 * Stage 4 decision brief exists and is approved
 
 Possible completion statuses:
@@ -582,11 +623,16 @@ Before completing Stage 4, confirm:
 * every launch-critical UI blueprint uses the visual spec matrix
 * design system foundation exists for launch-critical frontend work
 * selected visual style references are recorded before UI blueprints are finalized
-* every UI blueprint maps page -> section -> component -> interactive element -> route_target
-* every launch-critical button, link, and interactive element has a defined route_target or action behavior
+* every created page maps page -> section -> component -> interactive element -> route or action outcome
+* every clickable or interactive element has a stable ID, label or accessible name, behavior, owner, source trace, and route, action, or `no_navigation` classification
 * route_inventory contains every path used by interactive elements across all pages
-* action_inventory maps every interactive element to its owning page, component, and route
+* action_inventory maps every action to its triggering elements, owning pages and components, and success, failure, loading, and recovery outcomes where applicable
 * navigation items have structured route_target entries that resolve in route_inventory
+* destructive actions define confirmation and recovery behavior
+* permission-gated actions define allowed and denied states
+* clickable containers do not conflict with nested controls or row actions
+* duplicate labels do not resolve to conflicting behaviors without contextual accessible names
+* required Mermaid maps reconcile with interaction, route, action, and navigation inventories
 * component inventory, shared components, routes, states, actions, and interactive elements are defined
 * complete app blueprint markdown is usable by Stage 5 without reinterpreting page, component, route, action, state, or data requirements
 * every core workflow has states and recovery behavior

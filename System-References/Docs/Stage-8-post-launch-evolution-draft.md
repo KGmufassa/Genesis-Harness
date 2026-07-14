@@ -185,6 +185,11 @@ Feedback route object:
 {
   "feedback_route_id": "",
   "source_signal_ids": [],
+  "ui_element_refs": [],
+  "route_refs": [],
+  "action_refs": [],
+  "stage_5_ticket_refs": [],
+  "stage_6_validation_refs": [],
   "finding": "",
   "recommended_target_stage": "",
   "severity": "",
@@ -198,6 +203,8 @@ Feedback route object:
 ---
 
 # Stage 8 Input Contract
+
+Normalize interaction telemetry to stable `UI-ELEMENT-`, `ROUTE-`, and `ACTION-` IDs and preserve related Stage 5 ticket and Stage 6 validation references. Record unmapped interaction events as telemetry gaps.
 
 Load Stage 7 outputs from:
 
@@ -687,6 +694,7 @@ Stage 8 may complete as `evolution_plan_ready` only when:
 
 * required Stage 7 outputs are present
 * live signal inputs or telemetry gaps are recorded
+* interaction findings map to stable interaction IDs and downstream ticket or validation references when available
 * recommendations distinguish evidence from inference
 * low-evidence recommendations are marked provisional
 * roadmap changes are routed to the correct stage when needed

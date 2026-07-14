@@ -48,11 +48,12 @@ Before executing a ticket, verify:
 * ticket has acceptance criteria
 * ticket has validation steps
 * frontend tickets with `ui_blueprint_refs` have UI blueprint handoff inputs
+* frontend tickets with `interaction_contract_refs` include interaction contract and complete app blueprint handoff inputs
 * frontend tickets with `visual_spec_refs` include visual requirements and visual acceptance criteria
 * frontend tickets with `visual_reference_refs` include selected visual style reference handoff inputs
 * frontend tickets with `design_system_refs` include design system handoff inputs
 * frontend tickets with `preview_required` include dev server or preview instructions
-* frontend tickets include page, component, route, state, and action refs when applicable
+* frontend tickets include page, component, route, state, action, and interactive element refs when applicable
 * ticket is assigned to an agent or explicitly marked for manual execution
 * agent can use the ticket-required skills
 * allowed and restricted file scopes are clear
@@ -70,7 +71,9 @@ When executing a frontend ticket with `ui_blueprint_refs`, use:
 Build-Plans/Stage-4/07-ui-blueprint-specification.json
 ```
 
-as the source for page structure, layout type, sections, components, shared components, routes, actions, states, data requirements, validation requirements, accessibility requirements, responsive requirements, visual requirements, visual reference requirements, visual acceptance criteria, and design system requirements.
+as the source for page structure, layout type, sections, components, shared components, routes, actions, states, data requirements, validation requirements, accessibility requirements, responsive requirements, visual requirements, visual reference requirements, visual acceptance criteria, design system requirements, and stable interaction contracts.
+
+Preserve `UI-ELEMENT-`, `ROUTE-`, and `ACTION-` IDs, labels or accessible names, route types and targets, action outcomes, confirmations, permission-denied behavior, recovery behavior, responsive behavior, accessibility behavior, and design-system component mappings. Do not silently drop, rename, reroute, or change an interaction. Record a blocker or an approved deviation.
 
 ---
 
@@ -98,6 +101,9 @@ as the source for page structure, layout type, sections, components, shared comp
     }
   ],
   "ui_blueprint_execution_refs": [],
+  "interaction_contract_execution_refs": [],
+  "interactive_element_execution_refs": [],
+  "interaction_deviations": [],
   "visual_spec_execution_refs": [],
   "visual_reference_execution_refs": [],
   "design_system_execution_refs": [],
@@ -141,11 +147,13 @@ Validate:
 * every executed ticket records required skills used
 * every executed ticket records changed files when available
 * every executed frontend ticket with `ui_blueprint_refs` records the referenced UI blueprint IDs
+* every executed frontend ticket with `interaction_contract_refs` records contract and stable interaction IDs
 * every executed frontend ticket with `visual_spec_refs` records the referenced visual spec IDs
 * every executed frontend ticket with `visual_reference_refs` records the referenced visual style references
 * every executed frontend ticket with `design_system_refs` records the referenced design system IDs
 * every executed frontend ticket with `preview_required` records a preview URL or blocker
 * every executed frontend ticket preserves referenced page, component, route, action, state, interactive element (with element_type, label, route_target, and behavior), validation, accessibility, responsive, visual, visual reference, and design system requirements
+* every dropped, renamed, rerouted, or behavior-changed interaction has an approved deviation with rationale and evidence
 * every generated implementation, preview, build, or log artifact is recorded or queued for `Build-Plans/Build-status/Artifact-evidence-registry.json`
 * every blocker includes a reason and next action
 * every parallel batch execution records batch status

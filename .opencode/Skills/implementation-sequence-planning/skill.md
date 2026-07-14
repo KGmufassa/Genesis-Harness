@@ -54,6 +54,7 @@ Define:
 * UX implementation order
 * UI blueprint implementation order
 * shared component implementation order
+* interaction contract implementation order
 * integration implementation order
 * validation checkpoints
 
@@ -147,6 +148,8 @@ Validate:
 * frontend sequencing uses the Stage 4 frontend build package when available
 * shared components, layout systems, navigation, and route foundations precede dependent page work
 * interactive elements (modals, drawers, nested routes) are sequenced after their parent pages and components
+* shared design-system interaction primitives and route foundations precede dependent `UI-ELEMENT-` implementations
+* action handlers, confirmation flows, permission states, and success or failure destinations are sequenced before their dependent high-risk interactions are considered complete
 * foundational infrastructure and data work precedes dependent features
 * integrations are not pushed so late that they threaten release readiness
 * each implementation slice has a validation checkpoint

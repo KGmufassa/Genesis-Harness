@@ -860,6 +860,29 @@ Every navigation item across the app must be recorded:
 }
 ```
 
+# Page Interaction Contract Addendum
+
+Apply this contract to every page recorded in `page_inventory` or `ui_blueprints`, not only launch-critical pages:
+
+```json
+{
+  "page_ref": "",
+  "ui_blueprint_id": "UI-BLUEPRINT-001",
+  "route_id": "ROUTE-001",
+  "criticality": "launch_critical | standard | supporting | deferred",
+  "interactive_element_refs": [],
+  "unresolved_element_refs": [],
+  "approval_status": "approved | assumed_low_risk | needs_user_review | blocked",
+  "mermaid_map_required": false
+}
+```
+
+Use stable `UI-ELEMENT-`, `ROUTE-`, and `ACTION-` IDs. Every element must resolve to a route, action, or explicit `no_navigation`. Record route type, ownership, source trace, design-system component, responsive behavior, accessibility behavior, permissions, and confirmation. For mutations and other high-risk actions, record success, failure, loading, permission-denied, undo, and recovery behavior.
+
+Infer the element inventory before asking the user. Request approval only for material workflow, permission, destructive, navigation, accessibility, or implementation decisions.
+
+`09-complete-app-blueprint.md` must include an app-level Mermaid route map and detailed Mermaid maps for branching, destructive, mutation, modal, drawer, or complex routing flows. Trivial pages may rely on reconciled inventories.
+
 ---
 
 # Orchestrated Skills
@@ -2321,10 +2344,13 @@ Stage 4 may complete only when:
 * high and critical UX risks have mitigation paths
 * critical interactive guidance questions are answered or converted into recorded assumptions
 * no interaction-blocking Stage 3 unknowns remain unresolved
-* every launch-critical UI blueprint enumerates every interactive element (buttons, links, menu items, etc.) on the page
-* every interactive element with navigate behavior has a route_target that exists in the route inventory
-* action_inventory is complete for all launch-critical pages and maps every action to its route_target
+* every created page has a reconciled interaction contract and enumerates every clickable or interactive element
+* every element uses a stable `UI-ELEMENT-` ID and resolves to a `ROUTE-` ID, `ACTION-` ID, or explicit `no_navigation`
+* action_inventory is complete for all created pages and records triggering elements and outcomes
 * route_inventory covers all navigation paths used by interactive elements
+* launch-critical and high-risk interactions include required design-system, responsive, accessibility, confirmation, permission, outcome, and recovery behavior
+* required Mermaid maps reconcile with page, element, route, action, and navigation inventories
+* no required interaction contract remains `needs_user_review` or `blocked`
 * Stage 4 decision brief exists and is approved
 
 ---
@@ -2348,12 +2374,15 @@ Before completing Stage 4, confirm:
 * every launch-critical UI blueprint includes visual acceptance criteria and user approval status
 * design system foundation exists for launch-critical frontend work
 * visual references, liked patterns, disliked patterns, and design approval status are recorded when available
-* every UI blueprint maps page -> section -> component -> interactive element -> route -> data source -> validation -> states
-* every interactive element has an element_type, label, and either a route_target or action_id
-* every interactive element with navigate behavior has a route_target that exists in route_inventory
+* every created page maps page -> section -> component -> interactive element -> route, action, or `no_navigation` -> outcome
+* every interactive element has a stable ID, owner, label or accessible name, behavior, source trace, and valid resolution
+* every internal navigation target resolves in route_inventory and external targets are explicitly classified
 * every action in action_inventory maps back to its owning page and component
 * every route in route_inventory maps to a blueprint page_ref
 * every navigation item has a route_target pointing to a valid route in route_inventory
+* destructive and permission-gated interactions include confirmation, denied, and recovery behavior where applicable
+* clickable containers do not conflict with nested controls and duplicate labels do not hide conflicting behavior
+* required Mermaid maps reconcile with structured inventories
 * component inventory, shared components, routes, states, actions, and interactive elements are defined
 * frontend build package is usable by frontend-design, frontend-builder, task generators, and agent builders
 * complete app blueprint markdown is usable by Stage 5 without reinterpreting page, component, route, action, state, or data requirements

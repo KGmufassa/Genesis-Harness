@@ -264,6 +264,15 @@ Complete App Blueprint
 
 Every launch-critical page in the markdown tree must map to a `ui_blueprint_id` and include its sections, components, primary actions, route, states, and data requirements.
 
+The complete app blueprint must also include:
+
+* one compact Mermaid app route map covering every created page
+* page-level Mermaid interaction maps for launch-critical or complex pages
+* critical workflow Mermaid maps that include success, failure, and recovery branches
+* destructive or mutation Mermaid maps that include confirmation and result states
+
+Require a page-level Mermaid map when a page has multiple interaction branches, destructive or mutation actions, modal or drawer flows, or complex routing. A trivial page may rely on its interaction contract and inventories when the app route map already covers it.
+
 ---
 
 # Visual Hierarchy Model
@@ -274,7 +283,8 @@ Each page blueprint must preserve:
 Page
 ├─ Section
 │  ├─ Component
-│  │  ├─ Action
+│  │  ├─ Interactive Element
+│  │  │  └─ Route, Action, Or No Navigation
 │  │  ├─ Data Source
 │  │  ├─ Validation
 │  │  └─ States
@@ -288,14 +298,21 @@ Every interactive element on a page (button, link, icon button, menu item, tab, 
 
 ```json
 {
-  "element_id": "",
-  "element_type": "button | link | icon_button | menu_item | tab | toggle | checkbox | radio | select | text_input | search_input | file_upload | date_picker",
+  "element_id": "UI-ELEMENT-001",
+  "element_type": "button | link | icon_button | menu_item | tab | toggle | checkbox | radio | select | text_input | search_input | file_upload | date_picker | breadcrumb | pagination | clickable_card | clickable_row | disclosure",
   "label": "",
+  "accessible_name": "",
   "icon": "",
+  "owning_page_ref": "",
+  "owning_section_ref": "",
+  "owning_component_ref": "",
+  "route_id": "",
   "route_target": "",
-  "action_id": "",
-  "behavior": "navigate | submit | open_modal | open_drawer | toggle | trigger_action | open_link | download | call_api | scroll_to",
+  "route_type": "internal_page | external_url | modal | drawer | anchored_section | file_download | api_action | state_transition | no_navigation",
+  "action_id": "ACTION-001",
+  "behavior": "navigate | submit | open_modal | open_drawer | toggle | trigger_action | open_link | download | call_api | scroll_to | no_navigation",
   "behavior_target": "",
+  "design_system_component": "",
   "states": {
     "default": {},
     "loading": {},
@@ -304,7 +321,10 @@ Every interactive element on a page (button, link, icon button, menu item, tab, 
     "hover": {}
   },
   "permission_required": "",
+  "permission_denied_behavior": "",
   "confirmation_required": false,
+  "responsive_behavior": {},
+  "accessibility_behavior": {},
   "analytics_event": "",
   "source_trace": []
 }
@@ -316,7 +336,7 @@ Every action across all pages must be recorded in a global action inventory:
 
 ```json
 {
-  "action_id": "",
+  "action_id": "ACTION-001",
   "name": "",
   "element_type": "button | link | icon_button | menu_item | tab | toggle | checkbox | radio | select",
   "label": "",
@@ -325,8 +345,15 @@ Every action across all pages must be recorded in a global action inventory:
   "behavior_target": "",
   "owning_page_refs": [],
   "owning_component_refs": [],
+  "triggering_element_refs": [],
   "permission_required": "",
   "confirmation_required": false,
+  "success_destination": "",
+  "failure_destination": "",
+  "loading_state": "",
+  "empty_state": "",
+  "permission_denied_behavior": "",
+  "undo_or_recovery_path": "",
   "states": {},
   "analytics_event": "",
   "source_trace": []
@@ -339,7 +366,7 @@ Every route across all pages must be recorded in a global route inventory:
 
 ```json
 {
-  "route_id": "",
+  "route_id": "ROUTE-001",
   "path": "",
   "page_ref": "",
   "page_name": "",
@@ -370,6 +397,27 @@ Every navigation item across the app must be recorded:
 }
 ```
 
+# Page Interaction Contract
+
+Create one compact contract for every page recorded in `page_inventory` or `ui_blueprints`:
+
+```json
+{
+  "page_ref": "",
+  "ui_blueprint_id": "UI-BLUEPRINT-001",
+  "route_id": "ROUTE-001",
+  "criticality": "launch_critical | standard | supporting | deferred",
+  "interactive_element_count": 0,
+  "interactive_element_refs": [],
+  "unresolved_element_refs": [],
+  "assumptions": [],
+  "approval_status": "approved | assumed_low_risk | needs_user_review | blocked",
+  "mermaid_map_required": false
+}
+```
+
+Apply deeper design-system, mobile, accessibility, state, and user-confirmation detail to launch-critical pages. Apply confirmation, success, failure, loading, permission-denied, undo, and recovery detail to destructive, security-sensitive, payment, admin, permission-sensitive, and mutation actions.
+
 ---
 
 # Interactive Guidance Responsibilities
@@ -393,6 +441,8 @@ Ask the user to confirm or choose:
 * visual do and don't rules
 * visual acceptance criteria
 * user approval status
+
+Infer the full interactive element inventory before asking. Present the proposal and ask the user to approve, remove, rename, reroute, or add elements only when the decision is material. Do not ask the broad question "what interactive elements should be on this page?".
 
 Ask no more than 1-3 page-definition questions at once.
 
@@ -454,6 +504,8 @@ The output must include:
   "status": "",
   "ui_blueprints": [],
   "page_inventory": [],
+  "interaction_contracts": [],
+  "interactive_element_inventory": [],
   "page_type_selection_rationale": [],
   "component_inventory": [],
   "visual_spec_inventory": [],
@@ -494,6 +546,9 @@ Each `ui_blueprints[]` entry must include the page-definition matrix, interactiv
   "screen_type": "",
   "layout_type": "",
   "route": "",
+  "route_id": "ROUTE-001",
+  "criticality": "launch_critical | standard | supporting | deferred",
+  "interaction_approval_status": "approved | assumed_low_risk | needs_user_review | blocked",
   "design_system_refs": [],
   "visual_reference_refs": [],
   "design_system_alignment": {
@@ -515,12 +570,19 @@ Each `ui_blueprints[]` entry must include the page-definition matrix, interactiv
               "element_type": "button | link | icon_button | ...",
               "label": "",
               "route_target": "",
+              "route_id": "",
+              "route_type": "internal_page | external_url | modal | drawer | anchored_section | file_download | api_action | state_transition | no_navigation",
               "action_id": "",
-              "behavior": "navigate | submit | ...",
+              "behavior": "navigate | submit | open_modal | open_drawer | toggle | trigger_action | open_link | download | call_api | scroll_to | no_navigation",
               "behavior_target": "",
               "states": {},
               "permission_required": "",
-              "confirmation_required": false
+              "permission_denied_behavior": "",
+              "confirmation_required": false,
+              "design_system_component": "",
+              "responsive_behavior": {},
+              "accessibility_behavior": {},
+              "source_trace": []
             }
           ],
           "data_source": "",
@@ -629,6 +691,7 @@ Build-Plans/Build-status/UX-state.json
 Validate:
 
 * every launch-critical page has a UI blueprint
+* every page in `page_inventory` or `ui_blueprints` has one page interaction contract
 * every launch-critical page appears in `Build-Plans/Stage-4/09-complete-app-blueprint.md`
 * every selected page type has an inclusion rationale tied to upstream product, workflow, role, feature, journey, or route evidence
 * every UI blueprint has purpose, primary user, screen type, layout type, sections, components, actions, data needs, states, validation, and navigation
@@ -636,16 +699,23 @@ Validate:
 * every launch-critical UI blueprint references the selected design system or explicitly records why no design system applies
 * every launch-critical UI blueprint references selected visual style references or explicitly records why no visual reference applies
 * every launch-critical UI blueprint records design system alignment and any intentional deviations
-* every UI blueprint maps page -> section -> component -> interactive element -> route -> data source -> validation -> states
-* every interactive element has an element_type, label, and either a route_target or action_id
+* every UI blueprint maps page -> section -> component -> interactive element -> route, action, or `no_navigation` -> outcome -> data source -> validation -> states
+* every interactive element uses a stable `UI-ELEMENT-` ID and has an element_type, label or accessible name, owner, behavior, source trace, and route, action, or `no_navigation` classification
 * every interactive element with navigate behavior has a route_target that exists in route_inventory
 * every action in action_inventory maps back to its owning page and component
+* every action uses a stable `ACTION-` ID and records triggering elements and outcome fields when applicable
 * every route in route_inventory maps to a blueprint page_ref
+* every internal route uses a stable `ROUTE-` ID
 * every navigation item has a route_target pointing to a valid route in route_inventory
-* every launch-critical page enumerates every interactive element in every component and section
+* every created page enumerates every clickable or interactive element in every component and section
+* launch-critical elements map to design-system components and define responsive and accessibility behavior, or record an approved exception
+* destructive, security-sensitive, payment, admin, permission-sensitive, and mutation actions define confirmation and result or recovery behavior
+* labels without behaviors, navigation without targets, missing inventory targets, conflicting duplicate labels, unconfirmed destructive actions, missing permission-denied states, and nested click-target conflicts fail validation
 * every frontend build package can reference visual specs for frontend tickets
 * component inventory, shared components, routes, states, actions, and interactive elements are defined
 * complete app blueprint markdown maps every launch-critical page to a `ui_blueprint_id`
 * complete app blueprint markdown includes page sections, components, actions, routes, states, data requirements, and frontend build package summary
+* complete app blueprint markdown includes an app route Mermaid map and all required page, workflow, destructive, and recovery Mermaid maps
+* Mermaid nodes reconcile with stable page, `UI-ELEMENT-`, `ROUTE-`, and `ACTION-` references
 * frontend build package is usable by frontend-design, frontend-builder, task generators, and agent builders
 * no frontend code is generated

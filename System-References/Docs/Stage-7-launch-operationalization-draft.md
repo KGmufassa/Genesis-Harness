@@ -656,6 +656,9 @@ Stage 7 may complete as `ready_for_stage_8` only when:
 * deployment environment, setup, build, deployment, and rollback details are defined or explicitly blocked
 * production build proof, deployment dry-run evidence, smoke test evidence, rollback verification, and environment verification are recorded or explicitly accepted as known risks
 * visual QA, responsive validation, design system compliance, preview evidence, and visual drift status are launch-ready or explicitly accepted as known risks
+* launch-critical interaction contracts and stable `UI-ELEMENT-`, `ROUTE-`, and `ACTION-` references pass Stage 6 conformance validation or have accepted launch risks
+* critical route, outcome, confirmation, permission-denied, recovery, mobile, accessibility, and design-system interaction behavior is launch-ready
+* dropped, renamed, rerouted, or behavior-changed interactions have approved deviations or accepted launch risks tied to affected stable IDs
 * monitoring checks and alert ownership are defined
 * analytics events and success metrics are defined
 * support, onboarding, and operational runbooks are defined

@@ -51,6 +51,7 @@ Use validation steps from:
 * agent validation requirements
 * parallel batch validation gates
 * Stage 4 UI blueprint specification for frontend tickets with `ui_blueprint_refs`
+* Stage 4 page interaction contracts and complete app Mermaid maps for frontend tickets with `interaction_contract_refs`
 * Stage 4 visual spec matrix for frontend tickets with `visual_spec_refs`
 * Stage 4 selected visual style references for frontend tickets with `visual_reference_refs`
 * Stage 4 design system foundation for frontend tickets with `design_system_refs`
@@ -73,6 +74,8 @@ Build-Plans/Stage-4/07-ui-blueprint-specification.json
 ```
 
 Confirm referenced page structure, layout, sections, components, shared components, routes, actions, states, data requirements, validation requirements, accessibility requirements, responsive requirements, visual requirements, visual reference requirements, visual acceptance criteria, and design system compliance.
+
+For every referenced `UI-ELEMENT-`, verify existence, label or accessible name, behavior, owning component, route or action resolution, route type, state behavior, permissions, confirmation, responsive behavior, accessibility behavior, and design-system component mapping. Verify `ACTION-` success, failure, loading, denied, and recovery outcomes where applicable. Reconcile complex flows with the applicable Mermaid map.
 
 For frontend tickets with `visual_qa_required`, validate through available visual evidence such as screenshots, browser preview, responsive viewport checks, Playwright checks, or documented manual review. Record visual drift as:
 
@@ -104,6 +107,11 @@ implementation_only_drift
   "agent_validation_results": [],
   "batch_validation_results": [],
   "ui_blueprint_validation_results": [],
+  "interaction_contract_validation_results": [],
+  "interactive_element_validation_results": [],
+  "route_validation_results": [],
+  "action_validation_results": [],
+  "approved_interaction_deviations": [],
   "visual_spec_validation_results": [],
   "visual_reference_validation_results": [],
   "design_system_validation_results": [],
@@ -150,10 +158,14 @@ Validate:
 * coverage gaps are explicit
 * validation results map back to ticket IDs
 * frontend validation results map to referenced UI blueprint IDs when present
+* frontend validation results map to interaction contract, `UI-ELEMENT-`, `ROUTE-`, and `ACTION-` IDs when present
 * frontend validation results map to referenced visual spec IDs when present
 * frontend validation results map to referenced visual style references when present
 * frontend validation results map to referenced design system IDs when present
 * frontend tickets with UI blueprint refs validate required page, component, route, action, state, interactive element (element_type, label, route_target, behavior), accessibility, responsive, and visual behavior
+* frontend tickets validate confirmation, permission-denied, success, failure, loading, and recovery outcomes where applicable
+* dropped, renamed, rerouted, or behavior-changed interactions fail unless an approved deviation is recorded
+* complex interaction implementations reconcile with required complete app blueprint Mermaid maps
 * frontend tickets with visual spec refs validate visual acceptance criteria and report any visual gaps
 * frontend tickets with visual reference refs validate that the implemented visual direction preserves the selected reference intent after conversion through the design system
 * frontend tickets with visual QA requirements report visual QA evidence and visual drift status

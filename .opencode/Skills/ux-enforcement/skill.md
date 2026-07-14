@@ -53,6 +53,9 @@ Extract:
 - decisions required
 - expected system responses
 - expected states
+- page interaction contracts
+- stable `UI-ELEMENT-`, `ROUTE-`, and `ACTION-` references
+- route types and action outcomes
 
 ---
 
@@ -64,6 +67,7 @@ Identify:
 - navigation paths
 - feedback mechanisms
 - state handling (loading, error, success)
+- implemented labels, accessible names, route targets, action outcomes, permission behavior, and confirmations
 
 ---
 
@@ -74,6 +78,8 @@ Compare:
 - planned steps vs implemented steps
 - expected actions vs actual actions
 - expected transitions vs actual navigation
+- planned stable interaction IDs vs implemented controls and handlers
+- planned Mermaid branches vs implemented complex flows
 
 ---
 
@@ -97,6 +103,8 @@ Check:
 - are actions clearly labeled?
 - is feedback immediate and clear?
 - are decisions minimized?
+- do route, action, confirmation, permission, recovery, mobile, and accessibility behaviors match the interaction contract?
+- are nested clickable containers and controls unambiguous?
 
 ---
 
@@ -213,6 +221,7 @@ List any missing:
 - ignoring edge cases
 - allowing unclear primary actions
 - approving incomplete flows
+- approving dropped, renamed, rerouted, or behavior-changed interactions without an approved deviation
 
 ---
 

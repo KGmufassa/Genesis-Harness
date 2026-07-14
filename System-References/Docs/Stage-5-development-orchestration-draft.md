@@ -1025,6 +1025,7 @@ Every build ticket must include:
   "stage_3_architecture_refs": [],
   "stage_4_ux_refs": [],
   "ui_blueprint_refs": [],
+  "interaction_contract_refs": [],
   "visual_spec_refs": [],
   "visual_reference_refs": [],
   "design_system_refs": [],
@@ -1034,6 +1035,18 @@ Every build ticket must include:
   "route_refs": [],
   "state_refs": [],
   "action_refs": [],
+  "interactive_element_refs": [],
+  "complete_app_blueprint_refs": [],
+  "interaction_requirements": {
+    "route_types": [],
+    "action_outcomes": [],
+    "confirmation_requirements": [],
+    "permission_denied_behaviors": [],
+    "recovery_requirements": [],
+    "design_system_component_mappings": [],
+    "mobile_behaviors": [],
+    "accessibility_behaviors": []
+  },
   "frontend_task_hint": "",
   "visual_requirements": {
     "visual_style": "",
@@ -2687,6 +2700,8 @@ Stage 5 may complete only when:
 * frontend build tickets reference selected visual style references or explicitly record why no visual reference applies
 * frontend build tickets reference applicable design system IDs or explicitly record why no design system applies
 * frontend build tickets preserve page, component, route, action, state, validation, accessibility, responsive, visual, and design system requirements from Stage 4
+* frontend build tickets reference applicable interaction contracts and stable `UI-ELEMENT-`, `ROUTE-`, and `ACTION-` IDs
+* frontend build tickets preserve route types, action outcomes, confirmation, permission-denied, recovery, design-system component, mobile, and accessibility behavior where applicable
 * frontend build tickets map visual acceptance criteria to validation steps
 * build tickets include validation layers, `expected_artifacts`, and retry policy
 * UI/browser-validated tickets include dev server requirements
@@ -2725,7 +2740,7 @@ Before completing Stage 5, confirm:
 * testing strategy includes validation checkpoints
 * build tickets exist for every MVP implementation slice
 * build tickets include primary skill, recommended skill chain, agent-required skills, skill usage instructions, acceptance criteria, and validation steps
-* frontend build tickets include UI blueprint references, visual spec references, `visual_reference_refs`, design system references, component references, route references, state references, action references, visual requirements, and frontend task hints
+* frontend build tickets include UI blueprint, interaction contract, visual spec, `visual_reference_refs`, design system, component, route, state, action, interactive element, visual requirement, and frontend task hint references
 * frontend build tickets reference `09-complete-app-blueprint.md` when page structure, component structure, route structure, or state structure matters
 * agent assignment plan gives each agent clear ownership and handoff inputs
 * agent assignment plan records available-agent scan results, suitability scores, and unassigned ticket reasons

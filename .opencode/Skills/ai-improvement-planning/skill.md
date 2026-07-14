@@ -21,6 +21,8 @@ It covers:
 
 Analyze AI outputs, user feedback, validation failures, support issues, and quality metrics.
 
+When AI behavior is exposed through planned UI interactions, map findings to the affected `UI-ELEMENT-`, `ROUTE-`, and `ACTION-` IDs and preserve related Stage 5 ticket and Stage 6 validation references.
+
 ## Improvement Planning
 
 Recommend prompt changes, evaluation additions, data improvements, model changes, fallback behavior, or workflow refinements.
@@ -60,6 +62,7 @@ Return:
   "quality_gaps": [],
   "training_or_prompt_needs": [],
   "evaluation_needs": [],
+  "interaction_findings": [],
   "ai_risks": []
 }
 ```
@@ -86,4 +89,4 @@ Route examples:
 * AI defects, regressions, missing tests, or validation gaps remain -> Stage 6
 * AI monitoring, support, abuse handling, or production operations are insufficient -> Stage 7
 
-Each route candidate must include source signal IDs, severity, evidence references, recommended target stage, recommended action, and whether it blocks current evolution.
+Each route candidate must include source signal IDs, affected interaction IDs and downstream ticket or validation references when applicable, severity, evidence references, recommended target stage, recommended action, and whether it blocks current evolution.

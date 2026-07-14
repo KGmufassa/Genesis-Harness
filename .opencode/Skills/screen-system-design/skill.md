@@ -87,8 +87,9 @@ Each screen must enumerate every interactive element (buttons, links, inputs) it
       "label": "",
       "route_target": "",
       "action_id": "",
-      "behavior": "navigate | submit | open_modal | open_drawer | toggle | trigger_action | open_link | download | call_api | scroll_to",
+      "behavior": "navigate | submit | open_modal | open_drawer | toggle | trigger_action | open_link | download | call_api | scroll_to | no_navigation",
       "behavior_target": "",
+      "route_type": "internal_page | external_url | modal | drawer | anchored_section | file_download | api_action | state_transition | no_navigation",
       "permission_required": "",
       "confirmation_required": false,
       "states": {},
@@ -103,6 +104,10 @@ Each screen must enumerate every interactive element (buttons, links, inputs) it
 ```
 
 Every screen's interactive_elements must be cross-referenced with the UI blueprint's section -> component -> interactive_elements hierarchy during ui-blueprint-specification.
+
+Infer elements from upstream workflows, journeys, feature behaviors, role permissions, screen purpose, page type, state transitions, accessibility requirements, and the design-system foundation. Include non-button click targets such as cards, table rows, breadcrumbs, pagination, menus, tabs, disclosures, and modal or drawer triggers.
+
+Do not ask the broad question "what interactive elements should be on this page?". Present an inferred inventory and request confirmation only when an element changes workflow scope, permissions, destructive behavior, navigation, accessibility, or implementation scope.
 
 ## Screen Risk Detection
 
@@ -187,4 +192,6 @@ Validate:
 * screen risks are recorded
 * every screen records its interactive elements with route_targets and behavior
 * every interactive element references a valid route or action
-
+* every screen in `page_inventory` or `ui_blueprints` has a matching interaction contract
+* every element uses a stable `UI-ELEMENT-` ID and records a route, action, or `no_navigation` classification
+* nested clickable containers and controls have unambiguous activation behavior

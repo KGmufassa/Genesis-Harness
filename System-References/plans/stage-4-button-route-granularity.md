@@ -1,5 +1,25 @@
 # Plan: Stage 4 Button-Level Action→Route Granularity
 
+## Approved Tightened Scope
+
+Implement the interaction contract across Stage 4 through Stage 8. Do not update the optional Stage 1–3 producer contracts.
+
+1. Stage 4 is the source of truth for every created page, defined as every page in `page_inventory` or `ui_blueprints`.
+1. Every created page receives a criticality, compact interaction contract, approval status, and complete clickable-element inventory.
+1. Use stable `UI-ELEMENT-`, `ROUTE-`, and `ACTION-` IDs and preserve them through tickets, implementation, validation, launch, and telemetry.
+1. Infer interactive elements from workflows, journeys, behaviors, permissions, states, accessibility, page type, and design-system direction. Ask the user to approve, remove, rename, reroute, or add elements only when the decision is material.
+1. Record route types and action outcomes, including confirmation, success, failure, loading, permission-denied, undo, and recovery behavior where applicable.
+1. Use `design-system-foundation` to define button hierarchy, links, menus, tabs, interactive containers, states, responsive affordances, and accessibility treatment.
+1. Require an app-level Mermaid route map and page or workflow maps for branching, destructive, mutation, modal, drawer, or complex routing flows. Permit trivial pages to rely on reconciled inventories.
+1. Stage 5 tickets, sequencing, agent assignments, and handoffs must consume the interaction contracts and stable IDs.
+1. Stage 6 must validate exact conformance and record approved deviations for dropped, renamed, rerouted, or behavior-changed interactions.
+1. Stage 7 must treat unresolved launch-critical interaction failures as launch blockers or accepted risks tied to stable IDs.
+1. Stage 8 must map telemetry and findings to stable interaction IDs and related Stage 5 ticket and Stage 6 validation references.
+
+Implementation status: applied to Stage 4–8 skill contracts, related draft contracts, Stage 4 schema, and global ID standards. Optional Stage 1–3 updates remain excluded.
+
+---
+
 ## Objective
 
 Enhance Stage 4 UI blueprints to enumerate every interactive element (button, link, menu item, etc.) on every page:
@@ -316,4 +336,5 @@ Every interactive element on a page must be enumerated with:
 | **Structural** (new schemas, expanded fields) | 3 | Stage 4 draft doc, ui-blueprint-specification skill, screen-system-design skill |
 | **Checklist/gate** (new conditions, new validations) | 7 | stage-4 command, ux-interaction-synthesis, stage-5 draft, stage-5 command, stage-6 draft, stage-6 command, build-ticket-generation |
 | **Validation-only** (consumer checklist items) | 5 | implementation-execution, validation-execution, agent-assignment-planning, implementation-sequence-planning, frontend-developer-agent-review |
-| **No change needed** | 2 | Global-Stage-Readiness-Audit, design-system-foundation skill |
+| **Design direction** | 1 | design-system-foundation skill |
+| **No change needed** | 1 | Global-Stage-Readiness-Audit |

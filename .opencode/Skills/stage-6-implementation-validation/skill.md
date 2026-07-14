@@ -217,6 +217,7 @@ validation_steps
 risk_level
 completion_status
 ui_blueprint_refs
+interaction_contract_refs
 visual_spec_refs
 visual_reference_refs
 design_system_refs
@@ -225,6 +226,9 @@ component_refs
 route_refs
 state_refs
 action_refs
+interactive_element_refs
+complete_app_blueprint_refs
+interaction_requirements
 frontend_task_hint
 visual_requirements
 responsive_requirements
@@ -242,6 +246,10 @@ Build-Plans/Stage-4/07-ui-blueprint-specification.json
 ```
 
 Stage 6 must validate referenced UI blueprint requirements for page structure, layout type, sections, components, shared components, routes, actions, states, data requirements, validation requirements, accessibility requirements, responsive requirements, visual requirements, visual reference requirements, visual acceptance criteria, and design system compliance.
+
+Stage 6 must also validate each referenced page interaction contract and preserve stable `UI-ELEMENT-`, `ROUTE-`, and `ACTION-` IDs. Confirm element existence, label or accessible name, behavior, route type and target, action outcomes, confirmation, permission-denied behavior, recovery behavior, responsive behavior, accessibility behavior, and design-system component mapping where applicable.
+
+Record intentional differences only as approved deviations with the affected stable IDs, rationale, approval evidence, and replacement behavior. Treat dropped, renamed, rerouted, or behavior-changed interactions without approval as validation failures.
 
 For frontend tickets that require preview or visual QA, Stage 6 must record:
 
@@ -455,6 +463,7 @@ Stage 6 may complete only when:
 * all assigned Stage 5 build tickets are implemented, blocked with reason, deferred with approval, or explicitly marked not applicable
 * every executed ticket followed its `agent_required_skills` and `agent_skill_instructions`
 * every executed frontend ticket with UI blueprint references was validated against the referenced UI blueprint requirements
+* every executed frontend ticket with interaction contract references was validated against each referenced `UI-ELEMENT-`, `ROUTE-`, and `ACTION-` requirement
 * every executed frontend ticket with visual spec references was validated against the referenced visual requirements and visual acceptance criteria
 * every executed frontend ticket with `visual_reference_refs` was validated against the selected visual style references as converted through the design system
 * every executed frontend ticket with design system references was validated against the referenced design system foundation
@@ -476,6 +485,8 @@ Stage 6 is `ready_for_stage_7` only when:
 * no unresolved critical regressions remain
 * all launch-critical tickets are implemented and validated
 * all launch-critical frontend tickets preserve referenced UI blueprint page, component, route, action, state, interactive element (element_type, label, route_target, behavior), validation, accessibility, responsive, visual, visual reference, and design system requirements
+* all launch-critical frontend tickets preserve stable interaction IDs, route types, action outcomes, confirmations, permission-denied behavior, recovery behavior, mobile behavior, accessibility behavior, and design-system component mappings
+* every dropped, renamed, rerouted, or behavior-changed interaction has an approved deviation record
 * all launch-critical frontend tickets requiring preview have a recorded preview URL or accepted blocker
 * all launch-critical frontend tickets have no `major_visual_drift` unless explicitly accepted as known release risk
 * all high-risk repairs are verified or explicitly accepted as known risk
@@ -521,10 +532,12 @@ Before completing Stage 6, confirm:
 * every parallel batch has validation status
 * validation results map to ticket acceptance criteria
 * frontend validation results map to referenced UI blueprint IDs when present
+* frontend validation results map to interaction contract, `UI-ELEMENT-`, `ROUTE-`, and `ACTION-` IDs when present
 * frontend validation results map to referenced visual spec IDs when present
 * frontend validation results map to referenced visual style references when present
 * frontend validation results map to referenced design system IDs when present
 * visual QA, responsive validation, visual reference compliance, design system compliance, visual drift status, and visual drift source are recorded for frontend tickets when required
+* interaction conformance results and approved deviations are recorded for frontend tickets with interaction references
 * regression analysis maps failures back to affected tickets, agents, batches, workflows, and features
 * repair log includes verification results
 * Stage 7 handoff is usable for launch and operationalization
