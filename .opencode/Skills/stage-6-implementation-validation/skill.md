@@ -288,7 +288,7 @@ Generated agents must exist in:
 Generated agent files must include:
 
 * valid subagent frontmatter
-* `model: GPT 5.5` unless Stage 5 explicitly selected another model
+* no agent-specific `model` override
 * safe permission settings for the assigned role
 * a prompt body with assigned tickets, required skills, skill usage order, file scopes, handoff inputs, validation requirements, rules, and reporting requirements
 

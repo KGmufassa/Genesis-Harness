@@ -1577,7 +1577,6 @@ Generated agents should use this markdown structure:
 ---
 description: ""
 mode: subagent
-model: GPT 5.5
 temperature: 0.1
 permission:
   edit: deny
@@ -1621,7 +1620,6 @@ The generated agent frontmatter must include:
 ```yaml
 description: ""
 mode: subagent
-model: GPT 5.5
 temperature: 0.1
 permission:
   edit: deny
@@ -1722,28 +1720,9 @@ Provide constructive feedback without making direct changes.
 
 ## Generated Agent Model Policy
 
-Generated agents must include a `model` field.
-
-Default model:
-
-```text
-GPT 5.5
-```
-
-Use `GPT 5.5` unless:
-
-* the user explicitly provides a different model
-* the default model is unavailable
-* the task requires a materially different model for cost, latency, safety, or capability reasons
-* an agent generation policy defines a more specific model for that agent type
-
-If the default is used without explicit confirmation, record the assumption in:
-
-```text
-interactive_guidance.assumptions_made
-```
-
-Ask the user for model selection only when model choice materially affects execution quality, cost, latency, safety, or capability.
+* generated agents must omit the `model` field
+* OpenCode subagents inherit the model of the primary agent that invokes them when no agent-specific model is configured
+* Stage 5 must not select, infer, or record a model for generated agents
 
 Permission rules:
 
@@ -1758,7 +1737,6 @@ Example review agent:
 ---
 description: Reviews code for quality and best practices
 mode: subagent
-model: GPT 5.5
 temperature: 0.1
 permission:
   edit: deny
@@ -1781,7 +1759,6 @@ Example frontend implementation agent:
 ---
 description: Builds and validates assigned frontend tickets using selected frontend, testing, UX, debugging, and security skills
 mode: subagent
-model: GPT 5.5
 temperature: 0.1
 permission:
   edit: allow
@@ -1898,7 +1875,6 @@ Ask targeted questions when any of these are unclear:
 * whether high-risk tickets require a reviewer agent
 * whether unavailable skills require a new agent type
 * whether generated implementation agents may edit files or run commands
-* whether the default model `GPT 5.5` should be overridden for generated subagents
 
 Infer domain-based assignment when ticket skills and file scopes are clear, but record the assumption in:
 
@@ -2623,7 +2599,7 @@ The agent assignment output must include:
 * agent types
 * generated agent file paths when new agents are created
 * generated agent files under `.opencode/agents/`
-* generated agent frontmatter including description, mode, model, temperature, and permissions
+* generated agent frontmatter including description, mode, temperature, and permissions
 * generated agent prompt body using the required prompt template
 * assigned slices
 * assigned tickets

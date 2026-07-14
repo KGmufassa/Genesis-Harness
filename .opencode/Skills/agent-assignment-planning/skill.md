@@ -241,31 +241,17 @@ Generated agents must use this frontmatter:
 ```yaml
 description: ""
 mode: subagent
-model: GPT 5.5
 temperature: 0.1
 permission:
   edit: deny
   bash: deny
 ```
 
-Default model:
+## Generated Agent Model Policy
 
-```text
-GPT 5.5
-```
-
-Use `GPT 5.5` unless:
-
-* the user explicitly provides a different model
-* the default model is unavailable
-* the task requires a materially different model for cost, latency, safety, or capability reasons
-* an agent generation policy defines a more specific model for that agent type
-
-If the default is used without explicit confirmation, record the assumption in:
-
-```text
-interactive_guidance.assumptions_made
-```
+* generated agents must omit the `model` field
+* OpenCode subagents inherit the model of the primary agent that invokes them when no agent-specific model is configured
+* Stage 5 must not select, infer, or record a model for generated agents
 
 Permission rules:
 
