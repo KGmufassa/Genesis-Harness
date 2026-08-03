@@ -163,7 +163,11 @@ The Stage 1 command should behave like a guided product initialization interview
 
 ## Initialization Intake
 
-When the Stage 1 command is initialized and no usable raw product intent exists yet, it must first ask the user to explain:
+When the Stage 1 command is initialized, inspect `System-References/PRD Docs/` before asking intake questions.
+
+If the folder contains readable supported PRD source files, treat those files as initial product intent and proceed to `product-intelligence`.
+
+When the folder is empty or contains no readable supported files and no usable raw product intent exists yet, ask the user to explain:
 
 ```text
 1. What app do you want to build?
@@ -299,6 +303,7 @@ Run Stage 1 skills in this order:
 Purpose:
 
 * interpret raw product intent
+* inspect `System-References/PRD Docs/` first for initial product details and features
 * identify product type, category, and strategic intent
 * identify users, needs, motivations, and success criteria
 * detect incomplete planning and ambiguity
@@ -311,6 +316,16 @@ Build-Plans/Stage-1/01-product-foundation.json
 Build-Plans/Stage-1/02-user-system-map.json
 Build-Plans/Stage-1/10-success-framework.json
 ```
+
+Before using raw user input or intake questions, inspect:
+
+```text
+System-References/PRD Docs/
+```
+
+If this folder contains readable PRD source files, use them as the primary product-intelligence source and extract product details, target users, features, constraints, success criteria, and open questions from those files. Preserve PRD file path references in the generated Stage 1 outputs.
+
+If the folder is empty or contains no readable supported files, continue with the original workflow using raw user input, conversation context, existing Stage 1 outputs, planning state, and targeted intake questions.
 
 ---
 

@@ -33,6 +33,7 @@
     "page_approval_ledger": [],
     "approved_page_refs": [],
     "rejected_page_refs": [],
+    "screenshot_evidence": [],
     "component_extraction": [],
     "divergence_log": [],
     "responsive_review": [],

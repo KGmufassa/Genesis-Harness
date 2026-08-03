@@ -520,7 +520,12 @@ Build-Plans/Stage-7/02-deployment-framework.json
 Build-Plans/Stage-7/03-monitoring-systems.json
 Build-Plans/Stage-7/04-analytics-framework.json
 Build-Plans/Stage-7/05-operational-tooling.json
+Build-Plans/Stage-7/06-stage-7-summary.md
 ```
+
+`06-stage-7-summary.md` is a local human-readable review artifact for Stage 7. It must summarize launch readiness, deployment framework, monitoring, analytics, operational tooling, accepted launch risks, blockers, and readiness for Stage 8. It must not contain canonical data that is absent from the JSON outputs.
+
+Do not add `06-stage-7-summary.md` to `stage_8_handoff`, required Stage 8 inputs, or downstream readiness requirements. Stage 8 must continue to consume the canonical Stage 7 JSON outputs.
 
 Completion statuses:
 
@@ -669,6 +674,7 @@ Stage 7 may complete as `ready_for_stage_8` only when:
 * monitoring checks and alert ownership are defined
 * analytics events and success metrics are defined
 * support, onboarding, and operational runbooks are defined
+* local human-readable summary exists at `Build-Plans/Stage-7/06-stage-7-summary.md`
 * critical launch blockers are resolved or explicitly accepted as known risks
 * Stage 8 handoff includes telemetry, analytics, monitoring, support, incident, and watchlist sources
 

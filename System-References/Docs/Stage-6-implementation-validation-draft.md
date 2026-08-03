@@ -1077,7 +1077,12 @@ Build-Plans/Stage-6/02-validation-results.json
 Build-Plans/Stage-6/03-regression-analysis.json
 Build-Plans/Stage-6/04-system-health.json
 Build-Plans/Stage-6/05-repair-log.json
+Build-Plans/Stage-6/06-stage-6-summary.md
 ```
+
+`06-stage-6-summary.md` is a local human-readable review artifact for Stage 6. It must summarize implementation status, validation results, regression findings, repairs, system health, blockers, known risks, and readiness for Stage 7. It must not contain canonical data that is absent from the JSON outputs.
+
+Do not add `06-stage-6-summary.md` to `stage_7_handoff`, required Stage 7 inputs, or downstream readiness requirements. Stage 7 must continue to consume the canonical Stage 6 JSON outputs.
 
 Each output must include references to relevant:
 
@@ -1324,6 +1329,7 @@ Stage 6 may complete only when:
 * high and critical defects have repairs, blockers, or escalation paths
 * repair work has been revalidated
 * system health is synthesized from implementation, validation, regression, and repair results
+* local human-readable summary exists at `Build-Plans/Stage-6/06-stage-6-summary.md`
 * Stage 7 handoff contains unresolved operational, deployment, monitoring, analytics, and support needs
 
 Stage 6 is `ready_for_stage_7` only when:
@@ -1390,6 +1396,7 @@ Before completing Stage 6, confirm:
 * completion_status includes completed_at and recorded_at timestamps
 * Global-workflow-state.json reflects the stage completion status
 * Stage 7 handoff is usable for launch and operationalization
+* `06-stage-6-summary.md` is readable and matches the canonical Stage 6 JSON outputs without adding downstream requirements
 
 ---
 

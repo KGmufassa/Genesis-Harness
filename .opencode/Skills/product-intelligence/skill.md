@@ -19,6 +19,40 @@ This skill is the first discovery layer for Stage 1. It must not perform market 
 
 ---
 
+# PRD Docs Preflight
+
+Before using `raw_product_intent`, user notes, conversation context, or intake questions, inspect:
+
+```text
+System-References/PRD Docs/
+```
+
+If this folder contains any readable files, treat those files as the primary product-intelligence source. Read all supported text-based PRD files in the folder, including nested files, and extract initial product details, target users, product features, constraints, success criteria, and open questions.
+
+Supported PRD source files include:
+
+```text
+.md
+.mdx
+.txt
+.json
+.yaml
+.yml
+.csv
+```
+
+When PRD Docs contains readable source files:
+
+* prefer PRD evidence over generic inference
+* preserve source references to the PRD file paths
+* use conversation context only to fill gaps or resolve ambiguity
+* ask clarification questions only for gaps that remain after reading the PRD files
+* record contradictions between PRD files and user notes in `interactive_guidance.confidence_gaps`
+
+If `System-References/PRD Docs/` is empty or contains no readable supported files, continue with the original workflow using `raw_product_intent`, user notes, existing state, and targeted intake questions.
+
+---
+
 # Core Responsibilities
 
 ## Product Identity
@@ -141,4 +175,3 @@ Use `02-user-system-map.json` for users, roles, needs, motivations, and outcome 
 Use `10-success-framework.json` for success criteria, outcome indicators, and early measurement assumptions.
 
 Preserve existing valid content and update only the sections this skill owns.
-

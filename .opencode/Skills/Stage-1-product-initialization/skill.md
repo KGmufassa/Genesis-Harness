@@ -147,7 +147,11 @@ The command should behave like a guided product initialization interview.
 
 ## Initialization Intake
 
-When the command is initialized and no usable raw product intent exists yet, first ask the user:
+When the command is initialized, inspect `System-References/PRD Docs/` before asking intake questions.
+
+If the folder contains readable supported PRD source files, treat those files as initial product intent and proceed to `product-intelligence`.
+
+When the folder is empty or contains no readable supported files and no usable raw product intent exists yet, first ask the user:
 
 ```text
 1. What app do you want to build?
@@ -234,7 +238,9 @@ Build-Plans/Build-status/Planning-state.json
 
 Do not discard existing valid planning outputs unless the user explicitly requests a clean restart.
 
-Before running `product-intelligence`, verify that `raw_user_input`, conversation context, existing Stage 1 outputs, or planning state contains enough initial app intent.
+Before running `product-intelligence`, first check whether `System-References/PRD Docs/` contains readable PRD source files. If it does, treat those files as sufficient initial app-intent input and let `product-intelligence` extract product details and features from them before asking the user intake questions.
+
+If `System-References/PRD Docs/` is empty or contains no readable supported files, verify that `raw_user_input`, conversation context, existing Stage 1 outputs, or planning state contains enough initial app intent.
 
 If the app idea, primary user, or initial features are missing, pause and ask the initialization intake questions instead of continuing.
 

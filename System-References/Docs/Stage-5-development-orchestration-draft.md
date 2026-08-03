@@ -386,6 +386,7 @@ Before development orchestration, validate:
 * launch-critical UI blueprints define structural UI architecture context, including page archetype, layout pattern decision, component-family decisions, selected template/extensions, and template deviations when applicable
 * complete app blueprint markdown maps launch-critical pages to UI blueprint IDs and summarizes page sections, components, actions, routes, states, and data requirements
 * complete app blueprint markdown summarizes UI architecture template selection, page archetypes, layout pattern decisions, component families, and template deviations when available
+* Stage 5 does not require or consume Stitch project IDs, screen IDs, prompts, approval ledgers, divergence logs, or MCP availability metadata
 * design system foundation defines shared visual tokens, component rules, responsive rules, and design approval status
 * accessibility and security requirements are available for test planning
 * earlier-stage risks do not block engineering planning
@@ -2469,7 +2470,12 @@ Build-Plans/Stage-5/05-build-tickets.json
 Build-Plans/Stage-5/06-agent-assignment-plan.json
 Build-Plans/Stage-5/07-parallel-execution-plan.json
 Build-Plans/Stage-5/08-release-plan.json
+Build-Plans/Stage-5/10-stage-5-summary.md
 ```
+
+`10-stage-5-summary.md` is a local human-readable review artifact for Stage 5. It must summarize the roadmap, implementation sequence, ticket plan, agent assignments, parallel execution plan, release plan, major risks, and readiness status. It must not contain canonical data that is absent from the JSON outputs.
+
+Do not add `10-stage-5-summary.md` to `stage_6_handoff`, required Stage 6 inputs, artifact indexes, or downstream readiness requirements. Stage 6 must continue to consume the canonical Stage 5 JSON outputs and manifest.
 
 ## Final Output Schemas
 
@@ -2629,6 +2635,7 @@ Each output must include:
 * risks and constraints
 * unresolved questions
 * Stage 6 handoff notes when relevant
+* local human-readable summary at `Build-Plans/Stage-5/10-stage-5-summary.md`
 
 The build ticket output must include:
 
@@ -2764,6 +2771,7 @@ Stage 5 may complete only when:
 * Stage 6 handoff includes the approved Stage 3 `selected_stack`
 * Stage 6 handoff includes the Stage 4 complete app blueprint markdown path
 * Stage 6 handoff includes Stage 4 `UI-COMPONENTS.md` when generated and referenced by frontend tickets
+* Stage 5 local human-readable summary exists and matches canonical JSON outputs without becoming a Stage 6 input
 * release plan exists
 * high and critical execution risks have mitigation paths
 * critical interactive guidance questions are answered or converted into recorded assumptions

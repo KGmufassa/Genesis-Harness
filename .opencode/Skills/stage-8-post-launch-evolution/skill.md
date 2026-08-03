@@ -98,7 +98,12 @@ Build-Plans/Stage-8/02-operational-optimization.json
 Build-Plans/Stage-8/03-ai-improvement-plan.json
 Build-Plans/Stage-8/04-roadmap-evolution.json
 Build-Plans/Stage-8/05-scalability-evolution.json
+Build-Plans/Stage-8/06-stage-8-summary.md
 ```
+
+`06-stage-8-summary.md` is a local human-readable review artifact for Stage 8. It must summarize telemetry findings, operational optimization, AI improvement needs, roadmap evolution, scalability evolution, feedback routes, evidence gaps, risks, and evolution readiness. It must not contain canonical data that is absent from the JSON outputs.
+
+Do not add `06-stage-8-summary.md` to `prior_stage_feedback`, required routed-stage inputs, or downstream readiness requirements. Earlier-stage revision routes must continue to consume the canonical Stage 8 JSON outputs.
 
 ---
 
@@ -161,6 +166,8 @@ blocked
 Use `evolution_plan_ready` only when findings are evidence-backed, recommendations are traceable, and revision loops are routed to the correct earlier stages.
 
 The final Stage 8 status may be `evolution_plan_ready` only when `Build-Plans/Build-status/Stage-8-readiness-audit.json` has `audit_status` of `passed` or `passed_with_warnings` and `ready_for_next_stage` is `true`.
+
+Stage 8 may use `evolution_plan_ready` only when the local human-readable summary exists at `Build-Plans/Stage-8/06-stage-8-summary.md` and matches the canonical Stage 8 JSON outputs without adding routed-stage requirements.
 
 ---
 

@@ -104,7 +104,12 @@ Build-Plans/Stage-7/02-deployment-framework.json
 Build-Plans/Stage-7/03-monitoring-systems.json
 Build-Plans/Stage-7/04-analytics-framework.json
 Build-Plans/Stage-7/05-operational-tooling.json
+Build-Plans/Stage-7/06-stage-7-summary.md
 ```
+
+`06-stage-7-summary.md` is a local human-readable review artifact for Stage 7. It must summarize launch readiness, deployment framework, monitoring, analytics, operational tooling, accepted launch risks, blockers, and readiness for Stage 8. It must not contain canonical data that is absent from the JSON outputs.
+
+Do not add `06-stage-7-summary.md` to `stage_8_handoff`, required Stage 8 inputs, or downstream readiness requirements. Stage 8 must continue to consume the Stage 7 JSON outputs.
 
 ---
 
@@ -167,6 +172,8 @@ blocked
 Use `ready_for_stage_8` only when Stage 8 can safely consume launch, monitoring, analytics, support, incident, and operational signal sources.
 
 The final Stage 7 status may be `ready_for_stage_8` only when `Build-Plans/Build-status/Stage-7-readiness-audit.json` has `audit_status` of `passed` or `passed_with_warnings` and `ready_for_next_stage` is `true`.
+
+Stage 7 may use `ready_for_stage_8` only when the local human-readable summary exists at `Build-Plans/Stage-7/06-stage-7-summary.md` and matches the canonical Stage 7 JSON outputs without adding downstream requirements.
 
 Stage 7 must not use `ready_for_stage_8` when launch-critical frontend work has unresolved visual QA failures, unresolved UI architecture/layout pattern/component-family/template-deviation compliance failures, unresolved visual reference compliance failures, unresolved design system compliance failures, missing required preview evidence, or `major_visual_drift`, unless each item is explicitly accepted as a known launch risk.
 

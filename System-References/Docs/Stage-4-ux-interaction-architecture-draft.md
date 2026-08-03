@@ -177,6 +177,7 @@ The command must load this file at the beginning of Stage 4, update it after eac
     "page_approval_ledger": [],
     "approved_page_refs": [],
     "rejected_page_refs": [],
+    "screenshot_evidence": [],
     "component_extraction": [],
     "divergence_log": [],
     "responsive_review": [],
@@ -419,7 +420,7 @@ The `stage_5_handoff` object must include:
 
 Stage 5 should be able to generate build tickets from this handoff without reinterpreting Stage 4 UX intent.
 
-Stitch does not add a downstream dependency. Do not require Stage 5 to connect to Stitch or consume Stitch project IDs, screen IDs, prompts, approval-ledger records, or divergence logs. Reconcile all approved prototype evidence into the existing canonical handoff fields above.
+Stitch does not add a downstream dependency. Do not require Stage 5 to connect to Stitch or consume Stitch project IDs, screen IDs, prompts, approval-ledger records, or divergence logs. Do not add, remove, rename, or repurpose any `stage_5_handoff` fields because Stitch was used. Reconcile all approved prototype evidence into the existing canonical handoff fields above.
 
 ---
 
@@ -1158,6 +1159,7 @@ Apply this workflow:
 Stage 4 UX foundations and design constraints
 -> constrained Stitch prototype prompt
 -> generated launch-critical page candidates
+-> screenshot evidence capture
 -> page-level user confirmation
 -> approved-page component extraction
 -> route/action/no_navigation reconciliation
@@ -1174,6 +1176,42 @@ Stage 4 UX foundations and design constraints
 - Record every generated or edited Stitch screen in `stitch_prototyping.screen_refs`.
 - Never delete a Stitch project or screen without explicit user approval.
 - If Stitch is unavailable, record the failure and confidence gap. Continue without Stitch only after the user explicitly accepts the fallback; otherwise set Stage 4 to `blocked`.
+
+## Screenshot Evidence
+
+Store Stitch screenshot evidence locally in:
+
+```text
+Build-Plans/Stage-4/stitch-screenshots/
+```
+
+Screenshot evidence is Stage-4-local review evidence. It must not be added to `stage_5_handoff`, Stage 5 required inputs, or downstream readiness requirements.
+
+Capture:
+
+- one desktop screenshot for every proposed Stitch page used for page approval
+- one mobile screenshot for every launch-critical approved Stitch page
+- extra screenshots for modal, drawer, branching, destructive, mutation, or complex interaction states
+
+When a required screenshot cannot be captured, record an approved evidence exception with the reason and the replacement evidence used for review.
+
+Record each screenshot in `stitch_prototyping.screenshot_evidence`:
+
+```json
+{
+  "screenshot_ref": "",
+  "prototype_page_ref": "",
+  "stitch_screen_ref": "",
+  "canonical_page_ref": "",
+  "screenshot_path": "Build-Plans/Stage-4/stitch-screenshots/",
+  "viewport": "desktop | tablet | mobile | state_detail",
+  "captured_state": "default | loading | empty | error | success | modal | drawer | branching | destructive | mutation | custom",
+  "captured_at": null,
+  "approval_status": "proposed | approved | exception",
+  "evidence_exception_reason": "",
+  "source_refs": []
+}
+```
 
 ## Prototype Constraints Prompt
 
@@ -1225,6 +1263,7 @@ Confirm the page set before final component extraction. Present each proposed pa
 - major layout regions
 - major features represented
 - responsive summary
+- screenshot evidence refs
 - known divergences or confidence gaps
 
 Use this approval ledger entry:
@@ -1238,6 +1277,7 @@ Use this approval ledger entry:
   "status": "proposed | approved | revise | rejected | deferred",
   "major_regions": [],
   "represented_feature_refs": [],
+  "screenshot_refs": [],
   "rationale": "",
   "approved_by": "",
   "approved_at": null,
@@ -1348,6 +1388,7 @@ The Stitch phase must not change Stage 5 through Stage 8 contracts.
 - Keep `ui_blueprints`, `page_inventory`, `component_inventory`, `interactive_element_inventory`, `route_inventory`, `action_inventory`, `frontend_build_package`, and `stage_5_handoff` canonical.
 - Keep Stitch project IDs, screen IDs, prompt history, approval ledger, and divergence logs Stage-4-local.
 - Require Stage 5 to consume the same canonical Stage 4 handoff fields regardless of whether Stitch was used.
+- Treat Stitch as strictly a Stage 4 action. Stage 5 must not branch, validate, block, ticket, or alter sequencing based on whether Stitch was used.
 
 ---
 
@@ -3063,6 +3104,10 @@ Stage 4 may complete only when:
 * one primary UI architecture template is selected, or a blocking reason is recorded
 * selected UI architecture extensions are compatible with the primary template or documented as deviations
 * Stitch MCP availability, project reuse or creation, screen references, and any accepted non-Stitch fallback are recorded in shared Stage 4 state
+* Stitch screenshot evidence is recorded in `stitch_prototyping.screenshot_evidence` when Stitch generated pages are used for page approval
+* every proposed Stitch page used for approval has at least one desktop screenshot or an approved evidence exception
+* every launch-critical approved Stitch page has at least one mobile screenshot or an approved evidence exception
+* Stitch pages with modal, drawer, branching, destructive, mutation, or complex interaction states have extra screenshots or approved evidence exceptions
 * every proposed Stitch page has a page approval ledger entry
 * every approved Stitch page reconciles to exactly one canonical page or screen reference
 * rejected and deferred Stitch pages remain recorded and excluded from canonical launch scope
@@ -3129,6 +3174,9 @@ Before completing Stage 4, confirm:
 * every data-dense or comparison-heavy page uses an appropriate layout pattern or records an explicit deviation
 * Stitch prototype prompts constrain scope, roles, routes, actions, data concepts, design-system usage, required states, responsive behavior, accessibility, and exclusions
 * every proposed Stitch page has an approval ledger entry with status, rationale, approver, and source references
+* every proposed Stitch page used for approval has screenshot evidence linked to the page ledger
+* launch-critical approved Stitch pages include mobile screenshot evidence or an approved exception
+* complex Stitch interaction states include screenshot evidence or an approved exception
 * only approved Stitch pages are reconciled into canonical UI blueprints
 * every approved-page component was extracted after page-level approval
 * every interactive component embeds applicable route and action references, while static components carry empty interaction mappings
