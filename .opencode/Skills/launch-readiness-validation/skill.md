@@ -102,11 +102,13 @@ Block launch readiness when launch-critical frontend work has:
 * missing required preview URL or preview evidence
 * unresolved visual QA failures
 * unresolved responsive validation failures
+* unresolved UI architecture template, page archetype, layout pattern, component-family, or template-deviation compliance failures
 * unresolved visual reference compliance failures
 * unresolved design system compliance failures
 * `major_visual_drift`
 * an unresolved interaction contract failure
 * a missing or broken critical route or action outcome
+* a missing or broken required layout pattern behavior, such as data-table sorting/filtering/mobile transformation/bulk-selection behavior when required
 * a missing required confirmation, permission-denied, recovery, mobile, accessibility, or design-system behavior
 * a dropped, renamed, rerouted, or behavior-changed interaction without an approved deviation
 

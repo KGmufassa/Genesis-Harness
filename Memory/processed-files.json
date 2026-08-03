@@ -17,6 +17,12 @@
       "hash": "1e63c8cd5401052ac9fbd599af35e395c483323c020a34d8ca951545d3c9943a",
       "created": "2026-07-12T17:26:49",
       "distilled": "Conversation Skill distillation-distilled.md"
+    },
+    {
+      "filename": "Rebuilding Stage 4 commands skills.md",
+      "hash": "03b9a5e3122f2d51b7efc4f76c6b61e66556b9f2500817018e17297595a2ab49",
+      "created": "2026-08-02T11:54:39",
+      "distilled": "Rebuilding Stage 4 commands skills-distilled.md"
     }
   ]
 }

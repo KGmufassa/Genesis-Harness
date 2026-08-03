@@ -168,7 +168,7 @@ The Stage 6 handoff should be normalized into:
 
 Stage 7 must not mark launch-ready while unresolved launch-critical Stage 6 blockers remain, unless they are explicitly accepted as known launch risks.
 
-Stage 7 must not mark launch-ready while launch-critical frontend work has unresolved visual QA failures, unresolved responsive validation failures, unresolved design system compliance failures, missing required preview evidence, or `major_visual_drift`, unless each item is explicitly accepted as a known launch risk.
+Stage 7 must not mark launch-ready while launch-critical frontend work has unresolved visual QA failures, unresolved responsive validation failures, unresolved UI architecture/layout pattern/component-family/template-deviation compliance failures, unresolved design system compliance failures, missing required preview evidence, or `major_visual_drift`, unless each item is explicitly accepted as a known launch risk.
 
 ---
 
@@ -637,11 +637,15 @@ blocked
 
 # Completion Gate
 
-Before Stage 7 may use `ready_for_stage_8`, it must run `global-stage-readiness-audit` and write:
+At the end of every Stage 7 finalization attempt, Stage 7 must run `global-stage-readiness-audit` and write:
 
 ```text
 Build-Plans/Build-status/Stage-7-readiness-audit.json
 ```
+
+Run the audit after the Stage 7 outputs are assembled and after Stage 7 derives a proposed completion status, but before the final status is committed to `Build-Plans/Build-status/Operationalization-state.json` or `Build-Plans/Build-status/Global-workflow-state.json`.
+
+The audit must be written for `ready_for_stage_8`, `needs_launch_readiness_work`, `needs_operational_revision`, and `blocked` outcomes.
 
 The audit must pass according to:
 
@@ -651,11 +655,14 @@ System-References/Docs/Global-Stage-Workflow-Contract.md
 
 Stage 7 may complete as `ready_for_stage_8` only when:
 
+* `Build-Plans/Build-status/Stage-7-readiness-audit.json` exists
+* audit status is `passed` or `passed_with_warnings`
+* audit `ready_for_next_stage` is `true`
 * all five Stage 7 output files exist
 * all launch gates are `ready`, `accepted_risk`, or `not_applicable`
 * deployment environment, setup, build, deployment, and rollback details are defined or explicitly blocked
 * production build proof, deployment dry-run evidence, smoke test evidence, rollback verification, and environment verification are recorded or explicitly accepted as known risks
-* visual QA, responsive validation, design system compliance, preview evidence, and visual drift status are launch-ready or explicitly accepted as known risks
+* visual QA, responsive validation, UI architecture/layout pattern/component-family/template-deviation compliance, design system compliance, preview evidence, and visual drift status are launch-ready or explicitly accepted as known risks
 * launch-critical interaction contracts and stable `UI-ELEMENT-`, `ROUTE-`, and `ACTION-` references pass Stage 6 conformance validation or have accepted launch risks
 * critical route, outcome, confirmation, permission-denied, recovery, mobile, accessibility, and design-system interaction behavior is launch-ready
 * dropped, renamed, rerouted, or behavior-changed interactions have approved deviations or accepted launch risks tied to affected stable IDs
@@ -687,6 +694,10 @@ Stage 7 readiness must also record:
 
 ```json
 {
+  "finalization_attempt": true,
+  "proposed_completion_status": "",
+  "evaluated_completion_status": "",
+  "handoff_mode": "next_stage",
   "schema_validation": {},
   "reference_integrity": {},
   "risk_acceptance_ledger": {},

@@ -1,3 +1,9 @@
+---
+name: implementation-sequence-planning
+description: Convert the Stage 5 roadmap into canonical dependency-aware implementation slices.
+compatibility: opencode
+---
+
 # Skill — implementation-sequence-planning
 
 # Purpose
@@ -154,3 +160,11 @@ Validate:
 * integrations are not pushed so late that they threaten release readiness
 * each implementation slice has a validation checkpoint
 * unresolved blockers are recorded in `open_questions` or `interactive_guidance.blocked_decisions`
+
+---
+
+# Normalized Stage 5 v2 Output
+
+Return only canonical slices for
+`02-implementation-sequence.json.data.slices`. Secondary ordering and dependency
+views use slice and ticket IDs rather than copied objects.

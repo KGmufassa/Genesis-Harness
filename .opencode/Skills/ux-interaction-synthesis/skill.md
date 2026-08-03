@@ -14,6 +14,7 @@ It produces:
 * accessibility framework
 * UI blueprint specification
 * design system foundation
+* UI architecture template selection
 * complete app blueprint markdown tree
 * frontend build package
 * handoff guidance for Stage 5
@@ -36,7 +37,9 @@ This skill is the final UX synthesis and handoff engine for Stage 4.
   "visual_spec_inventory": [],
   "design_system_foundation": {},
   "visual_reference_selection": {},
+  "ui_architecture_template_selection": {},
   "complete_app_blueprint_markdown_path": "",
+  "ui_components_markdown_path": "",
   "frontend_build_package": {},
   "existing_state": {}
 }
@@ -62,8 +65,14 @@ Validate:
 * feature behavior aligns with API and permission constraints
 * state transitions are complete
 * accessibility requirements are represented
+* primary UI architecture template selection exists or a blocking reason is recorded
+* selected UI architecture extensions are compatible with the primary template or documented as deviations
 * UI blueprints cover launch-critical pages and screens
 * selected page and screen types are justified by upstream product, workflow, role, feature, journey, or route evidence
+* launch-critical page archetypes and layout pattern decisions are justified by upstream evidence and selected UI architecture references
+* layout pattern decisions include selected pattern, decision factors, reasons, rejected plausible alternatives, source references, and responsive transformations
+* component family decisions map to page sections and component refs
+* template deviations and template gaps are recorded when project needs override or exceed the selected template or extensions
 * visual specs cover launch-critical pages and screens
 * visual acceptance criteria and user approval status are present for launch-critical pages
 * selected visual style references are recorded when visual references influenced the design system
@@ -73,6 +82,7 @@ Validate:
 * complete app blueprint markdown exists and covers every launch-critical page
 * complete app blueprint markdown maps every launch-critical page to a `ui_blueprint_id`
 * complete app blueprint markdown includes page sections, components, actions, routes, states, data requirements, and frontend build package summary
+* complete app blueprint markdown includes UI architecture template, selected extensions, page archetypes, layout pattern decisions, component families, and template deviations when applicable
 * complete app blueprint markdown includes an app-level Mermaid route map and required page, workflow, destructive, and recovery maps
 * every page in `page_inventory` or `ui_blueprints` has a reconciled interaction contract
 * frontend build package can be consumed by Stage 5 without reinterpreting UI intent
@@ -136,6 +146,7 @@ Do not ask broad aesthetic preference questions at this stage. Only ask question
 * unresolved screen system decisions
 * unresolved feature behavior decisions
 * unresolved UI blueprint decisions
+* unresolved UI architecture template decisions
 * unresolved visual spec decisions
 * unresolved visual reference decisions
 * unresolved design system decisions
@@ -174,7 +185,9 @@ and return the specific questions or decisions required.
   "visual_approval_status": {},
   "design_system_foundation": {},
   "visual_reference_selection": {},
+  "ui_architecture_template_selection": {},
   "complete_app_blueprint_markdown_path": "Build-Plans/Stage-4/09-complete-app-blueprint.md",
+  "ui_components_markdown_path": "Build-Plans/Stage-4/UI-COMPONENTS.md",
   "frontend_build_package": {},
   "stage_5_handoff": {},
   "completion_status": {}
@@ -199,6 +212,14 @@ Build-Plans/Stage-4/08-design-system-foundation.json
 Build-Plans/Stage-4/09-complete-app-blueprint.md
 ```
 
+When useful, also write or update:
+
+```text
+Build-Plans/Stage-4/UI-COMPONENTS.md
+```
+
+`UI-COMPONENTS.md` is a generated companion artifact derived from structured Stage 4 outputs. It is not the canonical source of truth.
+
 Each output must include:
 
 * related Stage 1 workflows or features
@@ -221,7 +242,9 @@ interaction_tradeoffs
 visual_spec_inventory
 design_system_foundation
 visual_reference_selection
+ui_architecture_template_selection
 complete_app_blueprint_markdown_path
+ui_components_markdown_path
 stage_5_handoff
 completion_status
 interactive_guidance
@@ -246,8 +269,15 @@ Stage 4 may complete only when:
 * feature behaviors are specified
 * state transitions are mapped
 * accessibility framework exists
+* one primary UI architecture template is selected, or a blocking reason is recorded
+* selected UI architecture extensions are compatible with the primary template or documented as deviations
 * UI blueprints exist for all launch-critical pages and screens
 * each selected page or screen type includes `page_type_selection_rationale`
+* every launch-critical page has a selected page archetype
+* every launch-critical page has a layout pattern decision with selected pattern, reasons, source references, rejected plausible alternatives, and responsive transformation
+* comparison-heavy pages avoid `card-grid` unless explicitly justified
+* `data-table` pages define mobile transformation and sorting, filtering, loading, empty, no-results, error, and bulk-selection behavior where applicable
+* template deviations include subject, template default, project choice, reason, and source references
 * visual specs exist for all launch-critical pages and screens
 * launch-critical visual specs include visual acceptance criteria and user approval status
 * design system foundation exists and launch-critical visual specs align with it
@@ -257,6 +287,7 @@ Stage 4 may complete only when:
 * complete app blueprint markdown exists at `Build-Plans/Stage-4/09-complete-app-blueprint.md`
 * complete app blueprint markdown includes every launch-critical page and maps each page to a `ui_blueprint_id`
 * complete app blueprint markdown includes page sections, components, actions, routes, states, data requirements, and frontend build package summary
+* complete app blueprint markdown includes structural UI architecture summary when template selection was used
 * frontend build package includes page, component, shared component, route, state, action, and frontend task inventories
 * high and critical UX risks have mitigation paths
 * critical interactive guidance questions are answered or converted into recorded assumptions
@@ -287,11 +318,13 @@ Before completing Stage 4, confirm:
 * every launch-critical page has a UI blueprint
 * every launch-critical page appears in `09-complete-app-blueprint.md`
 * every selected page type has an inclusion rationale tied to upstream product, workflow, role, feature, journey, or route evidence
+* every launch-critical page records UI architecture template context, page archetype, layout pattern decision, component-family decisions, and deviations when applicable
 * every launch-critical page has a visual spec
 * every launch-critical visual spec includes visual acceptance criteria and user approval status
 * design system foundation exists for launch-critical frontend work
 * visual reference selections are traceable into design system rules, UI blueprint visual specs, and Stage 5 handoff
 * every created page enumerates every interactive element per component per section
+* every data-dense or comparison-heavy page uses an appropriate layout pattern or records an explicit deviation
 * every element has a stable ID, owner, label or accessible name, behavior, source trace, and route, action, or `no_navigation` classification
 * every internal navigation target resolves to route_inventory and every external target is explicitly classified
 * action_inventory covers all created pages and records triggering elements and outcomes

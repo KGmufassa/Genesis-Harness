@@ -1,3 +1,9 @@
+---
+name: implementation-execution
+description: Execute assigned Stage 5 tickets through normalized or legacy-compatible Stage 6 inputs.
+compatibility: opencode
+---
+
 # Skill — implementation-execution
 
 # Purpose
@@ -19,6 +25,11 @@ This skill is the execution layer for Stage 6.
 ---
 
 # Inputs
+
+Resolve Stage 5 input format with the read-only `resolve_stage5.py` helper. For
+v2, read tickets, agents, and batches from their canonical `/data` paths, shared
+context from file `00`, and completion/handoff from manifest file `09`. Reject
+partial v2 handoffs and follow batch `execution_waves`.
 
 ```json
 {
@@ -72,6 +83,8 @@ Build-Plans/Stage-4/07-ui-blueprint-specification.json
 ```
 
 as the source for page structure, layout type, sections, components, shared components, routes, actions, states, data requirements, validation requirements, accessibility requirements, responsive requirements, visual requirements, visual reference requirements, visual acceptance criteria, design system requirements, and stable interaction contracts.
+
+Also preserve Stage 4 structural UI architecture requirements from each referenced UI blueprint, including selected template/extensions, page archetype, layout pattern decision, rejected plausible patterns, layout rationale, component-family decisions, template deviations, and desktop/tablet/mobile transformations.
 
 Preserve `UI-ELEMENT-`, `ROUTE-`, and `ACTION-` IDs, labels or accessible names, route types and targets, action outcomes, confirmations, permission-denied behavior, recovery behavior, responsive behavior, accessibility behavior, and design-system component mappings. Do not silently drop, rename, reroute, or change an interaction. Record a blocker or an approved deviation.
 
@@ -147,12 +160,14 @@ Validate:
 * every executed ticket records required skills used
 * every executed ticket records changed files when available
 * every executed frontend ticket with `ui_blueprint_refs` records the referenced UI blueprint IDs
+* every executed frontend ticket with UI architecture refs records the referenced template, extensions, page archetype, layout pattern, component family, and deviation refs
 * every executed frontend ticket with `interaction_contract_refs` records contract and stable interaction IDs
 * every executed frontend ticket with `visual_spec_refs` records the referenced visual spec IDs
 * every executed frontend ticket with `visual_reference_refs` records the referenced visual style references
 * every executed frontend ticket with `design_system_refs` records the referenced design system IDs
 * every executed frontend ticket with `preview_required` records a preview URL or blocker
 * every executed frontend ticket preserves referenced page, component, route, action, state, interactive element (with element_type, label, route_target, and behavior), validation, accessibility, responsive, visual, visual reference, and design system requirements
+* every executed frontend ticket preserves referenced layout pattern decision, layout rationale, component-family requirements, template deviations, and responsive transformations
 * every dropped, renamed, rerouted, or behavior-changed interaction has an approved deviation with rationale and evidence
 * every generated implementation, preview, build, or log artifact is recorded or queued for `Build-Plans/Build-status/Artifact-evidence-registry.json`
 * every blocker includes a reason and next action

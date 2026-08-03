@@ -87,7 +87,7 @@ Route examples:
 * unclear user value, abandoned workflow, or wrong target user -> Stage 1
 * weak demand, positioning mismatch, or invalid assumption -> Stage 2
 * performance, scale, integration, or security architecture issue -> Stage 3
-* confusing navigation, poor screen flow, or visual mismatch -> Stage 4
+* confusing navigation, poor screen flow, poor layout pattern fit, component-family mismatch, or visual mismatch -> Stage 4
 * ticket sequencing, agent assignment, or rollout planning issue -> Stage 5
 * defects, regressions, or validation gaps -> Stage 6
 * deployment, monitoring, onboarding, support, or launch-readiness issue -> Stage 7

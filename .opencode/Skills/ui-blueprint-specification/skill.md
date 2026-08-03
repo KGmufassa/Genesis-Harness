@@ -10,6 +10,10 @@ It defines:
 * screens
 * layouts
 * components
+* UI architecture template and extension usage
+* page archetypes
+* layout pattern decisions
+* component-family decisions
 * navigation
 * user actions
 * forms
@@ -25,6 +29,8 @@ It defines:
 This skill is the bridge between Stage 4 UX architecture and Stage 5 frontend implementation planning.
 
 It consumes the selected Stage 4 design system and visual references from `design-system-foundation`. It applies those decisions per page instead of inventing a separate visual direction for each blueprint.
+
+It also consumes the selected structural UI architecture template and extensions from `ui-architecture-template-selection`. It applies those references to page archetype, layout pattern, component family, responsive, state, and accessibility decisions without replacing Stage 4's stable UI blueprint, route, action, and interactive element contracts.
 
 ---
 
@@ -43,9 +49,12 @@ PAGE
 Purpose
 Primary User
 Screen Type
+Page Archetype
 Layout Type
+Layout Pattern Decision
 Sections
 Components
+Component Family Decisions
 Actions
 Data Needed
 States
@@ -77,6 +86,18 @@ User Approval Status
 ---
 
 # Controlled Choices
+
+Before selecting page archetypes, layout patterns, or component families, read the UI component system library:
+
+```text
+.opencode/Skills/ui-blueprint-specification/references/ui-component-system/README.md
+.opencode/Skills/ui-blueprint-specification/references/ui-component-system/NORMALIZED-VALUES.md
+.opencode/Skills/ui-blueprint-specification/references/ui-component-system/PRECEDENCE-RULES.md
+.opencode/Skills/ui-blueprint-specification/references/ui-component-system/OUTPUT-CHECKLIST.md
+.opencode/Skills/ui-blueprint-specification/references/ui-component-system/CONTRADICTION-RULES.md
+```
+
+Then load only the selected primary template, selected extensions, and directly relevant layout, page, interaction, navigation, and state pattern references.
 
 Screen type options:
 
@@ -145,6 +166,39 @@ Full Screen
 Custom
 ```
 
+Layout pattern options:
+
+```text
+single-column
+two-column
+responsive-grid
+dashboard-grid
+card-grid
+data-table
+content-list
+master-detail
+split-pane
+form-layout
+settings-layout
+custom
+```
+
+Use `data-table` for dense comparable records, sorting, filtering, pagination, and bulk actions.
+
+Use `card-grid` for visual browsing, media-rich items, summaries, and non-uniform item content.
+
+Use `content-list` for chronological scanning, activity, messages, or simple repeated records.
+
+Use `master-detail` when users browse records while repeatedly inspecting or editing one selected item.
+
+Use `dashboard-grid` for metric, chart, alert, and operational summary surfaces.
+
+Use `form-layout` for create, edit, setup, review, or submission workflows.
+
+Use `settings-layout` for grouped preferences, integrations, permissions, billing, or account configuration.
+
+Use `split-pane` when two related work surfaces must remain visible together.
+
 Component options:
 
 ```text
@@ -163,6 +217,23 @@ Comments
 Timeline
 Maps
 Calendar
+```
+
+Component family options:
+
+```text
+navigation
+actions
+forms
+data-display
+feedback
+overlays
+search-and-filtering
+analytics
+commerce
+collaboration
+file-management
+messaging
 ```
 
 Action options:
@@ -426,8 +497,11 @@ Ask the user to confirm or choose:
 
 * screen type
 * layout type
+* page archetype when ambiguous
+* layout pattern when competing patterns materially change usability or implementation scope
 * sections
 * components
+* component family decisions
 * user actions
 * required states
 * shared components
@@ -456,7 +530,8 @@ Pause for user input when:
 
 * a launch-critical page lacks purpose
 * a screen type cannot be inferred
-* layout choice materially affects navigation or implementation
+* layout choice materially affects navigation, usability, accessibility, or implementation
+* multiple layout patterns are plausible and would materially change the workflow
 * required components or actions are ambiguous
 * required states are missing for a launch-critical interaction
 * visual style, density, or primary visual focus is missing for a launch-critical page
@@ -476,6 +551,7 @@ Pause for user input when:
   "accessibility_framework": {},
   "design_system_foundation": {},
   "visual_reference_selection": {},
+  "ui_architecture_template_selection": {},
   "existing_state": {}
 }
 ```
@@ -503,6 +579,7 @@ The output must include:
   "stage": "Stage 4",
   "status": "",
   "ui_blueprints": [],
+  "ui_architecture_template_selection": {},
   "page_inventory": [],
   "interaction_contracts": [],
   "interactive_element_inventory": [],
@@ -529,6 +606,7 @@ The output must include:
   },
   "visual_approval_status": {},
   "ui_blueprint_markdown_path": "",
+  "ui_components_markdown_path": "Build-Plans/Stage-4/UI-COMPONENTS.md",
   "complete_app_blueprint_markdown_path": "Build-Plans/Stage-4/09-complete-app-blueprint.md",
   "stage_5_handoff": {}
 }
@@ -545,6 +623,34 @@ Each `ui_blueprints[]` entry must include the page-definition matrix, interactiv
   "primary_user_role": "",
   "screen_type": "",
   "layout_type": "",
+  "ui_architecture": {
+    "primary_template": "",
+    "selected_extensions": [],
+    "page_archetype": "",
+    "navigation_pattern": "",
+    "layout_pattern_decision": {
+      "selected_pattern": "",
+      "rejected_patterns": [],
+      "decision_factors": {
+        "information_density": "",
+        "comparison_need": "",
+        "scan_behavior": "",
+        "primary_user_task": "",
+        "record_count": "",
+        "bulk_actions_required": false,
+        "mobile_behavior_required": true
+      },
+      "reasons": [],
+      "source_refs": [],
+      "responsive_transformation": {
+        "desktop": "",
+        "tablet": "",
+        "mobile": ""
+      }
+    },
+    "component_family_decisions": [],
+    "template_deviations": []
+  },
   "route": "",
   "route_id": "ROUTE-001",
   "criticality": "launch_critical | standard | supporting | deferred",
@@ -662,6 +768,14 @@ When useful, also produce a readable `UI_BLUEPRINT.md` reference under:
 Build-Plans/Stage-4/UI_BLUEPRINT.md
 ```
 
+When useful for human review, template-selection audit, and Stage 5 handoff, also derive:
+
+```text
+Build-Plans/Stage-4/UI-COMPONENTS.md
+```
+
+`UI-COMPONENTS.md` must be generated from Stage 4 structured outputs. It is not the canonical source of truth.
+
 ---
 
 # Shared State Updates
@@ -670,6 +784,13 @@ Update:
 
 ```text
 ui_blueprints
+ui_architecture_template_selection
+page_inventory
+interaction_contracts
+interactive_element_inventory
+route_inventory
+action_inventory
+navigation_inventory
 visual_spec_inventory
 visual_reference_selection
 frontend_build_package
@@ -694,6 +815,16 @@ Validate:
 * every page in `page_inventory` or `ui_blueprints` has one page interaction contract
 * every launch-critical page appears in `Build-Plans/Stage-4/09-complete-app-blueprint.md`
 * every selected page type has an inclusion rationale tied to upstream product, workflow, role, feature, journey, or route evidence
+* every launch-critical page records the selected primary UI architecture template and any selected extensions that influence it
+* every launch-critical page has a `page_archetype`
+* every launch-critical page has a `layout_pattern_decision.selected_pattern`
+* every selected layout pattern records decision factors, reasons, source references, rejected plausible patterns, and desktop/tablet/mobile transformation
+* every component family decision maps to a page section, purpose, and related component refs
+* template deviations record subject, template default, project choice, reason, and source refs
+* comparison-heavy pages do not use `card-grid` unless explicitly justified
+* `data-table` pages define sorting, filtering, loading, empty, no-results, error, mobile transformation, and bulk-selection behavior where applicable
+* bulk-action pages define selection behavior and action outcomes
+* mobile-first pages do not use desktop-only navigation or layout behavior without a recorded responsive transformation
 * every UI blueprint has purpose, primary user, screen type, layout type, sections, components, actions, data needs, states, validation, and navigation
 * every launch-critical UI blueprint has a visual spec with style, density, color direction, typography feel, component style, primary visual focus, responsive behavior, visual do and don't rules, visual acceptance criteria, and user approval status
 * every launch-critical UI blueprint references the selected design system or explicitly records why no design system applies

@@ -15,6 +15,7 @@
     "stage_6_handoff": { "type": "object" },
     "stage_7_handoff": { "type": "object" },
     "stage_8_handoff": { "type": "object" },
+    "prior_stage_feedback": { "type": "array" },
     "complete_app_blueprint_markdown_path": { "type": "string" },
     "selected_stack": {
       "type": "object",

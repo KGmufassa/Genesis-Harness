@@ -1,3 +1,9 @@
+---
+name: stage-6-implementation-validation
+description: Execute and validate Stage 5 handoffs through normalized v2 or legacy-compatible reads.
+compatibility: opencode
+---
+
 # Command — stage-6-implementation-validation
 
 # Purpose
@@ -171,6 +177,7 @@ Build-Plans/Stage-5/
 Required Stage 5 files:
 
 ```text
+00-stage-context.json
 01-development-roadmap.json
 02-implementation-sequence.json
 03-engineering-dependencies.json
@@ -179,7 +186,36 @@ Required Stage 5 files:
 06-agent-assignment-plan.json
 07-parallel-execution-plan.json
 08-release-plan.json
+09-stage-manifest.json
 ```
+
+For normalized format `2.0`, read:
+
+```text
+shared context       -> 00-stage-context.json
+completion/handoff   -> 09-stage-manifest.json
+tickets              -> 05-build-tickets.json#/data/tickets
+agents               -> 06-agent-assignment-plan.json#/data/agents
+batches               -> 07-parallel-execution-plan.json#/data/batches
+other payloads        -> each numbered artifact's /data property
+```
+
+Use the manifest index to locate artifacts. If any numbered artifact declares
+`format_version = "2.0"`, both context and manifest are mandatory and the
+handoff is blocked if either is absent or inconsistent.
+
+For archived self-contained Stage 5 files, use the read-only compatibility
+resolver:
+
+```sh
+python3 .opencode/Skills/stage-5-development-orchestration/scripts/resolve_stage5.py \
+  --artifact build_tickets \
+  --with-context
+```
+
+The resolver reads normalized and legacy formats but never writes or migrates
+files. Future Stage 6 consumers and generated-agent prompts must use it when
+format detection is needed.
 
 Minimum viable input set:
 
@@ -191,6 +227,9 @@ Minimum viable input set:
 06-agent-assignment-plan.json
 07-parallel-execution-plan.json
 ```
+
+For v2, the minimum viable set additionally requires
+`00-stage-context.json` and `09-stage-manifest.json`.
 
 If the minimum viable input set is missing, stop and set:
 
@@ -217,6 +256,12 @@ validation_steps
 risk_level
 completion_status
 ui_blueprint_refs
+ui_architecture_refs
+page_archetype
+layout_pattern_refs
+component_family_refs
+template_deviation_refs
+ui_components_markdown_refs
 interaction_contract_refs
 visual_spec_refs
 visual_reference_refs
@@ -232,6 +277,8 @@ interaction_requirements
 frontend_task_hint
 visual_requirements
 responsive_requirements
+layout_requirements
+component_family_requirements
 visual_acceptance_criteria_refs
 preview_required
 visual_qa_required
@@ -245,7 +292,9 @@ Frontend tickets that include `ui_blueprint_refs` must preserve the referenced U
 Build-Plans/Stage-4/07-ui-blueprint-specification.json
 ```
 
-Stage 6 must validate referenced UI blueprint requirements for page structure, layout type, sections, components, shared components, routes, actions, states, data requirements, validation requirements, accessibility requirements, responsive requirements, visual requirements, visual reference requirements, visual acceptance criteria, and design system compliance.
+Stage 6 must validate referenced UI blueprint requirements for page structure, layout type, UI architecture template context, page archetype, layout pattern decision, component-family decisions, template deviations, sections, components, shared components, routes, actions, states, data requirements, validation requirements, accessibility requirements, responsive requirements, visual requirements, visual reference requirements, visual acceptance criteria, and design system compliance.
+
+For referenced layout pattern decisions, Stage 6 must confirm the implemented UI preserves the selected pattern, rationale, rejected plausible alternatives, source refs, and responsive transformation. `data-table` pages must preserve sorting, filtering, loading, empty, no-results, error, mobile transformation, and bulk-selection behavior where applicable. Comparison-heavy pages must not be implemented as `card-grid` or another weaker comparison pattern without an approved deviation.
 
 Stage 6 must also validate each referenced page interaction contract and preserve stable `UI-ELEMENT-`, `ROUTE-`, and `ACTION-` IDs. Confirm element existence, label or accessible name, behavior, route type and target, action outcomes, confirmation, permission-denied behavior, recovery behavior, responsive behavior, accessibility behavior, and design-system component mapping where applicable.
 
@@ -301,7 +350,11 @@ conflict_controls
 workspace_plan
 merge_plan
 batch_validation_gates
+execution_waves
 ```
+
+Execute tickets within a batch by `execution_waves`; never run a dependent
+ticket in the same wave as or before its prerequisite.
 
 Stage 6 must not execute a ticket until:
 
@@ -463,6 +516,7 @@ Stage 6 may complete only when:
 * all assigned Stage 5 build tickets are implemented, blocked with reason, deferred with approval, or explicitly marked not applicable
 * every executed ticket followed its `agent_required_skills` and `agent_skill_instructions`
 * every executed frontend ticket with UI blueprint references was validated against the referenced UI blueprint requirements
+* every executed frontend ticket with UI architecture, layout pattern, component family, or template deviation references was validated against those referenced Stage 4 requirements
 * every executed frontend ticket with interaction contract references was validated against each referenced `UI-ELEMENT-`, `ROUTE-`, and `ACTION-` requirement
 * every executed frontend ticket with visual spec references was validated against the referenced visual requirements and visual acceptance criteria
 * every executed frontend ticket with `visual_reference_refs` was validated against the selected visual style references as converted through the design system
@@ -485,6 +539,7 @@ Stage 6 is `ready_for_stage_7` only when:
 * no unresolved critical regressions remain
 * all launch-critical tickets are implemented and validated
 * all launch-critical frontend tickets preserve referenced UI blueprint page, component, route, action, state, interactive element (element_type, label, route_target, behavior), validation, accessibility, responsive, visual, visual reference, and design system requirements
+* all launch-critical frontend tickets preserve referenced page archetype, layout pattern decision, component-family decisions, template deviations, and responsive transformations
 * all launch-critical frontend tickets preserve stable interaction IDs, route types, action outcomes, confirmations, permission-denied behavior, recovery behavior, mobile behavior, accessibility behavior, and design-system component mappings
 * every dropped, renamed, rerouted, or behavior-changed interaction has an approved deviation record
 * all launch-critical frontend tickets requiring preview have a recorded preview URL or accepted blocker

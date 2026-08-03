@@ -1,3 +1,9 @@
+---
+name: release-plan-orchestration
+description: Define the canonical Stage 5 release plan and readiness gates.
+compatibility: opencode
+---
+
 # Skill — release-plan-orchestration
 
 # Purpose
@@ -149,3 +155,12 @@ Validate:
 * rollback or recovery expectations are explicit
 * Stage 7 handoff needs are captured
 * release-blocking risks include mitigation or escalation paths
+
+---
+
+# Normalized Stage 5 v2 Output
+
+Keep all release collections inside
+`08-release-plan.json.data.release_plan`. Release views use IDs or compact
+indexes and `risk_refs`; completion and the Stage 6 handoff belong only in the
+manifest.

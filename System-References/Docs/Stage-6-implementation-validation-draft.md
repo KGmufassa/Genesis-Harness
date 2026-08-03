@@ -40,6 +40,30 @@ stage-6-implementation-validation (command)
 
 # Purpose
 
+# Stage 5 Read Compatibility
+
+For Stage 5 format `2.0`, Stage 6 reads shared context from
+`00-stage-context.json`, completion and handoff from `09-stage-manifest.json`,
+tickets from `05-build-tickets.json#/data/tickets`, agents from
+`06-agent-assignment-plan.json#/data/agents`, batches from
+`07-parallel-execution-plan.json#/data/batches`, and other artifact payloads
+from `data` using the manifest index.
+
+If any numbered artifact declares format `2.0`, both context and manifest are
+required. Missing or inconsistent files block the handoff. Archived
+self-contained Stage 5 outputs remain readable through the standard-library,
+read-only resolver:
+
+```sh
+python3 .opencode/Skills/stage-5-development-orchestration/scripts/resolve_stage5.py \
+  --artifact build_tickets \
+  --with-context
+```
+
+The resolver never writes or migrates Stage 5 files. Future generated agents
+must follow this same format detection and must execute batch tickets according
+to dependency-valid `execution_waves`.
+
 The `stage-6-implementation-validation` command orchestrates Stage 6.
 
 It transforms:
@@ -461,6 +485,12 @@ validation_steps
 risk_level
 completion_status
 ui_blueprint_refs
+ui_architecture_refs
+page_archetype
+layout_pattern_refs
+component_family_refs
+template_deviation_refs
+ui_components_markdown_refs
 visual_spec_refs
 design_system_refs
 page_refs
@@ -471,6 +501,8 @@ action_refs
 frontend_task_hint
 visual_requirements
 responsive_requirements
+layout_requirements
+component_family_requirements
 visual_acceptance_criteria_refs
 preview_required
 visual_qa_required
@@ -488,7 +520,14 @@ Stage 6 must validate referenced UI blueprint requirements for:
 
 * page structure
 * layout type
+* UI architecture template context
+* page archetype
+* layout pattern decision, rationale, rejected plausible alternatives, source refs, and responsive transformation
+* component-family decisions
+* template deviations
 * sections and components
+
+For `data-table` layout requirements, Stage 6 must verify sorting, filtering, loading, empty, no-results, error, mobile transformation, and bulk-selection behavior where applicable. For comparison-heavy pages, unapproved replacement with `card-grid` or another weaker comparison pattern is UI blueprint drift.
 * shared components
 * routes
 * user actions
@@ -1272,6 +1311,7 @@ Stage 6 may complete only when:
 * not-applicable tickets include rationale
 * every executed ticket followed its `agent_required_skills` and `agent_skill_instructions`
 * every executed frontend ticket with UI blueprint references was validated against the referenced UI blueprint requirements
+* every executed frontend ticket with UI architecture, layout pattern, component family, or template deviation references was validated against those referenced Stage 4 requirements
 * every executed frontend ticket with visual spec references was validated against the referenced visual requirements and visual acceptance criteria
 * every executed frontend ticket with design system references was validated against the referenced design system foundation
 * every frontend ticket requiring preview recorded a preview URL or blocker
@@ -1293,6 +1333,7 @@ Stage 6 is `ready_for_stage_7` only when:
 * no unresolved critical regressions remain
 * all launch-critical tickets are implemented and validated
 * all launch-critical frontend tickets preserve referenced UI blueprint page, component, route, action, state, interactive element (element_type, label, route_target, behavior), validation, accessibility, responsive, visual, and design system requirements
+* all launch-critical frontend tickets preserve referenced page archetype, layout pattern decision, component-family decisions, template deviations, and responsive transformations
 * all launch-critical frontend tickets preserve stable interaction IDs and applicable route, outcome, confirmation, permission, recovery, mobile, accessibility, and design-system behavior
 * every dropped, renamed, rerouted, or behavior-changed interaction has an approved deviation record
 * all launch-critical frontend tickets requiring preview have a recorded preview URL or accepted blocker

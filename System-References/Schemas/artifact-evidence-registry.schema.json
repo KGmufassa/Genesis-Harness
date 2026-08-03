@@ -16,6 +16,10 @@
           "type": { "type": "string" },
           "related_stage": { "type": "string" },
           "related_stage_output": { "type": "string" },
+          "related_stage_data_path": {
+            "type": "string",
+            "description": "JSON Pointer to the canonical collection in a normalized stage output."
+          },
           "related_ticket_ids": { "type": "array" },
           "related_validation_ids": { "type": "array" },
           "related_agent_ids": { "type": "array" },
@@ -27,6 +31,26 @@
           "created_at": { "type": "string" },
           "notes": { "type": "string" }
         },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "related_stage_output": {
+                  "const": "Build-Plans/Stage-5/05-build-tickets.json"
+                }
+              },
+              "required": ["related_stage_output"]
+            },
+            "then": {
+              "required": ["related_stage_data_path"],
+              "properties": {
+                "related_stage_data_path": {
+                  "const": "/data/tickets"
+                }
+              }
+            }
+          }
+        ],
         "additionalProperties": true
       }
     }

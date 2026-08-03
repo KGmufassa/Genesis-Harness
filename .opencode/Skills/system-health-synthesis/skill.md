@@ -1,3 +1,9 @@
+---
+name: system-health-synthesis
+description: Synthesize Stage 6 implementation health, evidence, and readiness.
+compatibility: opencode
+---
+
 # Skill — system-health-synthesis
 
 # Purpose
@@ -148,7 +154,9 @@ Stage 6 may complete only when:
 * repair work has been revalidated
 * system health is synthesized from implementation, validation, regression, and repair results
 * launch-critical frontend tickets include visual QA, responsive validation, visual reference compliance, design system compliance, and visual drift status when required
+* launch-critical frontend tickets include UI architecture, page archetype, layout pattern, component-family, and template-deviation compliance results when referenced by Stage 5 tickets
 * ticket `expected_artifacts` are recorded in `Build-Plans/Build-status/Artifact-evidence-registry.json` or documented as blockers
+* v2 Stage 5 evidence points to `Build-Plans/Stage-5/05-build-tickets.json` with `related_stage_data_path = "/data/tickets"`
 * Stage 7 handoff contains unresolved operational, deployment, monitoring, analytics, and support needs
 
 Stage 6 is `ready_for_stage_7` only when:
@@ -159,6 +167,7 @@ Stage 6 is `ready_for_stage_7` only when:
 * all launch-critical tickets are implemented and validated
 * no launch-critical frontend ticket has unresolved `major_visual_drift`
 * visual reference compliance is validated or explicitly accepted as known risk for launch-critical frontend work
+* UI architecture and layout pattern compliance is validated or explicitly accepted as known risk for launch-critical frontend work
 * design system compliance is validated or explicitly accepted as known risk for launch-critical frontend work
 * all high-risk repairs are verified or explicitly accepted as known risk
 
@@ -202,7 +211,7 @@ Before completing Stage 6, confirm:
 * every parallel batch has validation status
 * validation results map to ticket acceptance criteria
 * expected artifact evidence maps back to Stage 5 ticket IDs
-* frontend validation results map to UI blueprint IDs, visual spec IDs, visual style reference refs, and design system IDs when present
+* frontend validation results map to UI blueprint IDs, UI architecture/template refs, page archetype refs, layout pattern refs, component-family refs, template-deviation refs, visual spec IDs, visual style reference refs, and design system IDs when present
 * visual QA and responsive validation results are included for frontend tickets when required
 * regression analysis maps failures back to affected tickets, agents, batches, workflows, and features
 * repair log includes verification results

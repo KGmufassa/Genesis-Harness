@@ -1,3 +1,9 @@
+---
+name: build-ticket-generation
+description: Generate canonical, reference-valid Stage 5 build tickets for Stage 6.
+compatibility: opencode
+---
+
 # Skill — build-ticket-generation
 
 # Purpose
@@ -32,6 +38,7 @@ This skill is the task decomposition layer between Stage 5 orchestration and Sta
   "testing_strategy": {},
   "feature_behaviors": {},
   "ui_blueprints": {},
+  "ui_architecture_template_selection": {},
   "frontend_build_package": {},
   "design_system_foundation": {},
   "visual_reference_selection": {},
@@ -93,6 +100,12 @@ Every build ticket must include:
   "stage_3_architecture_refs": [],
   "stage_4_ux_refs": [],
   "ui_blueprint_refs": [],
+  "ui_architecture_refs": [],
+  "page_archetype": "",
+  "layout_pattern_refs": [],
+  "component_family_refs": [],
+  "template_deviation_refs": [],
+  "ui_components_markdown_refs": [],
   "interaction_contract_refs": [],
   "visual_spec_refs": [],
   "visual_reference_refs": [],
@@ -115,6 +128,15 @@ Every build ticket must include:
     "mobile_behaviors": [],
     "accessibility_behaviors": []
   },
+  "layout_requirements": {
+    "selected_pattern": "",
+    "rejected_patterns": [],
+    "decision_factors": {},
+    "reasons": [],
+    "source_refs": [],
+    "responsive_transformation": {}
+  },
+  "component_family_requirements": [],
   "frontend_task_hint": "",
   "visual_requirements": {
     "visual_style": "",
@@ -515,11 +537,14 @@ Validate:
 * every ticket has skill suitability scoring and selection rationale
 * every ticket has acceptance criteria and validation steps
 * every frontend ticket references applicable UI blueprint IDs or explicitly records why no UI blueprint applies
+* every frontend ticket preserves applicable UI architecture template selection, selected extensions, page archetype, layout pattern decisions, component-family decisions, and template deviations from Stage 4
 * every frontend ticket references applicable page interaction contracts and interactive element IDs, or explicitly records why none apply
 * every frontend ticket references applicable visual spec IDs or explicitly records why no visual spec applies
 * every frontend ticket references selected visual style references or explicitly records why no visual reference applies
 * every frontend ticket references applicable design system IDs or explicitly records why no design system applies
 * every frontend ticket preserves page, component, route, action, state, interactive element, validation, accessibility, responsive, visual, visual reference, and design system requirements from Stage 4
+* every frontend ticket preserves layout pattern requirements, including selected pattern, decision factors, rationale, rejected alternatives, source refs, and responsive transformation
+* every frontend ticket preserves component-family requirements and maps them to referenced page sections/components where applicable
 * every frontend ticket preserves stable `UI-ELEMENT-`, `ROUTE-`, and `ACTION-` IDs plus route types, action outcomes, confirmation, permission-denied, recovery, design-system component mapping, mobile behavior, and accessibility behavior when applicable
 * every frontend ticket for a complex page references the applicable Mermaid map in `09-complete-app-blueprint.md`
 * every frontend ticket preserves visual style, density, color direction, typography feel, component style, primary visual focus, visual do and don't rules, visual acceptance criteria, and user approval status from Stage 4
@@ -528,3 +553,17 @@ Validate:
 * every ticket that requires evidence defines expected artifact types for the artifact evidence registry
 * ticket dependencies do not conflict with engineering dependency order
 * Stage 6 execution queue is dependency-aware
+
+---
+
+# Normalized Stage 5 v2 Output And Reference Integrity
+
+Tickets exist only at `05-build-tickets.json.data.tickets`. Use `risk_refs` and
+compact ID indexes for secondary views.
+
+Before serialization, run `validate_ticket_references` and
+`validate_risk_refs` from the Stage 5 contract helper. Resolve stable references
+against the actual loaded Stage 1-4 documents. For a file-plus-JSON-Pointer
+reference, verify the file exists, navigate the pointer, and verify its target
+exists. If visual acceptance criteria lack IDs, use their valid source
+file-plus-JSON-Pointer; do not invent identifiers. Any failure stops generation.

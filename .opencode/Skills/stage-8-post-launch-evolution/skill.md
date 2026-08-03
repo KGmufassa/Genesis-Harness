@@ -69,7 +69,7 @@ Required Stage 7 files:
 
 Live-product inputs may include telemetry data, analytics data, support logs, incident logs, AI quality reports, user feedback, cost metrics, and scalability metrics.
 
-When interaction telemetry exists, normalize events to stable Stage 4 `UI-ELEMENT-`, `ROUTE-`, and `ACTION-` IDs and preserve related Stage 5 ticket and Stage 6 validation references. Record unmapped events as telemetry gaps.
+When interaction telemetry exists, normalize events to stable Stage 4 `UI-ELEMENT-`, `ROUTE-`, and `ACTION-` IDs and preserve related Stage 4 UI architecture, page archetype, layout pattern, component-family, Stage 5 ticket, and Stage 6 validation references when present. Record unmapped events as telemetry gaps.
 
 ---
 
@@ -102,9 +102,11 @@ Build-Plans/Stage-8/05-scalability-evolution.json
 
 ---
 
-# Global Readiness Audit
+# Final Readiness Audit
 
-Before Stage 8 may use `evolution_plan_ready`, run `global-stage-readiness-audit`.
+At the end of every Stage 8 finalization attempt, run `global-stage-readiness-audit`.
+
+Run the audit after the five Stage 8 outputs are assembled and after Stage 8 derives a proposed completion status, but before writing the final completion status to shared state.
 
 The audit must write:
 
@@ -120,6 +122,31 @@ System-References/Docs/Global-Stage-Workflow-Contract.md
 
 If the audit does not pass, do not use `evolution_plan_ready`.
 
+The audit must still be written when Stage 8 resolves to `needs_more_telemetry`, `needs_operational_review`, or `blocked`. Failed or blocked audits must preserve their findings in `blocking_gaps`, `revision_loops`, and `next_actions`.
+
+Stage 8 audit input must include:
+
+```json
+{
+  "stage": "Stage 8",
+  "stage_number": 8,
+  "stage_output_directory": "Build-Plans/Stage-8/",
+  "required_output_files": [
+    "01-telemetry-analysis.json",
+    "02-operational-optimization.json",
+    "03-ai-improvement-plan.json",
+    "04-roadmap-evolution.json",
+    "05-scalability-evolution.json"
+  ],
+  "stage_state_file": "Build-Plans/Build-status/Evolution-state.json",
+  "expected_handoff_key": "prior_stage_feedback",
+  "expected_next_stage": "Earlier stages",
+  "proposed_completion_status": "",
+  "finalization_attempt": true,
+  "handoff_mode": "feedback_routes"
+}
+```
+
 ---
 
 # Completion Status Values
@@ -132,6 +159,8 @@ blocked
 ```
 
 Use `evolution_plan_ready` only when findings are evidence-backed, recommendations are traceable, and revision loops are routed to the correct earlier stages.
+
+The final Stage 8 status may be `evolution_plan_ready` only when `Build-Plans/Build-status/Stage-8-readiness-audit.json` has `audit_status` of `passed` or `passed_with_warnings` and `ready_for_next_stage` is `true`.
 
 ---
 
@@ -152,6 +181,7 @@ Feedback route object:
   "stage_6_validation_refs": [],
   "finding": "",
   "recommended_target_stage": "",
+  "owner": "",
   "severity": "",
   "evidence_refs": [],
   "recommended_action": "",
@@ -161,6 +191,8 @@ Feedback route object:
 ```
 
 Unresolved critical feedback routes must have owners or explicit next actions before `evolution_plan_ready`.
+
+When feedback routes create a new cycle, the readiness audit must record `handoff_mode: "feedback_routes"` and preserve the target stages, owners, evidence refs, actions, and `creates_new_stage_cycle` flags. Missing ownership, evidence, or next action on unresolved critical routes blocks `evolution_plan_ready`.
 
 ---
 

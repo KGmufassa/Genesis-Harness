@@ -8,7 +8,9 @@ The global stage readiness audit verifies that a stage is ready to hand off to t
 System-References/Docs/Global-Stage-Workflow-Contract.md
 ```
 
-This audit is required before any stage may mark itself ready for the next stage.
+This audit is required at the end of every stage finalization attempt, before the stage writes its final completion status to shared state.
+
+The audit must run for ready, revision-needed, prior-stage-revision, and blocked outcomes.
 
 ---
 
@@ -33,12 +35,13 @@ The audit validates:
 * blockers are explicit
 * traceability IDs exist or missing traceability is justified
 * artifact references are recorded when evidence exists
-* visual and design continuity checks pass when the stage contains frontend-facing work
+* structural UI architecture, visual, and design continuity checks pass when the stage contains frontend-facing work
 * stage contract profile requirements are satisfied
 * schema validation results are recorded for required outputs
 * accepted risks are recorded in the risk acceptance ledger when progression depends on accepted risk
 * cross-stage references are valid, not duplicated, and not stale
 * failed readiness conditions produce revision-loop records with owning stage, output, skill, and next action
+* Stage 8 feedback routes are owned, evidence-backed, and routed to earlier stages when live findings create a new cycle
 
 ---
 
@@ -67,6 +70,10 @@ Build-Plans/Build-status/Stage-5-readiness-audit.json
   "stage": "",
   "command": "global-stage-readiness-audit",
   "audit_status": "pending",
+  "finalization_attempt": true,
+  "proposed_completion_status": "",
+  "evaluated_completion_status": "",
+  "handoff_mode": "next_stage | feedback_routes | terminal",
   "global_workflow_contract": "System-References/Docs/Global-Stage-Workflow-Contract.md",
   "required_files_present": false,
   "schemas_valid": false,
@@ -74,6 +81,8 @@ Build-Plans/Build-status/Stage-5-readiness-audit.json
   "global_status_mapped": false,
   "handoff_present": false,
   "handoff_usable": false,
+  "feedback_routes_present": false,
+  "feedback_routes_usable": false,
   "risks_recorded": false,
   "assumptions_recorded": false,
   "traceability_present": false,
@@ -115,6 +124,15 @@ Build-Plans/Build-status/Stage-5-readiness-audit.json
     "expired_or_unowned_risks": []
   },
   "revision_loops": [],
+  "feedback_route_audit": {
+    "required": false,
+    "routes_checked": [],
+    "missing_route_owners": [],
+    "missing_route_actions": [],
+    "missing_route_evidence": [],
+    "critical_routes_blocking": [],
+    "creates_new_stage_cycle": false
+  },
   "visual_design_continuity": {
     "required": false,
     "ui_blueprint_refs_present": false,
@@ -152,7 +170,9 @@ A stage may use a stage-specific ready status only when:
 ready_for_next_stage = true
 ```
 
-For frontend-facing work, the audit must also enforce the visual and design continuity rules in:
+Stage 8 is terminal and cyclical. For Stage 8, `ready_for_next_stage = true` means the evolution package is ready to close the current cycle or create routed work for earlier stages through `prior_stage_feedback`; it does not imply a Stage 9 handoff.
+
+For frontend-facing work, the audit must also enforce the structural UI architecture, visual, and design continuity rules in:
 
 ```text
 System-References/Docs/Global-Stage-Workflow-Contract.md
@@ -179,6 +199,8 @@ needs_current_stage_revision
 needs_prior_stage_revision
 blocked
 ```
+
+The failed or blocked audit file must still be written and must include `blocking_gaps`, `revision_loops`, and `next_actions`.
 
 ---
 

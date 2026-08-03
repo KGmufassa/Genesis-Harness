@@ -1,3 +1,9 @@
+---
+name: agent-assignment-planning
+description: Assign Stage 5 tickets to capable agents with validated file scopes.
+compatibility: opencode
+---
+
 # Skill — agent-assignment-planning
 
 # Purpose
@@ -28,6 +34,12 @@ agent_required_skills
 agent_skill_instructions
 skill_match
 ui_blueprint_refs
+ui_architecture_refs
+page_archetype
+layout_pattern_refs
+component_family_refs
+template_deviation_refs
+ui_components_markdown_refs
 visual_spec_refs
 visual_reference_refs
 design_system_refs
@@ -39,6 +51,8 @@ action_refs
 frontend_task_hint
 visual_requirements
 responsive_requirements
+layout_requirements
+component_family_requirements
 preview_required
 visual_qa_required
 design_system_compliance_required
@@ -146,6 +160,12 @@ Assign build tickets using:
 * validation requirements
 * risk levels
 
+Before writing assignment data, compare every assigned ticket's `file_scopes`
+or `allowed_file_scopes` with the assigned agent's `allowed_file_scopes`.
+Every ticket target must be equal to, below, or matched by at least one allowed
+scope. Run `validate_agent_scopes` from the Stage 5 contract helper and fail
+generation if any assigned ticket falls outside the agent scope.
+
 ## Suitability Matching
 
 For each ticket, score available agents against:
@@ -211,6 +231,12 @@ Each agent assignment must include:
   "missing_skills": [],
   "handoff_inputs": [],
   "ui_blueprint_refs": [],
+  "ui_architecture_refs": [],
+  "page_archetype": "",
+  "layout_pattern_refs": [],
+  "component_family_refs": [],
+  "template_deviation_refs": [],
+  "ui_components_markdown_refs": [],
   "interaction_contract_refs": [],
   "interactive_element_refs": [],
   "visual_spec_refs": [],
@@ -218,6 +244,8 @@ Each agent assignment must include:
   "design_system_refs": [],
   "visual_requirements": {},
   "responsive_requirements": {},
+  "layout_requirements": {},
+  "component_family_requirements": [],
   "preview_required": false,
   "visual_qa_required": false,
   "design_system_compliance_required": false,
@@ -306,6 +334,9 @@ Do not edit:
 - [restricted file scope]
 
 Use these handoff inputs:
+- Resolve Stage 5 format through `.opencode/Skills/stage-5-development-orchestration/scripts/resolve_stage5.py`.
+- For v2, load shared context from `00-stage-context.json` and completion/handoff from `09-stage-manifest.json`.
+- Read tickets from `05-build-tickets.json#/data/tickets`, agents from `06-agent-assignment-plan.json#/data/agents`, batches from `07-parallel-execution-plan.json#/data/batches`, and other payloads from `/data`.
 - [handoff file]
 - [UI blueprint file when assigned frontend tickets]
 - [interaction contract and complete app blueprint when assigned frontend tickets]
@@ -335,6 +366,8 @@ Rules:
 - Do not change shared contracts unless the ticket explicitly allows it.
 - If a dependency is missing, mark the ticket blocked and record the dependency.
 - If validation fails, use the assigned debugging skill before applying fixes.
+- If any numbered Stage 5 artifact declares v2, stop when context or manifest is missing.
+- Follow `execution_waves`; do not start a dependent ticket before its prerequisite.
 - Record every skill used and why.
 
 When finished, report:
@@ -408,13 +441,16 @@ Validate:
 * every MVP ticket is assigned to a suitable available agent or recorded for manual ownership
 * assigned agents can use ticket-required skills
 * frontend agents receive `Build-Plans/Stage-4/07-ui-blueprint-specification.json` when assigned frontend tickets with UI blueprint references
+* frontend agents receive Stage 4 UI architecture template, page archetype, layout pattern, component-family, template-deviation, and `UI-COMPONENTS.md` references when assigned tickets include them
 * frontend agents receive visual spec references and visual requirements when assigned frontend tickets with visual spec references
 * frontend agents receive selected visual style reference files when assigned frontend tickets with `visual_reference_refs`
 * frontend agents receive `Build-Plans/Stage-4/08-design-system-foundation.json` when assigned frontend tickets with design system references
 * agent handoff packages preserve ticket UI blueprint, visual spec, visual style reference, design system, page, component, route, state, action, interactive element (element_type, label, route_target, behavior), visual requirements, responsive requirements, preview requirements, visual QA requirements, and frontend task hint references
+* agent handoff packages preserve layout requirements, selected layout pattern, layout decision rationale, responsive transformations, component-family requirements, and template deviations from Stage 4
 * agent handoff packages preserve stable `UI-ELEMENT-`, `ROUTE-`, and `ACTION-` IDs, interaction contract status, route types, action outcomes, confirmation, permission-denied, recovery, design-system component, mobile, and accessibility behavior
 * generated agents are written under `.opencode/agents/`
 * generated agents include valid frontmatter and complete prompt bodies
 * generated agent permissions match assigned role and risk level
 * file scopes are explicit
+* every assigned ticket's required file scopes are covered by its agent's allowed scopes
 * high-risk tickets include validation ownership

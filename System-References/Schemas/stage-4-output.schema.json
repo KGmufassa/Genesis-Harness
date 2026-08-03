@@ -76,11 +76,90 @@
       },
       "required": ["page_ref", "ui_blueprint_id", "criticality", "interactive_element_count", "interactive_element_refs", "approval_status"],
       "additionalProperties": true
+    },
+    "layout_pattern_decision": {
+      "type": "object",
+      "properties": {
+        "selected_pattern": {
+          "type": "string",
+          "enum": [
+            "",
+            "single-column",
+            "two-column",
+            "responsive-grid",
+            "dashboard-grid",
+            "card-grid",
+            "data-table",
+            "content-list",
+            "master-detail",
+            "split-pane",
+            "form-layout",
+            "settings-layout",
+            "custom"
+          ],
+          "default": ""
+        },
+        "rejected_patterns": { "type": "array", "default": [] },
+        "decision_factors": {
+          "type": "object",
+          "properties": {
+            "information_density": { "type": "string", "default": "" },
+            "comparison_need": { "type": "string", "default": "" },
+            "scan_behavior": { "type": "string", "default": "" },
+            "primary_user_task": { "type": "string", "default": "" },
+            "record_count": { "type": "string", "default": "" },
+            "bulk_actions_required": { "type": "boolean", "default": false },
+            "mobile_behavior_required": { "type": "boolean", "default": true }
+          },
+          "additionalProperties": true
+        },
+        "reasons": { "type": "array", "default": [] },
+        "source_refs": { "type": "array", "default": [] },
+        "responsive_transformation": {
+          "type": "object",
+          "properties": {
+            "desktop": { "type": "string", "default": "" },
+            "tablet": { "type": "string", "default": "" },
+            "mobile": { "type": "string", "default": "" }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "ui_architecture": {
+      "type": "object",
+      "properties": {
+        "primary_template": { "type": "string", "default": "" },
+        "selected_extensions": { "type": "array", "default": [] },
+        "page_archetype": { "type": "string", "default": "" },
+        "navigation_pattern": { "type": "string", "default": "" },
+        "layout_pattern_decision": { "$ref": "#/$defs/layout_pattern_decision" },
+        "component_family_decisions": { "type": "array", "default": [] },
+        "template_deviations": { "type": "array", "default": [] }
+      },
+      "additionalProperties": true
+    },
+    "ui_architecture_template_selection": {
+      "type": "object",
+      "properties": {
+        "primary_template": { "type": "string", "default": "" },
+        "confidence": { "type": "string", "default": "" },
+        "alternative_templates": { "type": "array", "default": [] },
+        "selected_extensions": { "type": "array", "default": [] },
+        "reasons": { "type": "array", "default": [] },
+        "unresolved_questions": { "type": "array", "default": [] },
+        "template_deviations": { "type": "array", "default": [] },
+        "template_gaps": { "type": "array", "default": [] },
+        "source_refs": { "type": "array", "default": [] }
+      },
+      "additionalProperties": true
     }
   },
   "properties": {
     "page_inventory": { "type": "array", "default": [] },
     "ui_blueprints": { "type": "array", "default": [] },
+    "ui_architecture_template_selection": { "$ref": "#/$defs/ui_architecture_template_selection" },
     "interaction_contracts": {
       "type": "array",
       "items": { "$ref": "#/$defs/interaction_contract" },
@@ -120,7 +199,8 @@
         "intentional_deviations": { "type": "array", "default": [] }
       },
       "additionalProperties": true
-    }
+    },
+    "ui_components_markdown_path": { "type": "string", "default": "" }
   },
   "additionalProperties": true
 }

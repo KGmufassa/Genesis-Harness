@@ -1,3 +1,9 @@
+---
+name: parallel-execution-planning
+description: Create dependency-safe Stage 5 batches and execution waves.
+compatibility: opencode
+---
+
 # Skill — parallel-execution-planning
 
 # Purpose
@@ -64,6 +70,12 @@ Each parallel batch must include:
   "can_run_in_parallel": true,
   "assigned_agents": [],
   "tickets": [],
+  "execution_waves": [
+    {
+      "wave": 1,
+      "ticket_ids": []
+    }
+  ],
   "blocked_by_batches": [],
   "file_ownership_boundaries": [],
   "shared_contracts": [],
@@ -82,6 +94,19 @@ serial_merge_by_dependency
 contract_review_before_merge
 manual_review_required
 ```
+
+## Execution Wave Validation
+
+When tickets in one batch depend on one another:
+
+* put every prerequisite in an earlier `execution_waves` entry
+* put each dependent ticket in a later wave
+* include only independently executable tickets in the same wave
+* include every batch ticket in exactly one wave
+* fail generation when a dependency is absent, duplicated, or ordered in the same or a later wave
+
+Run `validate_execution_waves` from the Stage 5 contract helper before writing
+the parallel execution artifact.
 
 ## Conflict Control
 
@@ -160,6 +185,7 @@ Validate:
 * safe parallel work is separated from serial work
 * every batch has a merge strategy
 * every batch has validation gates
+* every batch has valid `execution_waves`
 * file ownership boundaries are explicit
 * shared contract conflicts block parallel execution
 * high-risk integration work is serialized unless explicitly approved

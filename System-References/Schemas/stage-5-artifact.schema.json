@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stage-5-artifact.schema.json",
+  "title": "Stage 5 Numbered Artifact",
+  "type": "object",
+  "required": [
+    "$schema",
+    "format_version",
+    "artifact_id",
+    "artifact_type",
+    "stage",
+    "status",
+    "context_ref",
+    "traceability_refs",
+    "data"
+  ],
+  "properties": {
+    "$schema": { "type": "string" },
+    "format_version": { "const": "2.0" },
+    "artifact_id": { "type": "string", "pattern": "^ARTIFACT-S5-" },
+    "artifact_type": {
+      "enum": [
+        "development_roadmap",
+        "implementation_sequence",
+        "engineering_dependencies",
+        "testing_strategy",
+        "build_tickets",
+        "agent_assignment_plan",
+        "parallel_execution_plan",
+        "release_plan"
+      ]
+    },
+    "stage": { "const": "Stage 5" },
+    "status": { "type": "string", "default": "" },
+    "context_ref": { "const": "Build-Plans/Stage-5/00-stage-context.json" },
+    "traceability_refs": { "type": "array", "items": { "type": "string" }, "default": [] },
+    "data": { "type": "object" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "artifact_type": { "const": "development_roadmap" } } },
+      "then": { "properties": { "data": { "required": ["roadmap"] } } }
+    },
+    {
+      "if": { "properties": { "artifact_type": { "const": "implementation_sequence" } } },
+      "then": { "properties": { "data": { "required": ["slices"] } } }
+    },
+    {
+      "if": { "properties": { "artifact_type": { "const": "engineering_dependencies" } } },
+      "then": { "properties": { "data": { "required": ["dependencies"] } } }
+    },
+    {
+      "if": { "properties": { "artifact_type": { "const": "testing_strategy" } } },
+      "then": { "properties": { "data": { "required": ["testing_strategy"] } } }
+    },
+    {
+      "if": { "properties": { "artifact_type": { "const": "build_tickets" } } },
+      "then": { "properties": { "data": { "required": ["tickets"] } } }
+    },
+    {
+      "if": { "properties": { "artifact_type": { "const": "agent_assignment_plan" } } },
+      "then": { "properties": { "data": { "required": ["agents"] } } }
+    },
+    {
+      "if": { "properties": { "artifact_type": { "const": "parallel_execution_plan" } } },
+      "then": {
+        "properties": {
+          "data": {
+            "required": ["batches"],
+            "properties": {
+              "batches": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["batch_id", "tickets", "execution_waves"],
+                  "properties": {
+                    "batch_id": { "type": "string" },
+                    "tickets": { "type": "array", "items": { "type": "string" }, "default": [] },
+                    "execution_waves": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": ["wave", "ticket_ids"],
+                        "properties": {
+                          "wave": { "type": "integer" },
+                          "ticket_ids": { "type": "array", "items": { "type": "string" }, "default": [] }
+                        },
+                        "additionalProperties": true
+                      },
+                      "default": []
+                    }
+                  },
+                  "additionalProperties": true
+                },
+                "default": []
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "artifact_type": { "const": "release_plan" } } },
+      "then": { "properties": { "data": { "required": ["release_plan"] } } }
+    }
+  ],
+  "additionalProperties": true
+}

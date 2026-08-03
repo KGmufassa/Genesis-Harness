@@ -7,13 +7,43 @@
   "properties": {
     "stage": { "type": "string" },
     "command": { "type": "string" },
-    "audit_status": { "type": "string" },
+    "audit_status": {
+      "type": "string",
+      "enum": ["pending", "passed", "passed_with_warnings", "failed", "blocked"]
+    },
+    "finalization_attempt": { "type": "boolean" },
+    "proposed_completion_status": { "type": "string" },
+    "evaluated_completion_status": { "type": "string" },
+    "handoff_mode": {
+      "type": "string",
+      "enum": ["next_stage", "feedback_routes", "terminal"]
+    },
     "required_files_present": { "type": "boolean" },
     "schemas_valid": { "type": "boolean" },
     "schema_validation": { "type": "object" },
     "artifact_evidence_registry": { "type": "object" },
     "risk_acceptance_ledger": { "type": "object" },
     "reference_integrity": { "type": "object" },
+    "handoff_present": { "type": "boolean" },
+    "handoff_usable": { "type": "boolean" },
+    "feedback_routes_present": { "type": "boolean" },
+    "feedback_routes_usable": { "type": "boolean" },
+    "feedback_route_audit": {
+      "type": "object",
+      "properties": {
+        "required": { "type": "boolean" },
+        "routes_checked": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/feedback_route" }
+        },
+        "missing_route_owners": { "type": "array" },
+        "missing_route_actions": { "type": "array" },
+        "missing_route_evidence": { "type": "array" },
+        "critical_routes_blocking": { "type": "array" },
+        "creates_new_stage_cycle": { "type": "boolean" }
+      },
+      "additionalProperties": true
+    },
     "visual_design_continuity": {
       "type": "object",
       "properties": {
@@ -27,6 +57,29 @@
     "warnings": { "type": "array" },
     "next_actions": { "type": "array" },
     "ready_for_next_stage": { "type": "boolean" }
+  },
+  "$defs": {
+    "feedback_route": {
+      "type": "object",
+      "properties": {
+        "feedback_route_id": { "type": "string" },
+        "source_signal_ids": { "type": "array" },
+        "ui_element_refs": { "type": "array" },
+        "route_refs": { "type": "array" },
+        "action_refs": { "type": "array" },
+        "stage_5_ticket_refs": { "type": "array" },
+        "stage_6_validation_refs": { "type": "array" },
+        "finding": { "type": "string" },
+        "recommended_target_stage": { "type": "string" },
+        "owner": { "type": "string" },
+        "severity": { "type": "string" },
+        "evidence_refs": { "type": "array" },
+        "recommended_action": { "type": "string" },
+        "blocks_current_evolution": { "type": "boolean" },
+        "creates_new_stage_cycle": { "type": "boolean" }
+      },
+      "additionalProperties": true
+    }
   },
   "additionalProperties": true
 }

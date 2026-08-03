@@ -21,6 +21,8 @@ into:
 * feature behavior specifications
 * state transition map
 * accessibility framework
+* UI architecture template selection
+* user-approved Stitch prototype evidence
 * implementation-ready UI blueprints
 * frontend build package
 
@@ -45,6 +47,7 @@ Stage 4 must not:
 * produce final UI art direction as decoration
 * generate frontend code
 * plan engineering sprints
+* treat Stitch prototypes as canonical product, route, action, permission, or data contracts
 
 Stage 4 may recommend product or architecture revisions only when interaction design exposes a blocking contradiction.
 
@@ -89,6 +92,34 @@ The command must load this file at the beginning of Stage 4, update it after eac
   "feature_behaviors": {},
   "state_transition_map": {},
   "accessibility_framework": {},
+  "ui_architecture_template_selection": {
+    "primary_template": "",
+    "confidence": "",
+    "alternative_templates": [],
+    "selected_extensions": [],
+    "reasons": [],
+    "unresolved_questions": [],
+    "template_deviations": [],
+    "template_gaps": [],
+    "source_refs": []
+  },
+  "stitch_prototyping": {
+    "availability": "unchecked",
+    "project_id": "",
+    "project_name": "",
+    "screen_refs": [],
+    "prototype_constraints": {},
+    "proposed_pages": [],
+    "page_approval_ledger": [],
+    "approved_page_refs": [],
+    "rejected_page_refs": [],
+    "component_extraction": [],
+    "divergence_log": [],
+    "responsive_review": [],
+    "accessibility_review": [],
+    "reconciliation_status": "not_started",
+    "confidence_gaps": []
+  },
   "ui_blueprints": {},
   "page_inventory": [],
   "interaction_contracts": [],
@@ -191,6 +222,10 @@ assumed_low_risk
 needs_user_review
 blocked
 ```
+
+When Stitch MCP is available, confirm the proposed page set and each page's major layout and feature regions before finalizing component inventories. Do not ask the user to approve individual low-risk components until the page-level decision is recorded.
+
+Stitch is an internal Stage 4 prototyping and review aid. Approved prototypes refine Stage 4 outputs, but the structured Stage 4 page, component, route, action, state, accessibility, and design-system contracts remain canonical. Keep Stitch-specific metadata out of `stage_5_handoff`.
 
 ---
 
@@ -299,7 +334,7 @@ completion_status
 
 # Orchestrated Skills
 
-Run Stage 4 skills in this order:
+Run Stage 4 skills and the prototype phase in this order:
 
 ```text
 1. user-journey-design
@@ -308,9 +343,13 @@ Run Stage 4 skills in this order:
 4. feature-behavior-specification
 5. state-transition-and-accessibility-design
 6. design-system-foundation
-7. ui-blueprint-specification
-8. ux-interaction-synthesis
+7. ui-architecture-template-selection
+8. Stitch MCP prototype and page-confirmation loop
+9. ui-blueprint-specification
+10. ux-interaction-synthesis
 ```
+
+The Stitch MCP loop is a command phase, not a replacement for a Stage 4 skill.
 
 ---
 
@@ -433,7 +472,64 @@ interactive_guidance
 
 ---
 
-## 9. Run `ui-blueprint-specification`
+## 9. Run `ui-architecture-template-selection`
+
+Required shared state updates:
+
+```text
+ui_architecture_template_selection
+ux_decisions
+ux_risks
+open_questions
+interactive_guidance
+```
+
+The skill must select one primary structural UI architecture template and any justified extensions from:
+
+```text
+.opencode/Skills/ui-blueprint-specification/references/ui-component-system/
+```
+
+The library is read-only during normal Stage 4 runs. Record template deviations and template gaps in shared state instead of modifying library files.
+
+---
+
+## 10. Run The Stitch MCP Prototype And Page-Confirmation Loop
+
+Use the selected design system, UI architecture template, journeys, screen system, feature behaviors, states, accessibility constraints, and upstream scope to create or update Stitch screens.
+
+Required shared state updates:
+
+```text
+stitch_prototyping
+interactive_guidance
+ux_decisions
+ux_risks
+open_questions
+```
+
+Apply this sequence:
+
+```text
+constrain prototype prompt
+-> reuse or create Stitch project
+-> generate launch-critical page candidates
+-> review major responsive and accessibility behavior
+-> confirm pages and major feature regions with the user
+-> inventory components for approved pages
+-> reconcile every interactive component to route, action, or no_navigation
+-> record divergences and confidence gaps
+```
+
+Do not let Stitch introduce unsupported product scope, backend concepts, permissions, routes, or actions. Record conflicts in `stitch_prototyping.divergence_log` and resolve them in favor of canonical upstream constraints unless the user approves a routed revision.
+
+If Stitch MCP is unavailable, record the failure and confidence gap. Continue with the existing Stage 4 workflow only when the user explicitly accepts the non-Stitch fallback; otherwise use `blocked`.
+
+Never delete a Stitch project or screen without explicit user approval.
+
+---
+
+## 11. Run `ui-blueprint-specification`
 
 Required shared state updates:
 
@@ -455,7 +551,7 @@ interactive_guidance
 
 ---
 
-## 10. Run `ux-interaction-synthesis`
+## 12. Run `ux-interaction-synthesis`
 
 Required shared state updates:
 
@@ -490,6 +586,16 @@ Build-Plans/Stage-4/07-ui-blueprint-specification.json
 Build-Plans/Stage-4/08-design-system-foundation.json
 Build-Plans/Stage-4/09-complete-app-blueprint.md
 ```
+
+When useful for human review and Stage 5 handoff, also derive:
+
+```text
+Build-Plans/Stage-4/UI-COMPONENTS.md
+```
+
+`UI-COMPONENTS.md` is a generated companion artifact. It is not the canonical Stage 4 source of truth.
+
+`09-complete-app-blueprint.md` must render approved pages using the exact `Page -> Section -> Component -> Interactive Element -> Route, Action, Or No Navigation` hierarchy. `UI-COMPONENTS.md` must remain reconcilable with that same ownership chain and must not flatten page, section, component, or interactive-element levels into summary prose.
 
 Each output must include:
 
@@ -565,8 +671,14 @@ Stage 4 may complete only when:
 * feature behaviors are specified
 * state transitions are mapped
 * accessibility framework exists
+* one primary UI architecture template is selected, or a blocking reason is recorded
+* selected UI architecture extensions are compatible with the primary template or documented as project deviations
+* Stitch availability, project reuse or creation, screen references, and any accepted fallback are recorded in Stage 4 shared state
+* every approved Stitch page is reconciled to exactly one canonical page or screen reference, and every rejected or deferred prototype page is recorded
+* page-level approval is recorded before component extraction is treated as final
 * UI blueprints exist for all launch-critical pages and screens
 * each launch-critical UI blueprint includes page purpose, primary user, screen type, layout type, sections, components, actions, data needs, states, validation, and navigation
+* each launch-critical UI blueprint includes a page archetype and layout pattern decision with reasons, source references, rejected plausible patterns, and responsive transformation
 * each selected page or screen type includes `page_type_selection_rationale`
 * each launch-critical UI blueprint includes visual style, density, color direction, typography feel, component style, primary visual focus, responsive behavior, visual do and don't rules, visual acceptance criteria, and user approval status
 * complete app blueprint markdown exists at `Build-Plans/Stage-4/09-complete-app-blueprint.md`
@@ -579,17 +691,22 @@ Stage 4 may complete only when:
 * launch-critical visual specs reference selected visual style references or explicitly record why no visual reference applies
 * launch-critical visual specs and design system approval statuses are approved or explicitly accepted as assumptions
 * frontend build package includes page inventory, component inventory, shared components, routes, actions, states, frontend task hints, and recommended frontend skills
+* template deviations and template gaps are recorded when project needs override or exceed the selected UI architecture template
 * high and critical UX risks have mitigation paths
 * critical interactive guidance questions are answered or converted into recorded assumptions
 * no interaction-blocking Stage 3 unknowns remain unresolved
 * every created page has a page interaction contract, criticality, and approval status
 * every created page enumerates every clickable or interactive element, including buttons, links, icon controls, menus, tabs, form controls, clickable cards or rows, pagination, breadcrumbs, modal or drawer triggers, downloads, and global navigation
+* every component extracted from an approved Stitch page is classified as static or interactive and maps to its owning page, section, and canonical component reference
+* every extracted interactive component exposes its triggering elements and embeds the applicable canonical route and action references; static components explicitly carry no interaction mappings
 * every interactive element uses a stable `UI-ELEMENT-` ID and resolves to a `ROUTE-` ID, an `ACTION-` ID, or an explicit `no_navigation` behavior
 * every navigate or open-link element has a route target that exists in the route inventory or is recorded as an external URL
 * action_inventory is complete for all created pages and maps every action to its owning page, component, triggering element, and outcome
 * route_inventory covers all navigation paths used by interactive elements
 * destructive, security-sensitive, payment, admin, permission-sensitive, and mutation actions define confirmation, success, failure, loading, permission-denied, and recovery behavior where applicable
 * launch-critical interactive elements map to design-system components and define responsive and accessibility behavior, or record an approved exception
+* approved Stitch pages have desktop, tablet, and mobile review results plus keyboard, focus, labeling, contrast, and error-state accessibility review results or recorded approved exceptions
+* no approved prototype contains an orphan page, component, route, action, or interactive element
 * pages with branching, destructive, mutation, modal, drawer, or complex routing behavior have Mermaid interaction maps in `09-complete-app-blueprint.md`
 * no required interaction contract remains `needs_user_review` or `blocked`
 * Stage 4 decision brief exists and is approved
@@ -619,12 +736,27 @@ Before completing Stage 4, confirm:
 * every launch-critical page has a UI blueprint
 * every launch-critical page appears in `09-complete-app-blueprint.md`
 * every selected page type has an inclusion rationale tied to upstream product, workflow, role, feature, journey, or route evidence
+* every launch-critical page has a selected page archetype and layout pattern decision
+* every selected layout pattern has reasons, source references, rejected plausible alternatives, and desktop/tablet/mobile behavior
+* data-table layouts define mobile transformation, sorting/filtering expectations, loading, empty, no-results, error, and bulk-selection behavior where applicable
+* comparison-heavy pages do not use card-grid unless explicitly justified
+* bulk-action pages define selection behavior
+* required UI architecture template deviations are recorded with reasons
+* Stitch prompts constrain scope, roles, routes, actions, data concepts, design-system usage, required states, responsive behavior, and accessibility expectations
+* every proposed Stitch page has an approval-ledger entry with status, rationale, approver, and source references
+* approved Stitch pages reconcile to canonical Stage 4 page IDs without adding unapproved scope
+* Stitch divergence entries identify the prototype proposal, conflicting canonical constraint, resolution, and affected references
+* Stitch-specific metadata remains Stage-4-local and is not required by Stage 5 or later stages
 * every UI blueprint uses the page-definition matrix
 * every launch-critical UI blueprint uses the visual spec matrix
 * design system foundation exists for launch-critical frontend work
 * selected visual style references are recorded before UI blueprints are finalized
+* every approved page in `09-complete-app-blueprint.md` preserves the exact `page -> section -> component -> interactive element -> route/action/no_navigation` hierarchy
+* complete app blueprint markdown does not skip hierarchy levels or flatten sections, components, or interactive elements into summary bullets
 * every created page maps page -> section -> component -> interactive element -> route or action outcome
+* `UI-COMPONENTS.md` remains structurally reconcilable with `09-complete-app-blueprint.md` and preserves the same ownership chain for pages, sections, components, and interactive elements
 * every clickable or interactive element has a stable ID, label or accessible name, behavior, owner, source trace, and route, action, or `no_navigation` classification
+* no approved page omits a required section, component, or interactive-element level when that level exists in canonical structured outputs
 * route_inventory contains every path used by interactive elements across all pages
 * action_inventory maps every action to its triggering elements, owning pages and components, and success, failure, loading, and recovery outcomes where applicable
 * navigation items have structured route_target entries that resolve in route_inventory

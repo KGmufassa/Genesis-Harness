@@ -2,6 +2,19 @@
 
 # Purpose
 
+# Stage 5 Input Compatibility
+
+Future frontend agents detect Stage 5 format with the read-only compatibility
+resolver. For v2, they load context from `00-stage-context.json`, completion
+and handoff from `09-stage-manifest.json`, tickets from
+`05-build-tickets.json#/data/tickets`, their assignment from
+`06-agent-assignment-plan.json#/data/agents`, and batches plus
+`execution_waves` from `07-parallel-execution-plan.json#/data/batches`.
+
+If any numbered artifact declares v2, the agent stops when context or manifest
+is missing. Archived self-contained files remain readable through
+`.opencode/Skills/stage-5-development-orchestration/scripts/resolve_stage5.py`.
+
 Define a reusable `frontend-developer-agent` that can execute frontend implementation work using multiple skills.
 
 This review document describes the agent before any working agent registry or skill files are created.
@@ -177,7 +190,9 @@ The frontend agent should receive:
     "state_transition_map": "Build-Plans/Stage-4/05-state-transition-map.json",
     "accessibility_framework": "Build-Plans/Stage-4/06-accessibility-framework.json",
     "ui_blueprint_specification": "Build-Plans/Stage-4/07-ui-blueprint-specification.json",
-    "design_system_foundation": "Build-Plans/Stage-4/08-design-system-foundation.json"
+    "design_system_foundation": "Build-Plans/Stage-4/08-design-system-foundation.json",
+    "complete_app_blueprint": "Build-Plans/Stage-4/09-complete-app-blueprint.md",
+    "ui_components": "Build-Plans/Stage-4/UI-COMPONENTS.md"
   },
   "stage_3_files": {
     "api_architecture": "Build-Plans/Stage-3/04-api-architecture.json",
@@ -187,7 +202,9 @@ The frontend agent should receive:
 }
 ```
 
-The frontend agent must treat `07-ui-blueprint-specification.json` as the implementation source for page structure, layout type, sections, components, shared components, routes, actions, interactive elements (buttons, links, menu items with element_type, label, route_target, and behavior), data requirements, validation needs, UI states, accessibility requirements, responsive requirements, visual requirements, and visual acceptance criteria.
+The frontend agent must treat `07-ui-blueprint-specification.json` as the implementation source for page structure, layout type, UI architecture template context, page archetype, layout pattern decision, component-family decisions, template deviations, sections, components, shared components, routes, actions, interactive elements (buttons, links, menu items with element_type, label, route_target, and behavior), data requirements, validation needs, UI states, accessibility requirements, responsive requirements, visual requirements, and visual acceptance criteria.
+
+When present, `UI-COMPONENTS.md` is a readable companion artifact for structural UI architecture. It supports review and handoff, but it does not override `07-ui-blueprint-specification.json`.
 
 Do not invent frontend structure that conflicts with the referenced UI blueprint.
 
@@ -340,6 +357,10 @@ For tickets with `ui_blueprint_refs`, preserve the referenced page, component, r
 ```text
 Build-Plans/Stage-4/07-ui-blueprint-specification.json
 ```
+
+Also preserve referenced page archetype, layout pattern decision, selected layout rationale, rejected plausible alternatives, component-family decisions, template deviations, and responsive transformations.
+
+For `data-table` layout requirements, preserve sorting, filtering, loading, empty, no-results, error, mobile transformation, and bulk-selection behavior where applicable. Do not replace a comparison-heavy `data-table` with `card-grid` or another weaker comparison pattern unless the ticket includes an approved deviation.
 
 For tickets with `visual_spec_refs`, validate against the referenced visual acceptance criteria and report any visual gaps.
 

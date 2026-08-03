@@ -1,3 +1,9 @@
+---
+name: development-orchestration-synthesis
+description: Validate and serialize the normalized Stage 5 v2 package and manifest.
+compatibility: opencode
+---
+
 # Skill — development-orchestration-synthesis
 
 # Purpose
@@ -181,6 +187,10 @@ completion_status
 interactive_guidance
 ```
 
+`stage_6_handoff` and `completion_status` in this list are transient synthesis
+values. Exclude them from shared-state persistence and serialize them only in
+`09-stage-manifest.json`.
+
 Persist updates to:
 
 ```text
@@ -191,9 +201,10 @@ Build-Plans/Build-status/Development-state.json
 
 # Final Stage 5 Output Files
 
-Write or update:
+Write the normalized v2 context, numbered artifacts, and manifest:
 
 ```text
+Build-Plans/Stage-5/00-stage-context.json
 Build-Plans/Stage-5/01-development-roadmap.json
 Build-Plans/Stage-5/02-implementation-sequence.json
 Build-Plans/Stage-5/03-engineering-dependencies.json
@@ -202,9 +213,19 @@ Build-Plans/Stage-5/05-build-tickets.json
 Build-Plans/Stage-5/06-agent-assignment-plan.json
 Build-Plans/Stage-5/07-parallel-execution-plan.json
 Build-Plans/Stage-5/08-release-plan.json
+Build-Plans/Stage-5/09-stage-manifest.json
 ```
 
-Each output must include:
+The normalized contract in
+`.opencode/Skills/stage-5-development-orchestration/skill.md` supersedes legacy
+self-contained output examples below. Shared context is written only to file
+`00`; canonical payloads are written only under `data` in files `01`-`08`; and
+completion plus the Stage 6 handoff are written only to file `09`. Use
+`stage5_contract.py` to construct and validate these documents.
+
+Legacy self-contained outputs included the following shared material. Under v2,
+place it in context file `00` or manifest file `09`, never in each numbered
+artifact:
 
 * related Stage 1 scope or feature inputs
 * related Stage 3 architecture dependencies
@@ -270,7 +291,7 @@ The parallel execution output must include:
 
 Stage 5 may complete only when:
 
-* all eight development orchestration outputs exist
+* context, all eight normalized numbered artifacts, and the manifest exist
 * development roadmap is defined
 * implementation sequence is dependency-aware
 * engineering dependencies are mapped
@@ -291,6 +312,7 @@ Stage 5 may complete only when:
 * generated agent permissions match the assigned role and risk level
 * parallel execution plan separates safe parallel work from serial work
 * parallel execution plan blocks unresolved dependency, file ownership, API, schema, architecture, or UX conflicts
+* reference, risk-reference, agent-scope, execution-wave, manifest consistency, and schema validation have executed and passed
 * release plan exists
 * high and critical execution risks have mitigation paths
 * critical interactive guidance questions are answered or converted into recorded assumptions

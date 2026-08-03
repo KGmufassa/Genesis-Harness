@@ -108,9 +108,11 @@ Build-Plans/Stage-7/05-operational-tooling.json
 
 ---
 
-# Global Readiness Audit
+# Final Readiness Audit
 
-Before Stage 7 may use `ready_for_stage_8`, run `global-stage-readiness-audit`.
+At the end of every Stage 7 finalization attempt, run `global-stage-readiness-audit`.
+
+Run the audit after the five Stage 7 outputs are assembled and after Stage 7 derives a proposed completion status, but before writing the final completion status to shared state.
 
 The audit must write:
 
@@ -126,6 +128,31 @@ System-References/Docs/Global-Stage-Workflow-Contract.md
 
 If the audit does not pass, do not use `ready_for_stage_8`.
 
+The audit must still be written when Stage 7 resolves to `needs_launch_readiness_work`, `needs_operational_revision`, or `blocked`. Failed or blocked audits must preserve their findings in `blocking_gaps`, `revision_loops`, and `next_actions`.
+
+Stage 7 audit input must include:
+
+```json
+{
+  "stage": "Stage 7",
+  "stage_number": 7,
+  "stage_output_directory": "Build-Plans/Stage-7/",
+  "required_output_files": [
+    "01-launch-readiness.json",
+    "02-deployment-framework.json",
+    "03-monitoring-systems.json",
+    "04-analytics-framework.json",
+    "05-operational-tooling.json"
+  ],
+  "stage_state_file": "Build-Plans/Build-status/Operationalization-state.json",
+  "expected_handoff_key": "stage_8_handoff",
+  "expected_next_stage": "Stage 8",
+  "proposed_completion_status": "",
+  "finalization_attempt": true,
+  "handoff_mode": "next_stage"
+}
+```
+
 ---
 
 # Completion Status Values
@@ -139,9 +166,11 @@ blocked
 
 Use `ready_for_stage_8` only when Stage 8 can safely consume launch, monitoring, analytics, support, incident, and operational signal sources.
 
-Stage 7 must not use `ready_for_stage_8` when launch-critical frontend work has unresolved visual QA failures, unresolved visual reference compliance failures, unresolved design system compliance failures, missing required preview evidence, or `major_visual_drift`, unless each item is explicitly accepted as a known launch risk.
+The final Stage 7 status may be `ready_for_stage_8` only when `Build-Plans/Build-status/Stage-7-readiness-audit.json` has `audit_status` of `passed` or `passed_with_warnings` and `ready_for_next_stage` is `true`.
 
-Stage 7 must also block `ready_for_stage_8` when a launch-critical `UI-ELEMENT-`, `ROUTE-`, or `ACTION-` has unresolved interaction conformance failures; missing required route, outcome, confirmation, permission, recovery, mobile, accessibility, or design-system behavior; or an unapproved material deviation. Record accepted exceptions as launch risks tied to the affected stable IDs.
+Stage 7 must not use `ready_for_stage_8` when launch-critical frontend work has unresolved visual QA failures, unresolved UI architecture/layout pattern/component-family/template-deviation compliance failures, unresolved visual reference compliance failures, unresolved design system compliance failures, missing required preview evidence, or `major_visual_drift`, unless each item is explicitly accepted as a known launch risk.
+
+Stage 7 must also block `ready_for_stage_8` when a launch-critical `UI-ELEMENT-`, `ROUTE-`, or `ACTION-` has unresolved interaction conformance failures; missing required route, outcome, confirmation, permission, recovery, mobile, accessibility, layout pattern, or design-system behavior; or an unapproved material deviation. Record accepted exceptions as launch risks tied to the affected stable IDs or affected layout/template refs.
 
 ---
 

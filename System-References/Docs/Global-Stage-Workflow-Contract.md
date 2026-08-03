@@ -1,5 +1,22 @@
 # Global Stage Workflow Contract
 
+## Stage 5 Normalized v2 Handoff
+
+Stage 5 format `2.0` consists of a shared context file `00`, eight normalized
+numbered artifact envelopes, and manifest file `09`. The manifest locates every
+artifact and is the sole owner of completion status and the Stage 6 handoff.
+Stage 6 must reject partial v2 handoffs and use the read-only compatibility
+resolver for archived self-contained outputs.
+
+Future v2 ticket evidence records use:
+
+```json
+{
+  "related_stage_output": "Build-Plans/Stage-5/05-build-tickets.json",
+  "related_stage_data_path": "/data/tickets"
+}
+```
+
 # Purpose
 
 This document defines the shared operating contract for all eight harness stages.
@@ -84,7 +101,7 @@ The harness should preserve this end-to-end chain:
 Stage 1 feature/workflow
 -> Stage 2 assumption
 -> Stage 3 architecture decision
--> Stage 4 screen/behavior/state/UI blueprint/visual spec/design system
+-> Stage 4 screen/behavior/state/UI architecture template/page archetype/layout pattern/component family/UI blueprint/visual spec/design system
 -> Stage 5 slice/ticket/agent
 -> Stage 6 implementation/validation/visual QA result
 -> Stage 7 launch gate/operational signal
@@ -103,6 +120,9 @@ Example:
   "assumption_ids": ["ASSUMPTION-009"],
   "service_ids": ["SERVICE-003"],
   "screen_ids": ["SCREEN-005"],
+  "ui_architecture_refs": ["saas-dashboard"],
+  "page_archetype_refs": ["collection"],
+  "layout_pattern_refs": ["data-table"],
   "ui_blueprint_ids": ["UI-BLUEPRINT-002"],
   "visual_spec_ids": ["VISUAL-SPEC-002"],
   "design_system_ids": ["DESIGN-SYSTEM-001"],
@@ -118,6 +138,7 @@ Frontend-facing work must preserve this continuity chain:
 
 ```text
 Stage 4 UI blueprint
+-> Stage 4 UI architecture template/page archetype/layout pattern/component family decisions
 -> Stage 4 visual spec
 -> Stage 4 design system foundation
 -> Stage 5 frontend ticket
@@ -130,9 +151,9 @@ Stage 4 UI blueprint
 Rules:
 
 * Stage 4 cannot complete launch-critical frontend planning without approved or explicitly assumed visual specs and a design system foundation.
-* Stage 5 cannot create frontend build tickets without carrying UI blueprint refs, visual spec refs, design system refs, visual requirements, responsive requirements, and visual acceptance criteria.
-* Stage 6 cannot complete frontend tickets requiring visual QA without recording preview evidence, responsive validation, design system compliance, and visual drift status.
-* Stage 7 cannot mark launch readiness as complete when launch-critical frontend work has unresolved visual QA failures, unresolved design system compliance failures, missing required preview evidence, or `major_visual_drift`, unless explicitly accepted as a launch risk.
+* Stage 5 cannot create frontend build tickets without carrying UI blueprint refs, applicable UI architecture/page archetype/layout pattern/component family/template deviation refs, visual spec refs, design system refs, visual requirements, responsive requirements, and visual acceptance criteria.
+* Stage 6 cannot complete frontend tickets requiring visual QA without recording preview evidence, responsive validation, layout pattern compliance when applicable, design system compliance, and visual drift status.
+* Stage 7 cannot mark launch readiness as complete when launch-critical frontend work has unresolved visual QA failures, unresolved UI architecture/layout pattern/component-family/template-deviation compliance failures, unresolved design system compliance failures, missing required preview evidence, or `major_visual_drift`, unless explicitly accepted as a launch risk.
 
 ---
 
@@ -294,9 +315,9 @@ When a later stage discovers a blocker, it must route the issue to the correct e
 | Product identity, user, workflow, MVP scope problem | Stage 1 |
 | Invalid, contradicted, or unsupported assumption | Stage 2 |
 | Service, data, API, security, infrastructure, or scalability flaw | Stage 3 |
-| Journey, screen, behavior, state, accessibility, UI blueprint, visual spec, or design system flaw | Stage 4 |
+| Journey, screen, behavior, state, accessibility, UI architecture template, page archetype, layout pattern, component family, UI blueprint, visual spec, or design system flaw | Stage 4 |
 | Sequencing, ticket, agent, testing, or release planning flaw | Stage 5 |
-| Implementation, validation, regression, repair, visual QA, responsive validation, or design system compliance flaw | Stage 6 |
+| Implementation, validation, regression, repair, visual QA, responsive validation, UI architecture/layout pattern compliance, or design system compliance flaw | Stage 6 |
 | Deployment, monitoring, analytics, support, visual launch readiness, or launch readiness flaw | Stage 7 |
 | Live telemetry, optimization, roadmap, AI, or scale evolution need | Stage 8 |
 
@@ -749,6 +770,10 @@ Low-complexity profiles should ask fewer questions and record more safe assumpti
 
 # Stage Readiness Audit
 
+Every stage finalization attempt must write a readiness audit before the final completion status is committed to shared state.
+
+This applies when the proposed status is ready, revision-needed, prior-stage-revision, or blocked. The audit records the reason the stage can proceed, cannot proceed, or must route work elsewhere.
+
 Before any stage marks itself ready, verify:
 
 * required output directory exists
@@ -762,26 +787,49 @@ Before any stage marks itself ready, verify:
 * traceability IDs connect to upstream objects
 * downstream stage has enough structured input to proceed
 
+Stage 7 must write:
+
+```text
+Build-Plans/Build-status/Stage-7-readiness-audit.json
+```
+
+Stage 8 must write:
+
+```text
+Build-Plans/Build-status/Stage-8-readiness-audit.json
+```
+
+Stage 8 is terminal and cyclical. Its audit evaluates `prior_stage_feedback` and feedback routes to earlier stages instead of a Stage 9 handoff.
+
 Readiness audit output:
 
 ```json
 {
   "stage": "",
+  "command": "global-stage-readiness-audit",
   "audit_status": "",
+  "finalization_attempt": true,
+  "proposed_completion_status": "",
+  "evaluated_completion_status": "",
+  "handoff_mode": "next_stage | feedback_routes | terminal",
   "required_files_present": true,
   "schemas_valid": true,
   "handoff_present": true,
+  "feedback_routes_present": false,
   "traceability_present": true,
   "schema_validation": {},
   "reference_integrity": {},
   "artifact_evidence_registry": {},
   "risk_acceptance_ledger": {},
+  "feedback_route_audit": {},
   "revision_loops": [],
   "blocking_gaps": [],
   "warnings": [],
   "ready_for_next_stage": false
 }
 ```
+
+For Stage 8, `ready_for_next_stage` means the current evolution package is ready to close or start a new routed stage cycle. It does not imply a Stage 9 exists.
 
 ---
 

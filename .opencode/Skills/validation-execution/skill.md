@@ -1,3 +1,9 @@
+---
+name: validation-execution
+description: Execute Stage 6 validation against canonical Stage 5 ticket and testing payloads.
+compatibility: opencode
+---
+
 # Skill — validation-execution
 
 # Purpose
@@ -51,6 +57,7 @@ Use validation steps from:
 * agent validation requirements
 * parallel batch validation gates
 * Stage 4 UI blueprint specification for frontend tickets with `ui_blueprint_refs`
+* Stage 4 UI architecture template, page archetype, layout pattern, component-family, and template-deviation requirements for frontend tickets with structural UI architecture refs
 * Stage 4 page interaction contracts and complete app Mermaid maps for frontend tickets with `interaction_contract_refs`
 * Stage 4 visual spec matrix for frontend tickets with `visual_spec_refs`
 * Stage 4 selected visual style references for frontend tickets with `visual_reference_refs`
@@ -74,6 +81,10 @@ Build-Plans/Stage-4/07-ui-blueprint-specification.json
 ```
 
 Confirm referenced page structure, layout, sections, components, shared components, routes, actions, states, data requirements, validation requirements, accessibility requirements, responsive requirements, visual requirements, visual reference requirements, visual acceptance criteria, and design system compliance.
+
+Confirm referenced UI architecture context, page archetype, selected layout pattern, layout decision factors, layout rationale, rejected plausible patterns, component-family decisions, template deviations, and desktop/tablet/mobile transformations.
+
+For `data-table` layout requirements, verify sorting, filtering, loading, empty, no-results, error, mobile transformation, and bulk-selection behavior where applicable. For comparison-heavy pages, treat unapproved replacement with `card-grid` or another weaker comparison pattern as UI blueprint drift.
 
 For every referenced `UI-ELEMENT-`, verify existence, label or accessible name, behavior, owning component, route or action resolution, route type, state behavior, permissions, confirmation, responsive behavior, accessibility behavior, and design-system component mapping. Verify `ACTION-` success, failure, loading, denied, and recovery outcomes where applicable. Reconcile complex flows with the applicable Mermaid map.
 
@@ -171,3 +182,4 @@ Validate:
 * frontend tickets with visual QA requirements report visual QA evidence and visual drift status
 * frontend tickets with design system refs report design system compliance
 * validation outputs, screenshots, preview URLs, logs, and reports are recorded or queued for `Build-Plans/Build-status/Artifact-evidence-registry.json`
+* v2 Stage 5 ticket evidence uses `related_stage_output = "Build-Plans/Stage-5/05-build-tickets.json"` and `related_stage_data_path = "/data/tickets"`

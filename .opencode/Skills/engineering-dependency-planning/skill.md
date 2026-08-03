@@ -1,3 +1,9 @@
+---
+name: engineering-dependency-planning
+description: Define canonical Stage 5 engineering dependencies and coordination constraints.
+compatibility: opencode
+---
+
 # Skill — engineering-dependency-planning
 
 # Purpose
@@ -143,3 +149,11 @@ Validate:
 * third-party integrations have clear sequencing and fallback paths
 * security and testing dependencies are visible before Stage 6
 * high or critical dependency risks include mitigation paths
+
+---
+
+# Normalized Stage 5 v2 Output
+
+Return only canonical dependency records for
+`03-engineering-dependencies.json.data.dependencies`. Use `risk_refs` and stable
+object IDs instead of embedded risk, slice, ticket, agent, or batch objects.

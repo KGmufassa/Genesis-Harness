@@ -173,7 +173,7 @@ Routing rules:
 | Retention, positioning, or product-market issue | Stage 1 or Stage 2 |
 | Invalid validated assumption | Stage 2 |
 | Performance, API, infrastructure, security, or scalability issue | Stage 3 |
-| UX confusion, navigation friction, accessibility issue | Stage 4 |
+| UX confusion, navigation friction, layout pattern mismatch, component-family mismatch, accessibility issue | Stage 4 |
 | Ticket sequencing, agent, or test coverage issue | Stage 5 |
 | Bug, regression, repair, or validation failure | Stage 6 |
 | Support, monitoring, onboarding, or operational issue | Stage 7 |
@@ -204,7 +204,7 @@ Feedback route object:
 
 # Stage 8 Input Contract
 
-Normalize interaction telemetry to stable `UI-ELEMENT-`, `ROUTE-`, and `ACTION-` IDs and preserve related Stage 5 ticket and Stage 6 validation references. Record unmapped interaction events as telemetry gaps.
+Normalize interaction telemetry to stable `UI-ELEMENT-`, `ROUTE-`, and `ACTION-` IDs and preserve related Stage 4 UI architecture, page archetype, layout pattern, component-family, Stage 5 ticket, and Stage 6 validation references when present. Record unmapped interaction events as telemetry gaps.
 
 Load Stage 7 outputs from:
 
@@ -678,11 +678,15 @@ blocked
 
 # Completion Gate
 
-Before Stage 8 may use `evolution_plan_ready`, it must run `global-stage-readiness-audit` and write:
+At the end of every Stage 8 finalization attempt, Stage 8 must run `global-stage-readiness-audit` and write:
 
 ```text
 Build-Plans/Build-status/Stage-8-readiness-audit.json
 ```
+
+Run the audit after the Stage 8 outputs are assembled and after Stage 8 derives a proposed completion status, but before the final status is committed to `Build-Plans/Build-status/Evolution-state.json` or `Build-Plans/Build-status/Global-workflow-state.json`.
+
+The audit must be written for `evolution_plan_ready`, `needs_more_telemetry`, `needs_operational_review`, and `blocked` outcomes.
 
 The audit must pass according to:
 
@@ -692,6 +696,9 @@ System-References/Docs/Global-Stage-Workflow-Contract.md
 
 Stage 8 may complete as `evolution_plan_ready` only when:
 
+* `Build-Plans/Build-status/Stage-8-readiness-audit.json` exists
+* audit status is `passed` or `passed_with_warnings`
+* audit `ready_for_next_stage` is `true`
 * required Stage 7 outputs are present
 * live signal inputs or telemetry gaps are recorded
 * interaction findings map to stable interaction IDs and downstream ticket or validation references when available
@@ -702,6 +709,8 @@ Stage 8 may complete as `evolution_plan_ready` only when:
 * operational and scalability recommendations include measurable signals
 * experiments include hypotheses, metrics, rollout scope, and review dates
 * unresolved critical feedback routes have owners or explicit next actions
+
+Stage 8 is terminal and cyclical. Its readiness audit must evaluate `prior_stage_feedback` and feedback routes to earlier stages instead of a Stage 9 handoff.
 
 ---
 
@@ -725,9 +734,14 @@ Stage 8 readiness must also record:
 
 ```json
 {
+  "finalization_attempt": true,
+  "proposed_completion_status": "",
+  "evaluated_completion_status": "",
+  "handoff_mode": "feedback_routes",
   "schema_validation": {},
   "reference_integrity": {},
   "risk_acceptance_ledger": {},
+  "feedback_route_audit": {},
   "revision_loops": []
 }
 ```

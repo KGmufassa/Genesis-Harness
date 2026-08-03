@@ -1,3 +1,9 @@
+---
+name: development-roadmap-planning
+description: Define the canonical Stage 5 development roadmap payload.
+compatibility: opencode
+---
+
 # Skill — development-roadmap-planning
 
 # Purpose
@@ -140,3 +146,11 @@ Validate:
 * architecture and UX dependencies are acknowledged
 * launch-critical deliverables are not buried behind optional work
 * roadmap risks are recorded with mitigation paths when high or critical
+
+---
+
+# Normalized Stage 5 v2 Output
+
+Return only the canonical roadmap payload for
+`01-development-roadmap.json.data.roadmap`. Use ID references for risks,
+tickets, slices, agents, and batches; shared context belongs only in file `00`.

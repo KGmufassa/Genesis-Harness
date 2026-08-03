@@ -44,6 +44,7 @@ STAGE_SUBSKILLS = {
     "screen-system-design": "Stage 4 subskill",
     "feature-behavior-specification": "Stage 4 subskill",
     "state-transition-and-accessibility-design": "Stage 4 subskill",
+    "ui-architecture-template-selection": "Stage 4 subskill",
     "ui-blueprint-specification": "Stage 4 subskill",
     "design-system-foundation": "Stage 4 subskill",
     "ux-interaction-synthesis": "Stage 4 subskill",

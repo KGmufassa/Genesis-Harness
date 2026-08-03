@@ -34,9 +34,9 @@
     ]
   },
   "statistics": {
-    "skills_scanned": 83,
-    "skills_included": 24,
-    "stage_associated_skills_excluded": 59,
+    "skills_scanned": 85,
+    "skills_included": 25,
+    "stage_associated_skills_excluded": 60,
     "non_skill_artifacts_ignored": 1
   },
   "excluded_stage_skills": [
@@ -251,6 +251,10 @@
     {
       "folder": "testing-strategy-planning",
       "reason": "Stage 5 subskill"
+    },
+    {
+      "folder": "ui-architecture-template-selection",
+      "reason": "Stage 4 subskill"
     },
     {
       "folder": "ui-blueprint-specification",
@@ -645,6 +649,54 @@
       "rule_engine_tags": [
         "general",
         "researching-tech-stack-best-practices"
+      ],
+      "selection_priority": "normal",
+      "risk_flags": [],
+      "inferred_metadata": true
+    },
+    {
+      "skill_id": "distill-conversation-context",
+      "name": "distill-conversation-context",
+      "aliases": [
+        "distill-conversation-context"
+      ],
+      "folder": "distill-conversation-context",
+      "source_path": ".opencode/Skills/distill-conversation-context/skill.md",
+      "stage_associated": false,
+      "description": "Converts archived AI conversations into structured distilled reports with duplicate prevention via content hashing, then synthesizes project state using a reusable prompt template.",
+      "domains": [
+        "general"
+      ],
+      "capabilities": [
+        "enforce rules",
+        "generate report",
+        "tag findings"
+      ],
+      "task_triggers": [
+        "You have raw conversation files in `Memory/Context Thread archive/`",
+        "You need a synthesized project state for agent onboarding",
+        "You want deduplicated, structured summaries of each conversation",
+        "You want to prevent re-processing unchanged files"
+      ],
+      "input_requirements": [
+        "skill.md file",
+        "codebase or diff context"
+      ],
+      "outputs": [
+        "report"
+      ],
+      "tools_or_scripts": [],
+      "references": [
+        ".opencode/Skills/distill-conversation-context/references/project-state-template.md",
+        ".opencode/Skills/distill-conversation-context/references/report-template.md",
+        ".opencode/Skills/distill-conversation-context/references/synthesis-prompt.md"
+      ],
+      "constraints": [
+        "Only new/changed files produced distilled reports"
+      ],
+      "rule_engine_tags": [
+        "distill-conversation-context",
+        "general"
       ],
       "selection_priority": "normal",
       "risk_flags": [],

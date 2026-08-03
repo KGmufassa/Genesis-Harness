@@ -78,6 +78,52 @@ stage-5-development-orchestration (command)
 
 # Purpose
 
+# Normalized Stage 5 Output Contract — Version 2.0
+
+This section supersedes legacy self-contained Stage 5 output examples elsewhere
+in this draft.
+
+Future intentional Stage 5 runs write:
+
+```text
+Build-Plans/Stage-5/00-stage-context.json
+Build-Plans/Stage-5/01-development-roadmap.json
+Build-Plans/Stage-5/02-implementation-sequence.json
+Build-Plans/Stage-5/03-engineering-dependencies.json
+Build-Plans/Stage-5/04-testing-strategy.json
+Build-Plans/Stage-5/05-build-tickets.json
+Build-Plans/Stage-5/06-agent-assignment-plan.json
+Build-Plans/Stage-5/07-parallel-execution-plan.json
+Build-Plans/Stage-5/08-release-plan.json
+Build-Plans/Stage-5/09-stage-manifest.json
+```
+
+File `00` is the sole shared-context source. Files `01`-`08` use the normalized
+v2 envelope and contain only canonical data under `data`. Tickets, agents, and
+batches exist only at `/data/tickets`, `/data/agents`, and `/data/batches`.
+Testing and release collections remain nested in their canonical strategies.
+Secondary views use IDs or compact indexes and records use `risk_refs`.
+
+File `09` indexes all numbered artifacts and their schema/data paths. Completion
+status and the Stage 6 handoff exist only in this manifest. Schema validity may
+be true only after validation executed.
+
+The reusable implementation and validation rules are in:
+
+```text
+.opencode/Skills/stage-5-development-orchestration/scripts/stage5_contract.py
+```
+
+Before serialization they validate real Stage 1-4 stable IDs, file-plus-JSON-
+Pointer targets, risk references, agent scope coverage, and dependency-safe
+execution waves. Generation fails on validation errors. Visual acceptance
+criteria without stable IDs use file-plus-JSON-Pointer references; identifiers
+must never be fabricated.
+
+For v2 expected-artifact evidence, future registry updates set
+`related_stage_output` to `Build-Plans/Stage-5/05-build-tickets.json` and
+`related_stage_data_path` to `/data/tickets`.
+
 The `stage-5-development-orchestration` command orchestrates Stage 5.
 
 It transforms the validated product model, technical architecture, and UX architecture into a development execution plan that is ready for Stage 6 implementation and validation.
@@ -332,11 +378,14 @@ Before development orchestration, validate:
 * Stage 4 UI blueprint output exists and is readable
 * Stage 4 design system foundation exists and is readable
 * Stage 4 complete app blueprint markdown exists and is readable
+* Stage 4 UI architecture template selection exists or records why no template applies
 * launch-critical features are known
 * service, data, API, and infrastructure dependencies are available
 * feature behaviors and state transitions are clear enough to sequence implementation
 * UI blueprints define launch-critical pages, components, routes, actions, states, interactive elements (buttons, links, menu items, etc.) with route_targets, visual specs, visual acceptance criteria, and frontend build package hints
+* launch-critical UI blueprints define structural UI architecture context, including page archetype, layout pattern decision, component-family decisions, selected template/extensions, and template deviations when applicable
 * complete app blueprint markdown maps launch-critical pages to UI blueprint IDs and summarizes page sections, components, actions, routes, states, and data requirements
+* complete app blueprint markdown summarizes UI architecture template selection, page archetypes, layout pattern decisions, component families, and template deviations when available
 * design system foundation defines shared visual tokens, component rules, responsive rules, and design approval status
 * accessibility and security requirements are available for test planning
 * earlier-stage risks do not block engineering planning
@@ -1025,6 +1074,12 @@ Every build ticket must include:
   "stage_3_architecture_refs": [],
   "stage_4_ux_refs": [],
   "ui_blueprint_refs": [],
+  "ui_architecture_refs": [],
+  "page_archetype": "",
+  "layout_pattern_refs": [],
+  "component_family_refs": [],
+  "template_deviation_refs": [],
+  "ui_components_markdown_refs": [],
   "interaction_contract_refs": [],
   "visual_spec_refs": [],
   "visual_reference_refs": [],
@@ -1047,6 +1102,15 @@ Every build ticket must include:
     "mobile_behaviors": [],
     "accessibility_behaviors": []
   },
+  "layout_requirements": {
+    "selected_pattern": "",
+    "rejected_patterns": [],
+    "decision_factors": {},
+    "reasons": [],
+    "source_refs": [],
+    "responsive_transformation": {}
+  },
+  "component_family_requirements": [],
   "frontend_task_hint": "",
   "visual_requirements": {
     "visual_style": "",
@@ -2572,10 +2636,12 @@ The build ticket output must include:
 * slice IDs
 * ticket dependencies
 * UI blueprint references for frontend tickets
+* UI architecture template, extension, page archetype, layout pattern, component family, and template deviation references for frontend tickets when applicable
 * visual spec references and visual requirements for frontend tickets
 * design system references for frontend tickets
 * expected artifacts for tickets requiring validation, preview, visual QA, deployment proof, or launch-readiness evidence
 * page, component, shared component, route, state, action, and interactive element references when applicable
+* layout requirements and component-family requirements for frontend tickets when applicable
 * frontend task hints from the Stage 4 frontend build package
 * primary skill from the skill registry
 * recommended skill chain from the skill registry
@@ -2672,10 +2738,12 @@ Stage 5 may complete only when:
 * build tickets include skill suitability scores and selection rationale
 * build tickets include acceptance criteria and validation steps
 * frontend build tickets reference applicable UI blueprint IDs or explicitly record why no UI blueprint applies
+* frontend build tickets preserve Stage 4 UI architecture template context, page archetype, layout pattern decisions, component-family decisions, template deviations, and responsive transformations when applicable
 * frontend build tickets reference applicable visual spec IDs or explicitly record why no visual spec applies
 * frontend build tickets reference selected visual style references or explicitly record why no visual reference applies
 * frontend build tickets reference applicable design system IDs or explicitly record why no design system applies
 * frontend build tickets preserve page, component, route, action, state, validation, accessibility, responsive, visual, and design system requirements from Stage 4
+* frontend build tickets preserve layout pattern requirements, including selected pattern, decision factors, rationale, rejected alternatives, source refs, and responsive transformation
 * frontend build tickets reference applicable interaction contracts and stable `UI-ELEMENT-`, `ROUTE-`, and `ACTION-` IDs
 * frontend build tickets preserve route types, action outcomes, confirmation, permission-denied, recovery, design-system component, mobile, and accessibility behavior where applicable
 * frontend build tickets map visual acceptance criteria to validation steps
@@ -2695,6 +2763,7 @@ Stage 5 may complete only when:
 * Stage 6 handoff includes execution queue, validation commands, dev server plan, environment requirements, file scope controls, retry policy, and `expected_artifacts`
 * Stage 6 handoff includes the approved Stage 3 `selected_stack`
 * Stage 6 handoff includes the Stage 4 complete app blueprint markdown path
+* Stage 6 handoff includes Stage 4 `UI-COMPONENTS.md` when generated and referenced by frontend tickets
 * release plan exists
 * high and critical execution risks have mitigation paths
 * critical interactive guidance questions are answered or converted into recorded assumptions
@@ -2717,7 +2786,9 @@ Before completing Stage 5, confirm:
 * build tickets exist for every MVP implementation slice
 * build tickets include primary skill, recommended skill chain, agent-required skills, skill usage instructions, acceptance criteria, and validation steps
 * frontend build tickets include UI blueprint, interaction contract, visual spec, `visual_reference_refs`, design system, component, route, state, action, interactive element, visual requirement, and frontend task hint references
+* frontend build tickets include UI architecture refs, page archetype, layout pattern refs, component family refs, template deviation refs, layout requirements, and component-family requirements when applicable
 * frontend build tickets reference `09-complete-app-blueprint.md` when page structure, component structure, route structure, or state structure matters
+* frontend build tickets reference `UI-COMPONENTS.md` when structural UI architecture template, extension, page archetype, layout pattern, component-family, or template-deviation context matters
 * agent assignment plan gives each agent clear ownership and handoff inputs
 * agent assignment plan records available-agent scan results, suitability scores, and unassigned ticket reasons
 * generated agents have valid markdown definitions in `.opencode/agents/`, safe permission settings, and complete prompt bodies

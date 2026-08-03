@@ -1,3 +1,9 @@
+---
+name: testing-strategy-planning
+description: Define the canonical Stage 5 testing strategy for Stage 6 execution.
+compatibility: opencode
+---
+
 # Skill — testing-strategy-planning
 
 # Purpose
@@ -146,3 +152,12 @@ Validate:
 * API, integration, accessibility, and security risks are reflected in test scope
 * release gates include regression checks
 * any manual validation assumptions are recorded
+
+---
+
+# Normalized Stage 5 v2 Output
+
+Keep all testing collections inside
+`04-testing-strategy.json.data.testing_strategy`. Testing views reference
+ticket, slice, workflow, risk, and validation IDs and never duplicate their
+complete objects.
