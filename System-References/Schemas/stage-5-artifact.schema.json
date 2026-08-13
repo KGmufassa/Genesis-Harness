@@ -55,7 +55,42 @@
     },
     {
       "if": { "properties": { "artifact_type": { "const": "build_tickets" } } },
-      "then": { "properties": { "data": { "required": ["tickets"] } } }
+      "then": {
+        "properties": {
+          "data": {
+            "required": ["tickets"],
+            "properties": {
+              "tickets": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "completion_definition": {
+                      "type": "object",
+                      "properties": {
+                        "contract_only_allowed": { "type": "boolean", "default": false },
+                        "requires_ui_wiring": { "type": "boolean", "default": false },
+                        "requires_runtime_persistence": { "type": "boolean", "default": false },
+                        "requires_worker_or_service_execution": { "type": "boolean", "default": false },
+                        "requires_end_to_end_smoke": { "type": "boolean", "default": false },
+                        "done_means_user_can_complete_workflow": { "type": "boolean", "default": false }
+                      },
+                      "additionalProperties": true
+                    },
+                    "workflow_smoke_tests": {
+                      "type": "array",
+                      "items": { "$ref": "#/$defs/workflow_evidence_requirement" },
+                      "default": []
+                    }
+                  },
+                  "additionalProperties": true
+                },
+                "default": []
+              }
+            }
+          }
+        }
+      }
     },
     {
       "if": { "properties": { "artifact_type": { "const": "agent_assignment_plan" } } },
@@ -104,5 +139,23 @@
       "then": { "properties": { "data": { "required": ["release_plan"] } } }
     }
   ],
+  "$defs": {
+    "workflow_evidence_requirement": {
+      "type": "object",
+      "properties": {
+        "workflow_id": { "type": "string" },
+        "ticket_refs": { "type": "array", "items": { "type": "string" }, "default": [] },
+        "route_refs": { "type": "array", "items": { "type": "string" }, "default": [] },
+        "ui_element_refs": { "type": "array", "items": { "type": "string" }, "default": [] },
+        "action_refs": { "type": "array", "items": { "type": "string" }, "default": [] },
+        "api_refs": { "type": "array", "items": { "type": "string" }, "default": [] },
+        "persistence_refs": { "type": "array", "items": { "type": "string" }, "default": [] },
+        "worker_or_service_refs": { "type": "array", "items": { "type": "string" }, "default": [] },
+        "expected_user_outcome": { "type": "string", "default": "" },
+        "required_evidence_refs": { "type": "array", "items": { "type": "string" }, "default": [] }
+      },
+      "additionalProperties": true
+    }
+  },
   "additionalProperties": true
 }

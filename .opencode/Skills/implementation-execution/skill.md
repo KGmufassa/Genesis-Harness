@@ -58,6 +58,8 @@ Before executing a ticket, verify:
 * ticket has `agent_skill_instructions`
 * ticket has acceptance criteria
 * ticket has validation steps
+* launch-critical workflow tickets have `completion_definition`
+* launch-critical workflow tickets have `workflow_smoke_tests`
 * frontend tickets with `ui_blueprint_refs` have UI blueprint handoff inputs
 * frontend tickets with `interaction_contract_refs` include interaction contract and complete app blueprint handoff inputs
 * frontend tickets with `visual_spec_refs` include visual requirements and visual acceptance criteria
@@ -87,6 +89,17 @@ as the source for page structure, layout type, sections, components, shared comp
 Also preserve Stage 4 structural UI architecture requirements from each referenced UI blueprint, including selected template/extensions, page archetype, layout pattern decision, rejected plausible patterns, layout rationale, component-family decisions, template deviations, and desktop/tablet/mobile transformations.
 
 Preserve `UI-ELEMENT-`, `ROUTE-`, and `ACTION-` IDs, labels or accessible names, route types and targets, action outcomes, confirmations, permission-denied behavior, recovery behavior, responsive behavior, accessibility behavior, and design-system component mappings. Do not silently drop, rename, reroute, or change an interaction. Record a blocker or an approved deviation.
+
+For launch-critical user workflows, do not stop at contract/API/static UI
+implementation. Execute toward the declared runtime outcome:
+
+```text
+UI action -> route/API/action -> database/queue/storage -> worker/service -> result visible in UI -> evidence
+```
+
+Visible controls must be wired to working behavior or explicitly disabled with a
+reason. Runtime pages must replace preview fixtures with live data sources before
+Stage 6 can be ready.
 
 ---
 
@@ -122,6 +135,9 @@ Preserve `UI-ELEMENT-`, `ROUTE-`, and `ACTION-` IDs, labels or accessible names,
   "design_system_execution_refs": [],
   "preview_urls": [],
   "artifact_evidence_updates": [],
+  "workflow_evidence": [],
+  "dead_control_findings": [],
+  "runtime_data_source_findings": [],
   "pending_items": [],
   "blocked_items": [],
   "implementation_notes": [],
@@ -166,6 +182,9 @@ Validate:
 * every executed frontend ticket with `visual_reference_refs` records the referenced visual style references
 * every executed frontend ticket with `design_system_refs` records the referenced design system IDs
 * every executed frontend ticket with `preview_required` records a preview URL or blocker
+* every visible launch-critical control is wired, explicitly disabled with reason, deferred with approval, or blocked
+* every launch-critical runtime page records whether it uses live data or preview fixtures
+* every launch-critical workflow records workflow evidence status separate from build status
 * every executed frontend ticket preserves referenced page, component, route, action, state, interactive element (with element_type, label, route_target, and behavior), validation, accessibility, responsive, visual, visual reference, and design system requirements
 * every executed frontend ticket preserves referenced layout pattern decision, layout rationale, component-family requirements, template deviations, and responsive transformations
 * every dropped, renamed, rerouted, or behavior-changed interaction has an approved deviation with rationale and evidence

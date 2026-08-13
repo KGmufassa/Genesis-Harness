@@ -76,6 +76,15 @@ Build-Plans/Build-status/Stage-5-readiness-audit.json
   "handoff_mode": "next_stage | feedback_routes | terminal",
   "global_workflow_contract": "System-References/Docs/Global-Stage-Workflow-Contract.md",
   "required_files_present": false,
+  "workflow_outcome_evidence": {
+    "required": false,
+    "workflow_evidence_present": false,
+    "launch_critical_workflows_checked": [],
+    "launch_critical_workflows_passed": false,
+    "dead_controls_detected": [],
+    "fixture_runtime_dependencies": [],
+    "blocking_workflow_gaps": []
+  },
   "schemas_valid": false,
   "completion_status_present": false,
   "global_status_mapped": false,
@@ -177,6 +186,10 @@ For frontend-facing work, the audit must also enforce the structural UI architec
 ```text
 System-References/Docs/Global-Stage-Workflow-Contract.md
 ```
+
+For launch-critical user workflows, the audit must verify workflow outcome
+evidence. Contract-only work, API-only work, static UI, fixture-backed runtime
+pages, successful builds, and unresolved dead controls do not satisfy readiness.
 
 For evidence-backed readiness claims, the audit must verify related evidence exists in:
 

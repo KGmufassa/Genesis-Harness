@@ -38,6 +38,7 @@ This skill is the final UX synthesis and handoff engine for Stage 4.
   "design_system_foundation": {},
   "visual_reference_selection": {},
   "ui_architecture_template_selection": {},
+  "stitch_prototyping": {},
   "complete_app_blueprint_markdown_path": "",
   "ui_components_markdown_path": "",
   "frontend_build_package": {},
@@ -79,6 +80,10 @@ Validate:
 * design system foundation exists and launch-critical visual specs align with it
 * launch-critical UI blueprints reference the selected design system and selected visual style references, or record why no reference applies
 * intentional deviations from selected visual references are documented
+* Stitch visual source control is recorded when Stitch is available or used
+* Stitch visual source control remains visual-only and does not alter product scope, routes, actions, permissions, data/API contracts, accessibility requirements, or Stage 5 handoff fields
+* every Stitch-suggested visual pattern, component, data display, interaction, navigation item, workflow change, or feature extension has an include, exclude, revise, defer, or route decision before canonical Stage 4 outputs use it
+* included Stitch suggestions align to PRD, workflow, feature, route, action, data, or design-system references, or have user-approved routed revision evidence
 * complete app blueprint markdown exists and covers every launch-critical page
 * complete app blueprint markdown maps every launch-critical page to a `ui_blueprint_id`
 * complete app blueprint markdown includes page sections, components, actions, routes, states, data requirements, and frontend build package summary
@@ -185,6 +190,7 @@ and return the specific questions or decisions required.
   "visual_approval_status": {},
   "design_system_foundation": {},
   "visual_reference_selection": {},
+  "stitch_prototyping": {},
   "ui_architecture_template_selection": {},
   "complete_app_blueprint_markdown_path": "Build-Plans/Stage-4/09-complete-app-blueprint.md",
   "ui_components_markdown_path": "Build-Plans/Stage-4/UI-COMPONENTS.md",
@@ -228,6 +234,10 @@ Each output must include:
 * risks and constraints
 * unresolved questions
 * Stage 5 handoff notes when relevant
+
+Stitch-specific metadata remains Stage-4-local. Do not add Stitch project IDs,
+screen IDs, screenshot paths, visual source control fields, or suggestion review
+ledger entries to `stage_5_handoff`.
 
 ---
 

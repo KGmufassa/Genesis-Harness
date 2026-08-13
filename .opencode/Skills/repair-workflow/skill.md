@@ -81,6 +81,12 @@ system_health
 interactive_guidance
 ```
 
+When a repair touches a launch-critical workflow, re-run the associated workflow
+smoke test and update `workflow_evidence`, `dead_control_validation`, and
+`runtime_data_source_validation`. A repaired API or component does not clear the
+blocker until the user-facing workflow evidence passes or is explicitly
+deferred/accepted as risk.
+
 Persist updates to:
 
 ```text

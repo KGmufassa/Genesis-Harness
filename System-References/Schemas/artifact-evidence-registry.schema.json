@@ -21,11 +21,29 @@
             "description": "JSON Pointer to the canonical collection in a normalized stage output."
           },
           "related_ticket_ids": { "type": "array" },
+          "related_workflow_ids": { "type": "array" },
           "related_validation_ids": { "type": "array" },
           "related_agent_ids": { "type": "array" },
           "related_visual_reference_refs": { "type": "array" },
           "path_or_url": { "type": "string" },
           "status": { "type": "string" },
+          "workflow_status": {
+            "type": "string",
+            "enum": [
+              "",
+              "contract_only",
+              "api_exists_not_wired",
+              "ui_wired_not_validated",
+              "runtime_persistence_failed",
+              "runtime_persistence_verified",
+              "local_e2e_passed",
+              "staging_e2e_passed",
+              "deferred_with_approval",
+              "blocked"
+            ],
+            "default": ""
+          },
+          "verified_user_outcome": { "type": "string" },
           "confidence": { "type": "string" },
           "created_by": { "type": "string" },
           "created_at": { "type": "string" },

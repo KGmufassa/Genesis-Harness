@@ -105,6 +105,33 @@ The command must load this file at the beginning of Stage 4, update it after eac
   },
   "stitch_prototyping": {
     "availability": "unchecked",
+    "visual_source_control": {
+      "enabled": true,
+      "mode": "stitch_visual_source_of_truth",
+      "scope": "visual_only",
+      "suggestion_review_required": true,
+      "approval_status": "pending",
+      "approved_by": "",
+      "approved_at": null,
+      "locked_screenshot_refs": [],
+      "locked_stitch_screen_refs": [],
+      "applies_to": [
+        "visual_spec_inventory",
+        "design_system_foundation",
+        "visual_reference_selection",
+        "ui_blueprints.visual_spec",
+        "complete_app_blueprint_markdown"
+      ],
+      "excluded_from": [
+        "stage_5_handoff",
+        "route_inventory",
+        "action_inventory",
+        "permissions",
+        "api_contracts",
+        "product_scope"
+      ],
+      "rationale": ""
+    },
     "project_id": "",
     "project_name": "",
     "screen_refs": [],
@@ -114,6 +141,7 @@ The command must load this file at the beginning of Stage 4, update it after eac
     "approved_page_refs": [],
     "rejected_page_refs": [],
     "screenshot_evidence": [],
+    "suggestion_review_ledger": [],
     "component_extraction": [],
     "divergence_log": [],
     "responsive_review": [],
@@ -518,6 +546,7 @@ constrain prototype prompt
 -> reuse or create Stitch project
 -> generate launch-critical page candidates
 -> capture prototype screenshot evidence
+-> review Stitch visual, component, data-display, interaction, and feature-extension suggestions
 -> review major responsive and accessibility behavior
 -> confirm pages and major feature regions with the user
 -> inventory components for approved pages
@@ -534,10 +563,16 @@ Never delete a Stitch project or screen without explicit user approval.
 Store Stitch screenshot evidence locally in:
 
 ```text
-Build-Plans/Stage-4/stitch-screenshots/
+Build-Plans/Stage-4/Screen-shots/
 ```
 
 Record screenshot evidence in `stitch_prototyping.screenshot_evidence`. Capture at least one desktop screenshot for every proposed page, one mobile screenshot for every launch-critical approved page, and extra screenshots for modals, drawers, branching flows, or complex interaction states. Screenshot evidence is Stage-4-local and must not be added to `stage_5_handoff`.
+
+By default, `stitch_prototyping.visual_source_control.enabled` is `true`. When enabled, approved Stitch screens and locked screenshot evidence are the Stage 4 visual source of truth for visual specs, design-system derivation, component visual treatment, page-level visual hierarchy, and responsive visual treatment.
+
+Stitch visual source of truth is visual-only. It must not control product scope, routes, actions, permissions, data/API contracts, accessibility requirements, or Stage 5 handoff fields.
+
+Record every Stitch-suggested visual pattern, component, data display, interaction, navigation item, workflow change, or feature extension in `stitch_prototyping.suggestion_review_ledger` before including it in canonical Stage 4 outputs. Each suggestion must be explicitly included, excluded, revised, deferred, or routed to a prior stage. Include suggestions only when they align with PRD, workflow, feature, route, action, data, or design-system references, or when the user approves the appropriate Stage 4 or prior-stage revision.
 
 ---
 
@@ -630,6 +665,16 @@ Build-Plans/Stage-4/00-stage-decision-brief.md
 
 The brief uses the recommended approach to propose UX/UI direction before build tickets are generated.
 
+The brief must include Stitch visual source-of-truth status when Stitch was available or used:
+
+* whether `stitch_prototyping.visual_source_control.enabled` is on or off
+* locked Stitch screen and screenshot references used as visual source evidence
+* included Stitch suggestions
+* excluded Stitch suggestions
+* deferred or prior-stage-routed Stitch suggestions
+* any approved visual deviations from Stitch
+* confirmation that Stage 5 handoff impact is `none`
+
 Ask:
 
 ```text
@@ -686,7 +731,9 @@ Stage 4 may complete only when:
 * one primary UI architecture template is selected, or a blocking reason is recorded
 * selected UI architecture extensions are compatible with the primary template or documented as project deviations
 * Stitch availability, project reuse or creation, screen references, and any accepted fallback are recorded in Stage 4 shared state
+* Stitch visual source control is recorded, defaults on, and has approval status before final synthesis
 * Stitch screenshot evidence is recorded in `stitch_prototyping.screenshot_evidence` when Stitch generated pages are used for page approval
+* every Stitch-suggested component, data display, interaction, navigation item, workflow change, or feature extension has an include, exclude, revise, defer, or route decision before final synthesis
 * every proposed Stitch page used for approval has at least one desktop screenshot or an approved evidence exception
 * every launch-critical approved Stitch page has at least one mobile screenshot or an approved evidence exception
 * Stitch pages with modal, drawer, branching, destructive, mutation, or complex interaction states have extra screenshots or approved evidence exceptions
@@ -762,6 +809,7 @@ Before completing Stage 4, confirm:
 * every proposed Stitch page has an approval-ledger entry with status, rationale, approver, and source references
 * every proposed Stitch page used for approval has screenshot evidence linked to the page ledger
 * launch-critical approved Stitch pages include mobile screenshot evidence or an approved exception
+* Stitch visual source control mode and suggestion review decisions are reflected in the Stage 4 decision brief
 * approved Stitch pages reconcile to canonical Stage 4 page IDs without adding unapproved scope
 * Stitch divergence entries identify the prototype proposal, conflicting canonical constraint, resolution, and affected references
 * Stitch-specific metadata remains Stage-4-local and is not required by Stage 5 or later stages

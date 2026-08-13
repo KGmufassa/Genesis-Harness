@@ -157,6 +157,9 @@ Stage 6 may complete only when:
 * launch-critical frontend tickets include UI architecture, page archetype, layout pattern, component-family, and template-deviation compliance results when referenced by Stage 5 tickets
 * ticket `expected_artifacts` are recorded in `Build-Plans/Build-status/Artifact-evidence-registry.json` or documented as blockers
 * v2 Stage 5 evidence points to `Build-Plans/Stage-5/05-build-tickets.json` with `related_stage_data_path = "/data/tickets"`
+* launch-critical workflow evidence is present and tied to Stage 5 smoke tests
+* dead-control validation has no unresolved launch-critical failures
+* runtime data source validation has no unresolved launch-critical fixture dependencies
 * Stage 7 handoff contains unresolved operational, deployment, monitoring, analytics, and support needs
 
 Stage 6 is `ready_for_stage_7` only when:
@@ -165,6 +168,7 @@ Stage 6 is `ready_for_stage_7` only when:
 * no unresolved critical validation failures remain
 * no unresolved critical regressions remain
 * all launch-critical tickets are implemented and validated
+* all launch-critical user workflows are `local_e2e_passed`, `staging_e2e_passed`, or explicitly deferred/accepted as known risk
 * no launch-critical frontend ticket has unresolved `major_visual_drift`
 * visual reference compliance is validated or explicitly accepted as known risk for launch-critical frontend work
 * UI architecture and layout pattern compliance is validated or explicitly accepted as known risk for launch-critical frontend work

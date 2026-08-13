@@ -1,29 +1,28 @@
 ---
 name: stage-summary
-description: Scans Build-Plans Stage-1 through Stage-8 folders, reads nested JSON artifacts, and writes one markdown summary file per populated stage.
+description: Generate local Stage 5-8 markdown assessment summaries from canonical stage JSON outputs.
 compatibility: opencode
 ---
 
 # Stage Summary
 
-Use this skill when a user wants concise markdown summaries of populated stage folders in `Build-Plans/`.
+Use this skill when Stage 5, Stage 6, Stage 7, or Stage 8 needs a concise
+human-readable assessment summary for a finalization attempt.
 
 ## When To Use
 
-- The repository contains `Build-Plans/Stage-1` through `Build-Plans/Stage-8` folders.
-- One or more stage folders have JSON artifacts that need a human-readable rollup.
-- The user wants one markdown summary per populated stage, not one markdown file per JSON artifact.
-- The summary must be deterministic and grounded only in the JSON on disk.
+- A Stage 5-8 command is assembling final outputs for ready, blocked, or
+  revision status.
+- The user needs a clear local markdown artifact to assess what the stage did
+  and whether the stage can proceed.
+- The summary must be deterministic and grounded only in the canonical JSON
+  outputs and the matching readiness audit when present.
 
 ## Scope
 
 This skill scans only:
 
 ```text
-Build-Plans/Stage-1
-Build-Plans/Stage-2
-Build-Plans/Stage-3
-Build-Plans/Stage-4
 Build-Plans/Stage-5
 Build-Plans/Stage-6
 Build-Plans/Stage-7
@@ -32,11 +31,13 @@ Build-Plans/Stage-8
 
 Rules:
 
-- scan each stage folder recursively for `*.json`
-- ignore `.gitkeep` and non-JSON files
-- ignore `Build-Plans/Build-status`
+- scan only top-level `*.json` files in the selected stage folder
+- ignore `.gitkeep`, non-JSON files, generated agents, registries, and workflow
+  state files
+- read only the matching `Build-Plans/Build-status/Stage-N-readiness-audit.json`
+  when it exists
 - skip stages that have no JSON artifacts
-- write exactly one summary markdown file per populated stage
+- write exactly one local summary markdown file per populated Stage 5-8 folder
 
 ## Required Inputs
 
@@ -47,31 +48,33 @@ Rules:
 For each populated stage, write:
 
 ```text
-Build-Plans/Stage-N/Stage-N-summary.md
+Build-Plans/Stage-5/10-stage-5-summary.md
+Build-Plans/Stage-6/06-stage-6-summary.md
+Build-Plans/Stage-7/06-stage-7-summary.md
+Build-Plans/Stage-8/06-stage-8-summary.md
 ```
 
 Each summary must include:
 
-- stage title
-- count of JSON files summarized
-- one section per JSON file in deterministic path order
-- file path relative to the stage folder
-- inferred purpose from filename and obvious metadata
-- top-level keys
-- `stage`, `status`, and `command` values when present
-- notable populated sections
-- notable empty or incomplete sections
-- short recap block
+- stage objective and final status
+- user assessment: `Ready`, `Needs Revision`, `Blocked`, or `Needs Assessment`
+- actions performed by the stage
+- generated or updated canonical outputs
+- key result counts for the stage domain
+- schema, reference-integrity, handoff, readiness-audit, and evidence signals
+- blockers, risks, unresolved questions, revision loops, and next actions
+- confirmation that the summary is a local review artifact and not a canonical
+  downstream handoff
 
 ## Workflow
 
-1. Verify `Build-Plans/` exists.
-2. Check `Stage-1` through `Stage-8` in order.
-3. Collect nested JSON files for each stage.
-4. If a stage has no JSON files, skip it without writing a placeholder markdown file.
-5. Read and summarize every JSON file found in that stage.
-6. Write `Stage-N-summary.md` into the same stage folder.
-7. Report generated summaries and skipped stages.
+- Verify `Build-Plans/` exists.
+- Check Stage 5 through Stage 8, or the stages provided by `--stages`.
+- Collect top-level JSON files in deterministic filename order.
+- Load the matching readiness audit if it exists.
+- Render the assessment from canonical stage JSON and readiness-audit evidence.
+- Write the stage-local markdown summary into the same stage folder.
+- Report generated summaries and skipped stages.
 
 ## Script
 
@@ -83,11 +86,18 @@ python3 .opencode/Skills/stage-summary/scripts/generate_stage_summaries.py --wor
 
 If the current working directory is the repository root, `<repo-root>` can be `.`.
 
+To target one stage:
+
+```bash
+python3 .opencode/Skills/stage-summary/scripts/generate_stage_summaries.py --workspace-root . --stages 6
+```
+
 ## Determinism Rules
 
 - sort JSON files by relative path before rendering
 - preserve exact stage naming from the folder name
 - do not invent requirements, status, or interpretations not supported by the JSON
+- treat missing required canonical outputs as blockers in the summary
 - keep headings and bullet order stable across runs
 
 ## Stop Conditions
@@ -97,12 +107,14 @@ Stop and surface an error if:
 - `Build-Plans/` is missing
 - a targeted JSON file is malformed
 - a stage path cannot be read
+- the requested stage number is outside Stage 5-8
 
 ## Verification
 
 Before completion, confirm:
 
-- only populated stage folders produced markdown files
-- each generated markdown file matches the stage naming pattern
-- every nested JSON file in a summarized stage appears in the markdown
-- `Build-Plans/Build-status/` was not scanned
+- only populated Stage 5-8 folders produced markdown files
+- each generated markdown file matches the stage-specific summary filename
+- every top-level JSON file in a summarized stage appears in the markdown
+- no Build-status file was read except the matching readiness audit
+- summaries do not introduce canonical data that is absent from JSON outputs

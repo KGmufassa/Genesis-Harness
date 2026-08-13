@@ -471,7 +471,7 @@ Build-Plans/Stage-5/09-stage-manifest.json
 Build-Plans/Stage-5/10-stage-5-summary.md
 ```
 
-`10-stage-5-summary.md` is a local human-readable review artifact for Stage 5. It must summarize the roadmap, implementation sequence, ticket plan, agent assignments, parallel execution plan, release plan, major risks, and readiness status. It must not contain canonical data that is absent from the JSON outputs.
+`10-stage-5-summary.md` is a local human-readable review artifact for every Stage 5 finalization attempt, including ready, revision, and blocked outcomes. It must summarize the actions taken, roadmap, implementation sequence, ticket plan, agent assignments, parallel execution plan, release plan, validation and reference-integrity evidence, blockers, major risks, next actions, Stage 6 handoff readiness, and a clear user assessment. It must not contain canonical data that is absent from the JSON outputs.
 
 Do not add `10-stage-5-summary.md` to `stage_6_handoff`, required Stage 6 inputs, artifact indexes, or downstream readiness requirements. Stage 6 must continue to consume the normalized v2 JSON package and `09-stage-manifest.json`.
 
@@ -548,6 +548,8 @@ The build ticket output must include:
 * skill coverage gaps when no suitable skill exists
 * acceptance criteria
 * validation steps
+* completion definition for launch-critical workflow tickets
+* workflow smoke-test obligations for launch-critical user paths
 * risk level
 * Stage 6 execution queue position
 
@@ -560,6 +562,15 @@ file-plus-JSON-Pointer reference rather than fabricating an ID.
 Validate `risk_refs`, agent scopes, and execution waves with
 `stage5_contract.py` before any output is written; validation failure stops
 generation.
+
+Launch-critical workflow tickets must also pass
+`validate_workflow_completion_definitions` from `stage5_contract.py`. Do not
+allow contract-only completion for user-facing workflows. Define done as a
+verified user outcome through the full runtime chain:
+
+```text
+UI action -> route/API/action -> database/queue/storage -> worker/service -> result visible in UI -> evidence
+```
 
 ---
 
@@ -584,7 +595,8 @@ If the audit does not pass, do not use `ready_for_stage_6`.
 Stage 5 may complete only when:
 
 * context, all eight numbered artifacts, and the manifest exist
-* local human-readable summary exists at `Build-Plans/Stage-5/10-stage-5-summary.md`
+* local human-readable assessment summary exists at `Build-Plans/Stage-5/10-stage-5-summary.md`
+* the summary matches canonical Stage 5 JSON outputs and identifies whether the stage is ready, needs revision, or is blocked
 * development roadmap is defined
 * implementation sequence is dependency-aware
 * engineering dependencies are mapped
@@ -596,6 +608,8 @@ Stage 5 may complete only when:
 * build tickets include skill usage instructions for the assigned agent
 * build tickets include skill suitability scores and selection rationale
 * build tickets include acceptance criteria and validation steps
+* launch-critical workflow tickets include `completion_definition`
+* launch-critical workflow tickets include workflow smoke tests with expected user outcomes
 * frontend build tickets reference applicable UI blueprint IDs or explicitly record why no UI blueprint applies
 * frontend build tickets reference `09-complete-app-blueprint.md` when page structure, component structure, route structure, or state structure matters
 * frontend build tickets preserve Stage 4 UI architecture template context, page archetype, layout pattern decisions, component-family decisions, and template deviations when applicable

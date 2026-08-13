@@ -25,6 +25,33 @@
   },
   "stitch_prototyping": {
     "availability": "unchecked",
+    "visual_source_control": {
+      "enabled": true,
+      "mode": "stitch_visual_source_of_truth",
+      "scope": "visual_only",
+      "suggestion_review_required": true,
+      "approval_status": "pending",
+      "approved_by": "",
+      "approved_at": null,
+      "locked_screenshot_refs": [],
+      "locked_stitch_screen_refs": [],
+      "applies_to": [
+        "visual_spec_inventory",
+        "design_system_foundation",
+        "visual_reference_selection",
+        "ui_blueprints.visual_spec",
+        "complete_app_blueprint_markdown"
+      ],
+      "excluded_from": [
+        "stage_5_handoff",
+        "route_inventory",
+        "action_inventory",
+        "permissions",
+        "api_contracts",
+        "product_scope"
+      ],
+      "rationale": ""
+    },
     "project_id": "",
     "project_name": "",
     "screen_refs": [],
@@ -34,6 +61,7 @@
     "approved_page_refs": [],
     "rejected_page_refs": [],
     "screenshot_evidence": [],
+    "suggestion_review_ledger": [],
     "component_extraction": [],
     "divergence_log": [],
     "responsive_review": [],

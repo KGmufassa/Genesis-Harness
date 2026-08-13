@@ -20,6 +20,8 @@ Verify:
 * analytics can measure success
 * support and runbooks cover expected incidents
 * operational blockers have owners and next actions
+* launch-critical workflow evidence is present or explicitly accepted as launch risk
+* dead controls and fixture-backed runtime dependencies are resolved before launch
 
 ## Stage 8 Handoff
 
@@ -62,6 +64,12 @@ Before Stage 7 can complete, synthesize deployment proof from launch readiness a
 The synthesis must identify missing production build proof, deployment dry-run evidence, smoke test evidence, rollback verification, environment verification, monitoring alert proof, and accepted launch risk evidence.
 
 Missing launch-critical proof must become a launch blocker unless explicitly accepted as known risk.
+
+Missing launch-critical workflow evidence must also become a launch blocker.
+Stage 7 may not convert `contract_only`, `api_exists_not_wired`,
+`ui_wired_not_validated`, `runtime_persistence_failed`, unresolved dead-control,
+or unresolved fixture-runtime findings into ready status without explicit risk
+acceptance.
 
 ---
 

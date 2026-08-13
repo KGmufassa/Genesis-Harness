@@ -169,6 +169,33 @@ The command must load this file at the beginning of Stage 4, update it after eac
   },
   "stitch_prototyping": {
     "availability": "unchecked",
+    "visual_source_control": {
+      "enabled": true,
+      "mode": "stitch_visual_source_of_truth",
+      "scope": "visual_only",
+      "suggestion_review_required": true,
+      "approval_status": "pending",
+      "approved_by": "",
+      "approved_at": null,
+      "locked_screenshot_refs": [],
+      "locked_stitch_screen_refs": [],
+      "applies_to": [
+        "visual_spec_inventory",
+        "design_system_foundation",
+        "visual_reference_selection",
+        "ui_blueprints.visual_spec",
+        "complete_app_blueprint_markdown"
+      ],
+      "excluded_from": [
+        "stage_5_handoff",
+        "route_inventory",
+        "action_inventory",
+        "permissions",
+        "api_contracts",
+        "product_scope"
+      ],
+      "rationale": ""
+    },
     "project_id": "",
     "project_name": "",
     "screen_refs": [],
@@ -178,6 +205,7 @@ The command must load this file at the beginning of Stage 4, update it after eac
     "approved_page_refs": [],
     "rejected_page_refs": [],
     "screenshot_evidence": [],
+    "suggestion_review_ledger": [],
     "component_extraction": [],
     "divergence_log": [],
     "responsive_review": [],
@@ -1160,6 +1188,7 @@ Stage 4 UX foundations and design constraints
 -> constrained Stitch prototype prompt
 -> generated launch-critical page candidates
 -> screenshot evidence capture
+-> visual-source and suggestion review
 -> page-level user confirmation
 -> approved-page component extraction
 -> route/action/no_navigation reconciliation
@@ -1182,7 +1211,7 @@ Stage 4 UX foundations and design constraints
 Store Stitch screenshot evidence locally in:
 
 ```text
-Build-Plans/Stage-4/stitch-screenshots/
+Build-Plans/Stage-4/Screen-shots/
 ```
 
 Screenshot evidence is Stage-4-local review evidence. It must not be added to `stage_5_handoff`, Stage 5 required inputs, or downstream readiness requirements.
@@ -1203,7 +1232,7 @@ Record each screenshot in `stitch_prototyping.screenshot_evidence`:
   "prototype_page_ref": "",
   "stitch_screen_ref": "",
   "canonical_page_ref": "",
-  "screenshot_path": "Build-Plans/Stage-4/stitch-screenshots/",
+  "screenshot_path": "Build-Plans/Stage-4/Screen-shots/",
   "viewport": "desktop | tablet | mobile | state_detail",
   "captured_state": "default | loading | empty | error | success | modal | drawer | branching | destructive | mutation | custom",
   "captured_at": null,
@@ -1212,6 +1241,59 @@ Record each screenshot in `stitch_prototyping.screenshot_evidence`:
   "source_refs": []
 }
 ```
+
+## Visual Source Control
+
+By default, `stitch_prototyping.visual_source_control.enabled` is `true`.
+
+When enabled, approved Stitch screens and locked screenshot evidence are the Stage 4 visual source of truth for:
+
+- `visual_spec_inventory`
+- `design_system_foundation`
+- `visual_reference_selection`
+- `ui_blueprints.visual_spec`
+- page-level visual hierarchy
+- component visual treatment
+- responsive visual treatment
+- `09-complete-app-blueprint.md` visual representation
+
+Stitch visual source of truth is visual-only. It must not control product scope, routes, actions, permissions, data/API contracts, accessibility requirements, or Stage 5 handoff fields.
+
+The user may turn visual source control off by setting:
+
+```text
+stitch_prototyping.visual_source_control.enabled = false
+```
+
+When disabled, Stitch returns to supporting evidence only, and canonical Stage 4 visual decisions come from the regular visual reference selection, visual specs, and design-system foundation workflow.
+
+## Stitch Suggestion Review
+
+Record every Stitch-suggested visual pattern, component, data display, interaction, navigation item, workflow change, or feature extension before including it in canonical Stage 4 outputs.
+
+Use this ledger entry:
+
+```json
+{
+  "suggestion_id": "",
+  "prototype_page_ref": "",
+  "stitch_screen_ref": "",
+  "screenshot_refs": [],
+  "suggestion_type": "visual_pattern | component | data_display | interaction | feature_extension | navigation | workflow_change",
+  "suggestion": "",
+  "prd_alignment": "direct | adjacent | unsupported | conflicts",
+  "canonical_alignment_refs": [],
+  "decision": "include | exclude | revise | defer | route_to_prior_stage",
+  "decision_reason": "",
+  "canonical_refs_created_or_updated": [],
+  "approval_status": "pending | approved | rejected",
+  "source_refs": []
+}
+```
+
+Include suggestions only when they map to PRD, workflow, feature, route, action, data, or design-system references, or when the user approves the appropriate Stage 4 or prior-stage revision.
+
+Visual-only suggestions may update `visual_spec_inventory`, `design_system_foundation`, `visual_reference_selection`, and UI blueprint visual specs. Suggestions that introduce a new route, action, workflow, permission, API, entity, launch-critical feature, or MVP scope cannot be auto-included.
 
 ## Prototype Constraints Prompt
 
@@ -3028,6 +3110,13 @@ The brief must include:
 * recommended visual style
 * recommended design system direction
 * mobile and desktop priority
+* Stitch visual source-of-truth mode status
+* locked Stitch screen and screenshot references used as visual source evidence
+* included Stitch suggestions
+* excluded Stitch suggestions
+* deferred or prior-stage-routed Stitch suggestions
+* approved visual deviations from Stitch
+* confirmation that Stage 5 handoff impact is `none`
 * alternatives considered
 * what the user should approve or revise
 
@@ -3056,6 +3145,16 @@ Stage 4 shared state must include:
     "stage": "Stage 4",
     "brief_path": "Build-Plans/Stage-4/00-stage-decision-brief.md",
     "recommended_direction": "",
+    "stitch_visual_source_mode": {
+      "enabled": true,
+      "mode": "stitch_visual_source_of_truth",
+      "locked_stitch_visual_refs": [],
+      "included_stitch_suggestions": [],
+      "excluded_stitch_suggestions": [],
+      "deferred_or_routed_suggestions": [],
+      "approved_visual_deviations": [],
+      "stage_5_handoff_impact": "none"
+    },
     "alternatives_considered": [],
     "key_decisions": [],
     "assumptions": [],
@@ -3104,7 +3203,9 @@ Stage 4 may complete only when:
 * one primary UI architecture template is selected, or a blocking reason is recorded
 * selected UI architecture extensions are compatible with the primary template or documented as deviations
 * Stitch MCP availability, project reuse or creation, screen references, and any accepted non-Stitch fallback are recorded in shared Stage 4 state
+* Stitch visual source control is recorded, defaults on, and has approval status before final synthesis
 * Stitch screenshot evidence is recorded in `stitch_prototyping.screenshot_evidence` when Stitch generated pages are used for page approval
+* every Stitch-suggested component, data display, interaction, navigation item, workflow change, or feature extension has an include, exclude, revise, defer, or route decision before final synthesis
 * every proposed Stitch page used for approval has at least one desktop screenshot or an approved evidence exception
 * every launch-critical approved Stitch page has at least one mobile screenshot or an approved evidence exception
 * Stitch pages with modal, drawer, branching, destructive, mutation, or complex interaction states have extra screenshots or approved evidence exceptions
@@ -3177,6 +3278,7 @@ Before completing Stage 4, confirm:
 * every proposed Stitch page used for approval has screenshot evidence linked to the page ledger
 * launch-critical approved Stitch pages include mobile screenshot evidence or an approved exception
 * complex Stitch interaction states include screenshot evidence or an approved exception
+* Stitch visual source control mode and suggestion review decisions are reflected in the Stage 4 decision brief
 * only approved Stitch pages are reconciled into canonical UI blueprints
 * every approved-page component was extracted after page-level approval
 * every interactive component embeds applicable route and action references, while static components carry empty interaction mappings

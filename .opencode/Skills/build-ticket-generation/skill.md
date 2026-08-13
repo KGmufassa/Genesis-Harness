@@ -167,6 +167,15 @@ Every build ticket must include:
   "visual_qa_required": false,
   "design_system_compliance_required": false,
   "expected_artifacts": [],
+  "completion_definition": {
+    "contract_only_allowed": false,
+    "requires_ui_wiring": false,
+    "requires_runtime_persistence": false,
+    "requires_worker_or_service_execution": false,
+    "requires_end_to_end_smoke": false,
+    "done_means_user_can_complete_workflow": false
+  },
+  "workflow_smoke_tests": [],
   "prerequisites": [],
   "depends_on_tickets": [],
   "primary_skill": "",
@@ -447,6 +456,11 @@ Identify:
 * frontend tickets that omit responsive requirements when applicable
 * browser-validated frontend tickets without preview requirements
 * tickets that require validation evidence but omit `expected_artifacts`
+* launch-critical workflow tickets that omit `completion_definition`
+* launch-critical workflow tickets whose completion definition allows contract-only completion
+* launch-critical workflow tickets that omit workflow smoke tests with expected user outcomes
+* visible UI action tickets that do not require UI wiring validation
+* runtime workflow tickets that do not require persistence, queue, storage, worker, service, or visible-result verification where applicable
 * tickets that are too broad for Stage 6 execution
 * tickets that require skills unavailable in the registry
 * tickets without a best-suited primary skill

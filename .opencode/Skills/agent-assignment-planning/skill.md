@@ -309,6 +309,7 @@ Generate the prompt body from:
 * design system references when assigned frontend tickets
 * frontend build package references when assigned frontend tickets
 * validation requirements
+* workflow completion definition and smoke tests when assigned launch-critical workflow tickets
 * permission settings
 * risk level
 * reporting requirements
@@ -359,6 +360,10 @@ Preview and visual QA:
 
 Validation requirements:
 - [validation requirement]
+- For launch-critical workflow tickets, prove the declared user outcome through the full runtime chain.
+- Record workflow evidence separately from build success.
+- Verify visible controls are wired or explicitly disabled with a reason.
+- Verify runtime pages use live data sources instead of preview fixtures before ready status.
 
 Rules:
 - Do not modify files outside your allowed scope.
@@ -368,6 +373,7 @@ Rules:
 - If validation fails, use the assigned debugging skill before applying fixes.
 - If any numbered Stage 5 artifact declares v2, stop when context or manifest is missing.
 - Follow `execution_waves`; do not start a dependent ticket before its prerequisite.
+- Do not report a user-facing workflow complete when only contracts, APIs, static UI, or fixture data exist.
 - Record every skill used and why.
 
 When finished, report:
@@ -375,6 +381,7 @@ When finished, report:
 - files changed
 - skills used
 - validation results
+- workflow evidence and any dead-control or fixture-runtime findings
 - blockers
 - handoff notes
 ```

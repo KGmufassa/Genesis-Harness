@@ -108,6 +108,9 @@ The command must load this file at the beginning of Stage 6, update it after eac
   "regression_analysis": {},
   "system_health": {},
   "repair_log": [],
+  "workflow_evidence": [],
+  "dead_control_validation": {},
+  "runtime_data_source_validation": {},
   "execution_blockers": [],
   "test_failures": [],
   "open_questions": [],
@@ -253,6 +256,8 @@ agent_required_skills
 agent_skill_instructions
 acceptance_criteria
 validation_steps
+completion_definition
+workflow_smoke_tests
 risk_level
 completion_status
 ui_blueprint_refs
@@ -286,6 +291,17 @@ design_system_compliance_required
 expected_artifacts
 ```
 
+For launch-critical workflow tickets, Stage 6 must treat `completion_definition`
+and `workflow_smoke_tests` as execution requirements. Contract files, API routes,
+static UI, fixture data, or a successful build do not satisfy workflow
+completion unless the declared user outcome is exercised end to end.
+
+Use explicit workflow evidence statuses. Do not use vague labels such as
+`runtime_enabled`, `implemented`, `mostly_done`, or `ready` unless the record
+also states the exact evidence level (`contract_only`, `api_exists_not_wired`,
+`ui_wired_not_validated`, `runtime_persistence_verified`, `local_e2e_passed`, or
+`staging_e2e_passed`).
+
 Frontend tickets that include `ui_blueprint_refs` must preserve the referenced UI blueprint requirements from:
 
 ```text
@@ -315,6 +331,16 @@ For frontend tickets that require preview or visual QA, Stage 6 must record:
 ```
 
 For any ticket with `expected_artifacts`, Stage 6 must record matching artifact evidence updates or a blocker explaining why the artifact could not be produced.
+
+For visible launch-critical buttons, forms, links, menu items, and primary
+actions, Stage 6 must record dead-control validation. Each control must be wired
+to a working route, API, client action, or state transition; explicitly disabled
+with a visible or accessible reason; deferred with approval; or blocked.
+
+Launch-critical runtime pages may use fixtures for preview only. Before Stage 6
+can use `ready_for_stage_7`, runtime pages must fetch from the database, API,
+queue, storage, worker, or service layer needed by the workflow, or record an
+approved deferral or accepted launch risk.
 
 Each agent assignment must include:
 
@@ -482,7 +508,7 @@ Build-Plans/Stage-6/05-repair-log.json
 Build-Plans/Stage-6/06-stage-6-summary.md
 ```
 
-`06-stage-6-summary.md` is a local human-readable review artifact for Stage 6. It must summarize implementation status, validation results, regression findings, repairs, system health, blockers, known risks, and readiness for Stage 7. It must not contain canonical data that is absent from the JSON outputs.
+`06-stage-6-summary.md` is a local human-readable review artifact for every Stage 6 finalization attempt, including ready, repair, revalidation, and blocked outcomes. It must summarize actions taken, implementation status, validation results, live linked/routed page evidence, regression findings, repairs, system health, blockers, known risks, next actions, Stage 7 handoff readiness, and a clear user assessment. It must not contain canonical data that is absent from the JSON outputs.
 
 Do not add `06-stage-6-summary.md` to `stage_7_handoff`, required Stage 7 inputs, or downstream readiness requirements. Stage 7 must continue to consume the Stage 6 JSON outputs.
 
@@ -528,6 +554,10 @@ Stage 6 may complete only when:
 * every executed frontend ticket with design system references was validated against the referenced design system foundation
 * every frontend ticket requiring preview recorded a preview URL or a blocker
 * every frontend ticket requiring visual QA recorded visual QA results, responsive validation results, and visual drift status
+* every launch-critical workflow has workflow evidence tied to Stage 5 smoke tests
+* every launch-critical workflow is `local_e2e_passed`, `staging_e2e_passed`, `deferred_with_approval`, or blocked with a reason
+* every visible launch-critical control is wired, explicitly disabled with a reason, approved as deferred, or blocked
+* every launch-critical runtime page uses live database/API/queue/storage/service data instead of fixtures, unless explicitly deferred or accepted as known risk
 * every generated or assigned agent reported execution status
 * every parallel batch has validation results
 * all required validation gates have pass/fail status
@@ -535,7 +565,8 @@ Stage 6 may complete only when:
 * high and critical defects have repairs, blockers, or escalation paths
 * repair work has been revalidated
 * system health is synthesized from implementation, validation, regression, and repair results
-* local human-readable summary exists at `Build-Plans/Stage-6/06-stage-6-summary.md`
+* local human-readable assessment summary exists at `Build-Plans/Stage-6/06-stage-6-summary.md`
+* the summary matches canonical Stage 6 JSON outputs and identifies whether the stage is ready, needs repair/revalidation, or is blocked
 * Stage 7 handoff contains unresolved operational, deployment, monitoring, analytics, and support needs
 
 Stage 6 is `ready_for_stage_7` only when:
@@ -544,6 +575,8 @@ Stage 6 is `ready_for_stage_7` only when:
 * no unresolved critical validation failures remain
 * no unresolved critical regressions remain
 * all launch-critical tickets are implemented and validated
+* all launch-critical user workflows have end-to-end outcome evidence or explicit approved deferral/risk acceptance
+* no launch-critical visible control is inert, misleading, or fixture-only
 * all launch-critical frontend tickets preserve referenced UI blueprint page, component, route, action, state, interactive element (element_type, label, route_target, behavior), validation, accessibility, responsive, visual, visual reference, and design system requirements
 * all launch-critical frontend tickets preserve referenced page archetype, layout pattern decision, component-family decisions, template deviations, and responsive transformations
 * all launch-critical frontend tickets preserve stable interaction IDs, route types, action outcomes, confirmations, permission-denied behavior, recovery behavior, mobile behavior, accessibility behavior, and design-system component mappings
@@ -592,6 +625,10 @@ Before completing Stage 6, confirm:
 * every assigned agent has execution status
 * every parallel batch has validation status
 * validation results map to ticket acceptance criteria
+* workflow evidence maps to Stage 5 workflow smoke tests and expected user outcomes
+* build success is recorded separately from workflow success
+* dead-control validation has no unresolved launch-critical failures
+* fixture-to-live validation has no unresolved launch-critical runtime fixture dependencies
 * frontend validation results map to referenced UI blueprint IDs when present
 * frontend validation results map to interaction contract, `UI-ELEMENT-`, `ROUTE-`, and `ACTION-` IDs when present
 * frontend validation results map to referenced visual spec IDs when present
@@ -616,7 +653,7 @@ Stage 6 must reference:
 System-References/Schemas/stage-6-output.schema.json
 ```
 
-Stage 6 must record implementation, validation, repair, regression, preview, visual QA, and build evidence in:
+Stage 6 must record implementation, validation, repair, regression, workflow outcome, dead-control, runtime data source, preview, visual QA, and build evidence in:
 
 ```text
 Build-Plans/Build-status/Artifact-evidence-registry.json

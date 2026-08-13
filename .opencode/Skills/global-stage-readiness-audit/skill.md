@@ -81,6 +81,13 @@ Validate:
 
 * required output directory exists
 * required output files exist
+* Stage 5-8 local assessment summary exists for every finalization attempt
+* Stage 5-8 local assessment summary matches canonical JSON outputs and does not add downstream handoff requirements
+* Stage 5 declares workflow proof obligations for launch-critical user workflows
+* Stage 6 provides workflow outcome evidence for launch-critical user workflows
+* Stage 6 records no unresolved dead controls on launch-critical visible actions
+* Stage 6 records no unresolved fixture-backed runtime data dependencies on launch-critical screens
+* Stage 7 rejects Stage 6 handoffs that lack launch-critical workflow evidence
 * output files are parseable JSON when applicable
 * output files contain `stage` and `status`
 * completion status exists
@@ -124,6 +131,23 @@ using this structure:
   "handoff_mode": "next_stage | feedback_routes | terminal",
   "global_workflow_contract": "System-References/Docs/Global-Stage-Workflow-Contract.md",
   "required_files_present": false,
+  "local_assessment_summary": {
+    "required": false,
+    "path": "",
+    "present": false,
+    "matches_canonical_outputs": false,
+    "assessment": "",
+    "blocking_gaps": []
+  },
+  "workflow_outcome_evidence": {
+    "required": false,
+    "workflow_evidence_present": false,
+    "launch_critical_workflows_checked": [],
+    "launch_critical_workflows_passed": false,
+    "dead_controls_detected": [],
+    "fixture_runtime_dependencies": [],
+    "blocking_workflow_gaps": []
+  },
   "schemas_valid": false,
   "completion_status_present": false,
   "global_status_mapped": false,

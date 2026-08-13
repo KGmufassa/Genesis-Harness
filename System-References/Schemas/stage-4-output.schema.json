@@ -154,6 +154,123 @@
         "source_refs": { "type": "array", "default": [] }
       },
       "additionalProperties": true
+    },
+    "stitch_visual_source_control": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean", "default": true },
+        "mode": { "type": "string", "default": "stitch_visual_source_of_truth" },
+        "scope": { "type": "string", "const": "visual_only" },
+        "suggestion_review_required": { "type": "boolean", "default": true },
+        "approval_status": {
+          "type": "string",
+          "enum": ["pending", "approved", "rejected", "disabled", "blocked"],
+          "default": "pending"
+        },
+        "approved_by": { "type": "string", "default": "" },
+        "approved_at": { "type": ["string", "null"], "default": null },
+        "locked_screenshot_refs": { "type": "array", "items": { "type": "string" }, "default": [] },
+        "locked_stitch_screen_refs": { "type": "array", "items": { "type": "string" }, "default": [] },
+        "applies_to": { "type": "array", "items": { "type": "string" }, "default": [] },
+        "excluded_from": { "type": "array", "items": { "type": "string" }, "default": [] },
+        "rationale": { "type": "string", "default": "" }
+      },
+      "additionalProperties": true
+    },
+    "stitch_suggestion_review": {
+      "type": "object",
+      "properties": {
+        "suggestion_id": { "type": "string", "default": "" },
+        "prototype_page_ref": { "type": "string", "default": "" },
+        "stitch_screen_ref": { "type": "string", "default": "" },
+        "screenshot_refs": { "type": "array", "items": { "type": "string" }, "default": [] },
+        "suggestion_type": {
+          "type": "string",
+          "enum": [
+            "",
+            "visual_pattern",
+            "component",
+            "data_display",
+            "interaction",
+            "feature_extension",
+            "navigation",
+            "workflow_change"
+          ],
+          "default": ""
+        },
+        "suggestion": { "type": "string", "default": "" },
+        "prd_alignment": {
+          "type": "string",
+          "enum": ["", "direct", "adjacent", "unsupported", "conflicts"],
+          "default": ""
+        },
+        "canonical_alignment_refs": { "type": "array", "items": { "type": "string" }, "default": [] },
+        "decision": {
+          "type": "string",
+          "enum": ["", "include", "exclude", "revise", "defer", "route_to_prior_stage"],
+          "default": ""
+        },
+        "decision_reason": { "type": "string", "default": "" },
+        "canonical_refs_created_or_updated": { "type": "array", "items": { "type": "string" }, "default": [] },
+        "approval_status": {
+          "type": "string",
+          "enum": ["pending", "approved", "rejected"],
+          "default": "pending"
+        },
+        "source_refs": { "type": "array", "items": { "type": "string" }, "default": [] }
+      },
+      "additionalProperties": true
+    },
+    "stitch_screenshot_evidence": {
+      "type": "object",
+      "properties": {
+        "screenshot_id": { "type": "string", "default": "" },
+        "prototype_page_ref": { "type": "string", "default": "" },
+        "stitch_screen_ref": { "type": "string", "default": "" },
+        "canonical_page_ref": { "type": "string", "default": "" },
+        "screenshot_path": { "type": "string", "default": "Build-Plans/Stage-4/Screen-shots/" },
+        "viewport": {
+          "type": "string",
+          "enum": ["", "desktop", "tablet", "mobile", "state_detail"],
+          "default": ""
+        },
+        "captured_state": { "type": "string", "default": "" },
+        "captured_at": { "type": ["string", "null"], "default": null },
+        "notes": { "type": "string", "default": "" }
+      },
+      "additionalProperties": true
+    },
+    "stitch_prototyping": {
+      "type": "object",
+      "properties": {
+        "availability": { "type": "string", "default": "unchecked" },
+        "visual_source_control": { "$ref": "#/$defs/stitch_visual_source_control" },
+        "project_id": { "type": "string", "default": "" },
+        "project_name": { "type": "string", "default": "" },
+        "screen_refs": { "type": "array", "items": { "type": "string" }, "default": [] },
+        "prototype_constraints": { "type": "object", "default": {} },
+        "proposed_pages": { "type": "array", "default": [] },
+        "page_approval_ledger": { "type": "array", "default": [] },
+        "approved_page_refs": { "type": "array", "items": { "type": "string" }, "default": [] },
+        "rejected_page_refs": { "type": "array", "items": { "type": "string" }, "default": [] },
+        "screenshot_evidence": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/stitch_screenshot_evidence" },
+          "default": []
+        },
+        "suggestion_review_ledger": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/stitch_suggestion_review" },
+          "default": []
+        },
+        "component_extraction": { "type": "array", "default": [] },
+        "divergence_log": { "type": "array", "default": [] },
+        "responsive_review": { "type": "array", "default": [] },
+        "accessibility_review": { "type": "array", "default": [] },
+        "reconciliation_status": { "type": "string", "default": "not_started" },
+        "confidence_gaps": { "type": "array", "default": [] }
+      },
+      "additionalProperties": true
     }
   },
   "properties": {
@@ -191,6 +308,7 @@
       "additionalProperties": true
     },
     "visual_reference_refs": { "type": "array", "default": [] },
+    "stitch_prototyping": { "$ref": "#/$defs/stitch_prototyping" },
     "design_system_alignment": {
       "type": "object",
       "properties": {

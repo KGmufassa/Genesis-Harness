@@ -2462,6 +2462,7 @@ and return the specific questions or decisions required.
 Write or update:
 
 ```text
+Build-Plans/Stage-5/00-stage-context.json
 Build-Plans/Stage-5/01-development-roadmap.json
 Build-Plans/Stage-5/02-implementation-sequence.json
 Build-Plans/Stage-5/03-engineering-dependencies.json
@@ -2470,10 +2471,11 @@ Build-Plans/Stage-5/05-build-tickets.json
 Build-Plans/Stage-5/06-agent-assignment-plan.json
 Build-Plans/Stage-5/07-parallel-execution-plan.json
 Build-Plans/Stage-5/08-release-plan.json
+Build-Plans/Stage-5/09-stage-manifest.json
 Build-Plans/Stage-5/10-stage-5-summary.md
 ```
 
-`10-stage-5-summary.md` is a local human-readable review artifact for Stage 5. It must summarize the roadmap, implementation sequence, ticket plan, agent assignments, parallel execution plan, release plan, major risks, and readiness status. It must not contain canonical data that is absent from the JSON outputs.
+`10-stage-5-summary.md` is a local human-readable review artifact for every Stage 5 finalization attempt, including ready, revision, and blocked outcomes. It must summarize the actions taken, roadmap, implementation sequence, ticket plan, agent assignments, parallel execution plan, release plan, validation and reference-integrity evidence, blockers, major risks, next actions, Stage 6 handoff readiness, and a clear user assessment. It must not contain canonical data that is absent from the JSON outputs.
 
 Do not add `10-stage-5-summary.md` to `stage_6_handoff`, required Stage 6 inputs, artifact indexes, or downstream readiness requirements. Stage 6 must continue to consume the canonical Stage 5 JSON outputs and manifest.
 
@@ -2635,7 +2637,7 @@ Each output must include:
 * risks and constraints
 * unresolved questions
 * Stage 6 handoff notes when relevant
-* local human-readable summary at `Build-Plans/Stage-5/10-stage-5-summary.md`
+* local human-readable assessment summary at `Build-Plans/Stage-5/10-stage-5-summary.md`
 
 The build ticket output must include:
 
@@ -2661,6 +2663,8 @@ The build ticket output must include:
 * validation layers and executable validation commands when known
 * dev server requirements for UI or browser-validated tickets
 * `expected_artifacts`
+* `completion_definition` for launch-critical workflow tickets
+* `workflow_smoke_tests` with expected user outcomes for launch-critical workflow tickets
 * retry and repair policy
 * risk level
 * Stage 6 execution queue position
@@ -2755,6 +2759,8 @@ Stage 5 may complete only when:
 * frontend build tickets preserve route types, action outcomes, confirmation, permission-denied, recovery, design-system component, mobile, and accessibility behavior where applicable
 * frontend build tickets map visual acceptance criteria to validation steps
 * build tickets include validation layers, `expected_artifacts`, and retry policy
+* launch-critical workflow tickets include outcome-based `completion_definition`
+* launch-critical workflow tickets include smoke tests with expected user outcomes
 * UI/browser-validated tickets include dev server requirements
 * agent assignment plan scans available agents before assignment
 * agent assignment plan assigns every MVP ticket to the most suitable available agent that can use the ticket-required skills, or records why it requires manual ownership
@@ -2767,11 +2773,11 @@ Stage 5 may complete only when:
 * parallel execution plan separates safe parallel work from serial work
 * parallel execution plan blocks unresolved dependency, file ownership, API, schema, architecture, or UX conflicts
 * parallel execution plan defines file locks, merge owner, and failure policy
-* Stage 6 handoff includes execution queue, validation commands, dev server plan, environment requirements, file scope controls, retry policy, and `expected_artifacts`
+* Stage 6 handoff includes execution queue, validation commands, dev server plan, environment requirements, file scope controls, retry policy, `expected_artifacts`, launch-critical workflow IDs, workflow smoke tests, and workflow evidence obligations
 * Stage 6 handoff includes the approved Stage 3 `selected_stack`
 * Stage 6 handoff includes the Stage 4 complete app blueprint markdown path
 * Stage 6 handoff includes Stage 4 `UI-COMPONENTS.md` when generated and referenced by frontend tickets
-* Stage 5 local human-readable summary exists and matches canonical JSON outputs without becoming a Stage 6 input
+* Stage 5 local human-readable assessment summary exists, matches canonical JSON outputs, identifies whether the stage is ready, needs revision, or is blocked, and does not become a Stage 6 input
 * release plan exists
 * high and critical execution risks have mitigation paths
 * critical interactive guidance questions are answered or converted into recorded assumptions
@@ -2827,6 +2833,29 @@ System-References/Schemas/stage-5-output.schema.json
 ```
 
 Build tickets must define `expected_artifacts` when validation, preview, visual QA, deployment proof, or launch readiness evidence will be required later.
+
+Build tickets that represent launch-critical user workflows must define:
+
+```json
+{
+  "completion_definition": {
+    "contract_only_allowed": false,
+    "requires_ui_wiring": true,
+    "requires_runtime_persistence": true,
+    "requires_worker_or_service_execution": false,
+    "requires_end_to_end_smoke": true,
+    "done_means_user_can_complete_workflow": true
+  },
+  "workflow_smoke_tests": []
+}
+```
+
+The smoke tests must identify the expected user outcome and required evidence
+chain:
+
+```text
+UI action -> route/API/action -> database/queue/storage -> worker/service -> result visible in UI -> evidence
+```
 
 Expected artifacts must be carried into:
 

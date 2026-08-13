@@ -32,6 +32,12 @@ It consumes the selected Stage 4 design system and visual references from `desig
 
 It also consumes the selected structural UI architecture template and extensions from `ui-architecture-template-selection`. It applies those references to page archetype, layout pattern, component family, responsive, state, and accessibility decisions without replacing Stage 4's stable UI blueprint, route, action, and interactive element contracts.
 
+When Stitch visual source control is enabled, this skill may use approved Stitch
+screens and locked screenshot evidence as visual-only guidance for page visual
+hierarchy, component visual treatment, and responsive visual treatment. It must
+not use Stitch to add or change product scope, routes, actions, permissions,
+data/API contracts, accessibility requirements, or Stage 5 handoff fields.
+
 ---
 
 # Operating Rule
@@ -81,6 +87,8 @@ Reference Apps
 Design System Alignment
 Visual Acceptance Criteria
 User Approval Status
+Stitch Visual Source Refs
+Reviewed Stitch Suggestion Refs
 ```
 
 ---

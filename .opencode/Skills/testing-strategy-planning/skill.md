@@ -56,6 +56,8 @@ Define:
 * unit testing scope
 * integration testing scope
 * end-to-end testing scope
+* launch-critical workflow smoke tests
+* workflow outcome evidence requirements
 * API testing needs
 * accessibility testing needs
 * security testing needs
@@ -72,6 +74,17 @@ Map testing to:
 * feature behaviors
 * state transitions
 * release checkpoints
+* Stage 5 ticket `completion_definition`
+* Stage 6 `workflow_evidence`
+
+For every launch-critical user workflow, define a smoke test that proves:
+
+```text
+UI action -> route/API/action -> database/queue/storage -> worker/service -> result visible in UI -> evidence
+```
+
+Do not treat a contract, generated API route, static page, fixture-backed page,
+or successful build as enough workflow evidence.
 
 ## Testing Risk Detection
 
@@ -116,6 +129,8 @@ Pause for user input when testing scope changes release readiness or Stage 6 val
   "testing_strategy": {},
   "test_levels": [],
   "acceptance_criteria": [],
+  "workflow_smoke_tests": [],
+  "workflow_evidence_requirements": [],
   "regression_strategy": {},
   "testing_risks": [],
   "release_test_gates": []

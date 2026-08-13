@@ -523,7 +523,7 @@ Build-Plans/Stage-7/05-operational-tooling.json
 Build-Plans/Stage-7/06-stage-7-summary.md
 ```
 
-`06-stage-7-summary.md` is a local human-readable review artifact for Stage 7. It must summarize launch readiness, deployment framework, monitoring, analytics, operational tooling, accepted launch risks, blockers, and readiness for Stage 8. It must not contain canonical data that is absent from the JSON outputs.
+`06-stage-7-summary.md` is a local human-readable review artifact for every Stage 7 finalization attempt, including ready, revision, and blocked outcomes. It must summarize actions taken, launch readiness, deployment framework, monitoring, analytics, operational tooling, accepted launch risks, blockers, next actions, Stage 8 handoff readiness, and a clear user assessment. It must not contain canonical data that is absent from the JSON outputs.
 
 Do not add `06-stage-7-summary.md` to `stage_8_handoff`, required Stage 8 inputs, or downstream readiness requirements. Stage 8 must continue to consume the canonical Stage 7 JSON outputs.
 
@@ -667,6 +667,9 @@ Stage 7 may complete as `ready_for_stage_8` only when:
 * all launch gates are `ready`, `accepted_risk`, or `not_applicable`
 * deployment environment, setup, build, deployment, and rollback details are defined or explicitly blocked
 * production build proof, deployment dry-run evidence, smoke test evidence, rollback verification, and environment verification are recorded or explicitly accepted as known risks
+* Stage 6 workflow evidence exists for every launch-critical user workflow
+* every launch-critical workflow is `local_e2e_passed`, `staging_e2e_passed`, explicitly deferred with approval, or accepted as a launch risk with owner, severity, mitigation, and rollback/support path
+* no unresolved launch-critical dead controls or fixture-backed runtime dependencies remain
 * visual QA, responsive validation, UI architecture/layout pattern/component-family/template-deviation compliance, design system compliance, preview evidence, and visual drift status are launch-ready or explicitly accepted as known risks
 * launch-critical interaction contracts and stable `UI-ELEMENT-`, `ROUTE-`, and `ACTION-` references pass Stage 6 conformance validation or have accepted launch risks
 * critical route, outcome, confirmation, permission-denied, recovery, mobile, accessibility, and design-system interaction behavior is launch-ready
@@ -674,7 +677,8 @@ Stage 7 may complete as `ready_for_stage_8` only when:
 * monitoring checks and alert ownership are defined
 * analytics events and success metrics are defined
 * support, onboarding, and operational runbooks are defined
-* local human-readable summary exists at `Build-Plans/Stage-7/06-stage-7-summary.md`
+* local human-readable assessment summary exists at `Build-Plans/Stage-7/06-stage-7-summary.md`
+* the summary matches canonical Stage 7 JSON outputs and identifies whether the stage is ready, needs revision, or is blocked
 * critical launch blockers are resolved or explicitly accepted as known risks
 * Stage 8 handoff includes telemetry, analytics, monitoring, support, incident, and watchlist sources
 
@@ -690,7 +694,7 @@ Stage 7 output validation should reference:
 System-References/Schemas/stage-7-output.schema.json
 ```
 
-Stage 7 must record production build proof, deployment dry-run evidence, smoke test results, rollback verification, environment verification, monitoring alert proof, and accepted launch risk evidence in:
+Stage 7 must record production build proof, deployment dry-run evidence, workflow evidence review, smoke test results, rollback verification, environment verification, monitoring alert proof, and accepted launch risk evidence in:
 
 ```text
 Build-Plans/Build-status/Artifact-evidence-registry.json
@@ -711,4 +715,8 @@ Stage 7 readiness must also record:
 }
 ```
 
-Stage 7 may not use `ready_for_stage_8` until required schema validation passes, launch gate, deployment proof, monitoring, analytics, support, onboarding, artifact, and accepted-risk references resolve to upstream sources, accepted high and critical launch risks are written to `Build-Plans/Build-status/Risk-acceptance-ledger.json`, and failed readiness checks are converted into revision-loop actions.
+Stage 7 may not use `ready_for_stage_8` until required schema validation passes, launch gate, deployment proof, workflow evidence, monitoring, analytics, support, onboarding, artifact, and accepted-risk references resolve to upstream sources, accepted high and critical launch risks are written to `Build-Plans/Build-status/Risk-acceptance-ledger.json`, and failed readiness checks are converted into revision-loop actions.
+
+Stage 7 must reject Stage 6 handoffs that lack launch-critical workflow evidence.
+Missing workflow evidence, unresolved dead controls, and unresolved fixture-backed
+runtime data are launch blockers, not documentation gaps.

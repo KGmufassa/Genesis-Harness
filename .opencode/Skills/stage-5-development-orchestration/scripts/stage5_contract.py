@@ -10,6 +10,17 @@ from typing import Any, Iterable, Mapping, Sequence
 FORMAT_VERSION = "2.0"
 CONTEXT_PATH = "Build-Plans/Stage-5/00-stage-context.json"
 MANIFEST_PATH = "Build-Plans/Stage-5/09-stage-manifest.json"
+WORKFLOW_STATUSES = {
+    "contract_only",
+    "api_exists_not_wired",
+    "ui_wired_not_validated",
+    "runtime_persistence_failed",
+    "runtime_persistence_verified",
+    "local_e2e_passed",
+    "staging_e2e_passed",
+    "deferred_with_approval",
+    "blocked",
+}
 
 ARTIFACTS: Mapping[str, Mapping[str, str]] = {
     "development_roadmap": {
@@ -373,6 +384,90 @@ def validate_execution_waves(
                     raise ContractError(
                         f"{prerequisite} must precede dependent ticket {ticket_id}"
                     )
+
+
+def _truthy_field(record: Mapping[str, Any], key: str) -> bool:
+    return bool(record.get(key))
+
+
+def _is_launch_critical_workflow_ticket(ticket: Mapping[str, Any]) -> bool:
+    priority = str(ticket.get("priority", "")).lower()
+    ticket_type = str(ticket.get("ticket_type", "")).lower()
+    if ticket.get("launch_critical") is True or priority == "critical":
+        return True
+    if ticket_type in {"frontend", "integration"} and (
+        ticket.get("ui_blueprint_refs")
+        or ticket.get("interactive_element_refs")
+        or ticket.get("action_refs")
+        or ticket.get("route_refs")
+    ):
+        return True
+    return False
+
+
+def validate_workflow_completion_definitions(tickets: Sequence[Mapping[str, Any]]) -> None:
+    """Require outcome-based completion definitions for launch-critical workflows."""
+    for ticket in tickets:
+        if not _is_launch_critical_workflow_ticket(ticket):
+            continue
+        ticket_id = ticket.get("ticket_id", "<unknown>")
+        completion_definition = ticket.get("completion_definition")
+        if not isinstance(completion_definition, Mapping):
+            raise ContractError(f"{ticket_id} requires completion_definition")
+        required_true = (
+            "requires_ui_wiring",
+            "requires_runtime_persistence",
+            "requires_end_to_end_smoke",
+            "done_means_user_can_complete_workflow",
+        )
+        missing = [key for key in required_true if completion_definition.get(key) is not True]
+        if completion_definition.get("contract_only_allowed") is not False:
+            missing.append("contract_only_allowed=false")
+        if missing:
+            raise ContractError(
+                f"{ticket_id} has incomplete workflow completion_definition: {missing}"
+            )
+        smoke_tests = ticket.get("workflow_smoke_tests", ticket.get("smoke_tests", []))
+        if not isinstance(smoke_tests, list) or not smoke_tests:
+            raise ContractError(f"{ticket_id} requires workflow smoke tests")
+        for smoke_test in smoke_tests:
+            if not isinstance(smoke_test, Mapping):
+                raise ContractError(f"{ticket_id} workflow smoke tests must be objects")
+            if not smoke_test.get("workflow_id") or not smoke_test.get("expected_user_outcome"):
+                raise ContractError(
+                    f"{ticket_id} workflow smoke tests require workflow_id and expected_user_outcome"
+                )
+
+
+def validate_workflow_evidence(
+    workflow_evidence: Sequence[Mapping[str, Any]],
+    *,
+    launch_critical_workflow_ids: Iterable[str],
+) -> None:
+    """Validate Stage 6/7 workflow evidence for launch-critical outcomes."""
+    required = set(launch_critical_workflow_ids)
+    by_workflow: dict[str, Mapping[str, Any]] = {}
+    for record in workflow_evidence:
+        workflow_id = str(record.get("workflow_id", ""))
+        if not workflow_id:
+            raise ContractError("workflow evidence requires workflow_id")
+        status = str(record.get("status", ""))
+        if status not in WORKFLOW_STATUSES:
+            raise ContractError(f"unsupported workflow status: {status}")
+        by_workflow[workflow_id] = record
+        if status in {"local_e2e_passed", "staging_e2e_passed"}:
+            if not record.get("evidence_refs"):
+                raise ContractError(f"{workflow_id} passed without evidence_refs")
+            if not record.get("verified_user_outcome"):
+                raise ContractError(f"{workflow_id} passed without verified_user_outcome")
+        elif status == "deferred_with_approval":
+            if not record.get("approval_ref") and not record.get("accepted_risk_ref"):
+                raise ContractError(f"{workflow_id} deferred without approval or accepted risk")
+        elif workflow_id in required:
+            raise ContractError(f"{workflow_id} is launch-critical but not end-to-end passed")
+    missing = required - set(by_workflow)
+    if missing:
+        raise ContractError(f"missing launch-critical workflow evidence: {sorted(missing)}")
 
 
 def evidence_registry_link() -> dict[str, str]:

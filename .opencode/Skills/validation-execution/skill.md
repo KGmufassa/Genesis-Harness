@@ -129,6 +129,9 @@ implementation_only_drift
   "visual_qa_results": [],
   "responsive_validation_results": [],
   "visual_drift_results": [],
+  "workflow_evidence": [],
+  "dead_control_validation": {},
+  "runtime_data_source_validation": {},
   "artifact_evidence_updates": [],
   "passed_checks": [],
   "failed_checks": [],
@@ -163,6 +166,10 @@ Build-Plans/Build-status/Implementation-state.json
 Validate:
 
 * every implemented ticket has pass/fail status for acceptance criteria
+* every launch-critical workflow smoke test has pass/fail/deferred/blocked status
+* workflow evidence proves the declared user outcome, not only build or API existence
+* every visible launch-critical button, form, link, menu item, and primary action is wired to working behavior or explicitly disabled with a reason
+* launch-critical runtime screens fetch from live database/API/queue/storage/service data rather than fixtures, unless deferred or accepted as risk
 * every assigned agent has validation results when work was executed
 * every parallel batch has validation gate results
 * failed checks include error output or failure reason when available

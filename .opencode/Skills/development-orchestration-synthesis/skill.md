@@ -131,6 +131,8 @@ Do not ask broad implementation preference questions at this stage. Only ask que
 * unresolved parallel execution conflicts
 * unresolved release planning decisions
 * execution risks that block Stage 6 handoff
+* launch-critical workflow tickets without outcome-based completion definitions
+* missing workflow smoke-test obligations for launch-critical user paths
 
 If proceeding with assumptions, record them in:
 
@@ -164,6 +166,11 @@ and return the specific questions or decisions required.
   "completion_status": {}
 }
 ```
+
+`stage_6_handoff` must include the launch-critical workflow IDs, smoke-test
+requirements, and evidence obligations that Stage 6 must satisfy. A ticket that
+represents a launch-critical user workflow is not complete when only contracts,
+schemas, routes, fixtures, or static UI exist.
 
 ---
 

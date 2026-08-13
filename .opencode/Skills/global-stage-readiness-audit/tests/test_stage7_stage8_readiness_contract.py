@@ -44,6 +44,11 @@ class Stage7Stage8ReadinessContractTests(unittest.TestCase):
             ["next_stage", "feedback_routes", "terminal"],
         )
         self.assertIn("feedback_route_audit", properties)
+        self.assertIn("local_assessment_summary", properties)
+        self.assertIn("matches_canonical_outputs", properties["local_assessment_summary"]["properties"])
+        self.assertIn("workflow_outcome_evidence", properties)
+        self.assertIn("dead_controls_detected", properties["workflow_outcome_evidence"]["properties"])
+        self.assertIn("fixture_runtime_dependencies", properties["workflow_outcome_evidence"]["properties"])
         self.assertIn("feedback_route", schema["$defs"])
         self.assertIn("owner", schema["$defs"]["feedback_route"]["properties"])
         self.assertIn("creates_new_stage_cycle", schema["$defs"]["feedback_route"]["properties"])
@@ -55,6 +60,23 @@ class Stage7Stage8ReadinessContractTests(unittest.TestCase):
         self.assertIn("Build-Plans/Build-status/Stage-7-readiness-audit.json", contract)
         self.assertIn("Build-Plans/Build-status/Stage-8-readiness-audit.json", contract)
         self.assertIn("Stage 8 is terminal and cyclical", contract)
+
+    def test_stage_6_and_stage_7_schemas_include_workflow_outcome_contract(self) -> None:
+        stage_6_schema = json.loads(
+            (REPOSITORY_ROOT / "System-References/Schemas/stage-6-output.schema.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        stage_7_schema = json.loads(
+            (REPOSITORY_ROOT / "System-References/Schemas/stage-7-output.schema.json").read_text(
+                encoding="utf-8"
+            )
+        )
+
+        self.assertIn("workflow_evidence", stage_6_schema["properties"])
+        self.assertIn("dead_control_validation", stage_6_schema["properties"])
+        self.assertIn("runtime_data_source_validation", stage_6_schema["properties"])
+        self.assertIn("workflow_evidence_review", stage_7_schema["properties"])
 
 
 if __name__ == "__main__":

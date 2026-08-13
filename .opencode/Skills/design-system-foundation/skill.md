@@ -126,6 +126,7 @@ Design Approval Status
   "accessibility_framework": {},
   "ui_blueprints": {},
   "visual_spec_inventory": [],
+  "stitch_prototyping": {},
   "existing_state": {}
 }
 ```
@@ -224,6 +225,18 @@ The output must include:
   "stage_5_handoff": {}
 }
 ```
+
+When `stitch_prototyping.visual_source_control.enabled` is true, derive visual
+tokens, component visual treatment, page-level hierarchy, and responsive visual
+treatment from approved Stitch screens and locked screenshot evidence where they
+exist. This is visual-only input. Do not let Stitch alter product scope, routes,
+actions, permissions, data/API contracts, accessibility requirements, or Stage 5
+handoff fields.
+
+Before using a Stitch-suggested visual pattern, component, data display, or
+visual treatment, confirm the suggestion has an approved
+`stitch_prototyping.suggestion_review_ledger` entry. Unreviewed suggestions must
+remain excluded from canonical design-system output.
 
 ---
 

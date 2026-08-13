@@ -25,6 +25,8 @@ from stage5_contract import (  # noqa: E402
     validate_file_pointer_ref,
     validate_risk_refs,
     validate_ticket_references,
+    validate_workflow_completion_definitions,
+    validate_workflow_evidence,
 )
 
 
@@ -266,6 +268,76 @@ class Stage5ContractTests(unittest.TestCase):
                 tickets,
             )
 
+    def test_launch_critical_tickets_require_workflow_completion_definition(self) -> None:
+        validate_workflow_completion_definitions(
+            [
+                {
+                    "ticket_id": "TICKET-1",
+                    "priority": "critical",
+                    "ticket_type": "frontend",
+                    "ui_blueprint_refs": ["UI-BLUEPRINT-1"],
+                    "completion_definition": {
+                        "contract_only_allowed": False,
+                        "requires_ui_wiring": True,
+                        "requires_runtime_persistence": True,
+                        "requires_end_to_end_smoke": True,
+                        "done_means_user_can_complete_workflow": True,
+                    },
+                    "workflow_smoke_tests": [
+                        {
+                            "workflow_id": "WORKFLOW-1",
+                            "expected_user_outcome": "User can save the setting.",
+                        }
+                    ],
+                }
+            ]
+        )
+        with self.assertRaises(ContractError):
+            validate_workflow_completion_definitions(
+                [
+                    {
+                        "ticket_id": "TICKET-2",
+                        "priority": "critical",
+                        "ticket_type": "frontend",
+                        "ui_blueprint_refs": ["UI-BLUEPRINT-1"],
+                    }
+                ]
+            )
+
+    def test_workflow_evidence_requires_passed_launch_critical_e2e(self) -> None:
+        validate_workflow_evidence(
+            [
+                {
+                    "workflow_id": "WORKFLOW-1",
+                    "status": "local_e2e_passed",
+                    "evidence_refs": ["ARTIFACT-1"],
+                    "verified_user_outcome": "User completed the workflow.",
+                }
+            ],
+            launch_critical_workflow_ids=["WORKFLOW-1"],
+        )
+        with self.assertRaises(ContractError):
+            validate_workflow_evidence(
+                [
+                    {
+                        "workflow_id": "WORKFLOW-1",
+                        "status": "api_exists_not_wired",
+                    }
+                ],
+                launch_critical_workflow_ids=["WORKFLOW-1"],
+            )
+        with self.assertRaises(ContractError):
+            validate_workflow_evidence(
+                [
+                    {
+                        "workflow_id": "WORKFLOW-1",
+                        "status": "local_e2e_passed",
+                        "verified_user_outcome": "User completed the workflow.",
+                    }
+                ],
+                launch_critical_workflow_ids=["WORKFLOW-1"],
+            )
+
     def test_schema_and_repository_json_parse(self) -> None:
         schema_dir = REPOSITORY_ROOT / "System-References" / "Schemas"
         for path in schema_dir.glob("*.json"):
@@ -273,6 +345,15 @@ class Stage5ContractTests(unittest.TestCase):
                 self.assertIsInstance(
                     json.loads(path.read_text(encoding="utf-8")), dict
                 )
+
+    def test_stage_5_artifact_schema_contains_workflow_completion_contract(self) -> None:
+        schema_path = REPOSITORY_ROOT / "System-References" / "Schemas" / "stage-5-artifact.schema.json"
+        schema = json.loads(schema_path.read_text(encoding="utf-8"))
+        serialized = json.dumps(schema)
+
+        self.assertIn("completion_definition", serialized)
+        self.assertIn("workflow_smoke_tests", serialized)
+        self.assertIn("done_means_user_can_complete_workflow", serialized)
 
     def test_scripts_compile_as_modules(self) -> None:
         for path in SCRIPTS_DIR.glob("*.py"):

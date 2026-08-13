@@ -148,6 +148,38 @@ Stage 4 UI blueprint
 -> Stage 7 visual launch readiness
 ```
 
+# Workflow Outcome Evidence
+
+For launch-critical user workflows, stage readiness is based on user outcomes,
+not implementation artifacts. A workflow is not complete merely because a
+contract, schema, API route, generated file, static UI, fixture-backed page, or
+production build exists.
+
+The required evidence chain is:
+
+```text
+UI action -> route/API/action -> database/queue/storage -> worker/service -> result visible in UI -> test or preview evidence
+```
+
+Stage 5 must declare the workflow proof obligations in build tickets. Stage 6
+must execute and record workflow evidence. Stage 7 must reject Stage 6 handoffs
+that lack launch-critical workflow evidence unless the gap is explicitly
+deferred or accepted as a launch risk.
+
+Allowed workflow evidence statuses:
+
+```text
+contract_only
+api_exists_not_wired
+ui_wired_not_validated
+runtime_persistence_failed
+runtime_persistence_verified
+local_e2e_passed
+staging_e2e_passed
+deferred_with_approval
+blocked
+```
+
 Rules:
 
 * Stage 4 cannot complete launch-critical frontend planning without approved or explicitly assumed visual specs and a design system foundation.
@@ -774,10 +806,22 @@ Every stage finalization attempt must write a readiness audit before the final c
 
 This applies when the proposed status is ready, revision-needed, prior-stage-revision, or blocked. The audit records the reason the stage can proceed, cannot proceed, or must route work elsewhere.
 
+Stages 5 through 8 must also write a local markdown assessment summary for every finalization attempt:
+
+```text
+Build-Plans/Stage-5/10-stage-5-summary.md
+Build-Plans/Stage-6/06-stage-6-summary.md
+Build-Plans/Stage-7/06-stage-7-summary.md
+Build-Plans/Stage-8/06-stage-8-summary.md
+```
+
+The summary must be clear, concise, and detailed enough for a user to assess the stage. It must summarize actions taken, canonical outputs, results, validation and readiness evidence, blockers, risks, accepted risks, next actions, and downstream handoff or feedback-route readiness. It is a local review artifact only; downstream stages must continue to consume canonical JSON outputs and handoff contracts.
+
 Before any stage marks itself ready, verify:
 
 * required output directory exists
 * required output files exist
+* required local assessment summary exists for Stage 5-8
 * output files follow expected schemas
 * completion status is present
 * handoff object is present
@@ -813,6 +857,23 @@ Readiness audit output:
   "evaluated_completion_status": "",
   "handoff_mode": "next_stage | feedback_routes | terminal",
   "required_files_present": true,
+  "local_assessment_summary": {
+    "required": false,
+    "path": "",
+    "present": false,
+    "matches_canonical_outputs": false,
+    "assessment": "",
+    "blocking_gaps": []
+  },
+  "workflow_outcome_evidence": {
+    "required": false,
+    "workflow_evidence_present": false,
+    "launch_critical_workflows_checked": [],
+    "launch_critical_workflows_passed": false,
+    "dead_controls_detected": [],
+    "fixture_runtime_dependencies": [],
+    "blocking_workflow_gaps": []
+  },
   "schemas_valid": true,
   "handoff_present": true,
   "feedback_routes_present": false,

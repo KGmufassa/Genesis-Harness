@@ -19,6 +19,31 @@
       "enum": ["next_stage", "feedback_routes", "terminal"]
     },
     "required_files_present": { "type": "boolean" },
+    "local_assessment_summary": {
+      "type": "object",
+      "properties": {
+        "required": { "type": "boolean", "default": false },
+        "path": { "type": "string", "default": "" },
+        "present": { "type": "boolean", "default": false },
+        "matches_canonical_outputs": { "type": "boolean", "default": false },
+        "assessment": { "type": "string", "default": "" },
+        "blocking_gaps": { "type": "array", "default": [] }
+      },
+      "additionalProperties": true
+    },
+    "workflow_outcome_evidence": {
+      "type": "object",
+      "properties": {
+        "required": { "type": "boolean", "default": false },
+        "workflow_evidence_present": { "type": "boolean", "default": false },
+        "launch_critical_workflows_checked": { "type": "array", "default": [] },
+        "launch_critical_workflows_passed": { "type": "boolean", "default": false },
+        "dead_controls_detected": { "type": "array", "default": [] },
+        "fixture_runtime_dependencies": { "type": "array", "default": [] },
+        "blocking_workflow_gaps": { "type": "array", "default": [] }
+      },
+      "additionalProperties": true
+    },
     "schemas_valid": { "type": "boolean" },
     "schema_validation": { "type": "object" },
     "artifact_evidence_registry": { "type": "object" },
