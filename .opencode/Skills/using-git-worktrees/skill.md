@@ -3,6 +3,7 @@ name: git-worktree-orchestrator
 description: |
   Creates an isolated git worktree for feature development with automatic
   directory selection, safety verification, environment setup, and baseline validation.
+compatibility: opencode
 ---
   Use when:
   - Starting new feature development

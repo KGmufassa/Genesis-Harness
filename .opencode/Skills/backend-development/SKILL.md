@@ -1,6 +1,7 @@
 ---
 name: backend-development
 description: Backend engineering guidance for designing, implementing, reviewing, debugging, securing, scaling, testing, or operating server-side systems. Use for backend API contracts, service architecture, authentication and authorization, security hardening, performance, technology selection, test strategy, deployment, observability, production debugging, and maintainability work.
+compatibility: opencode
 ---
 
 # Backend Development

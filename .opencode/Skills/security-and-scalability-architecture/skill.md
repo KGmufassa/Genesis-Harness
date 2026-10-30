@@ -1,3 +1,9 @@
+---
+name: security-and-scalability-architecture
+description: The security-and-scalability-architecture skill defines security foundations and scalability strategy.
+compatibility: opencode
+---
+
 # Skill — security-and-scalability-architecture
 
 # Purpose

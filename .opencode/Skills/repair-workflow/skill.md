@@ -1,3 +1,9 @@
+---
+name: repair-workflow
+description: The repair-workflow skill proposes, tracks, and verifies repairs during Stage 6.
+compatibility: opencode
+---
+
 # Skill — repair-workflow
 
 # Purpose

@@ -1,3 +1,9 @@
+---
+name: deployment-framework-planning
+description: The deployment-framework-planning skill defines the deployment model needed to operate the product in production.
+compatibility: opencode
+---
+
 # Skill — deployment-framework-planning
 
 # Purpose

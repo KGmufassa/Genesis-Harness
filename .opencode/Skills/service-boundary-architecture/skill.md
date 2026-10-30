@@ -1,3 +1,9 @@
+---
+name: service-boundary-architecture
+description: The service-boundary-architecture skill converts system topology into service-level architecture.
+compatibility: opencode
+---
+
 # Skill — service-boundary-architecture
 
 # Purpose

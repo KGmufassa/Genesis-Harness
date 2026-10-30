@@ -1,3 +1,9 @@
+---
+name: regression-analysis
+description: The regression-analysis skill detects and analyzes behavior regressions during Stage 6.
+compatibility: opencode
+---
+
 # Skill — regression-analysis
 
 # Purpose

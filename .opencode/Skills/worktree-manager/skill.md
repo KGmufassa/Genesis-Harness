@@ -3,6 +3,7 @@ name: worktree-merge-manager
 description: |
   Safely merges or discards a git worktree back into the main codebase.
   Requires explicit human confirmation before executing merge or discard actions.
+compatibility: opencode
 ---
 
 Use when:

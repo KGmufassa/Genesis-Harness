@@ -1,3 +1,9 @@
+---
+name: stage-8-post-launch-evolution
+description: The stage-8-post-launch-evolution command orchestrates Stage 8.
+compatibility: opencode
+---
+
 # Command — stage-8-post-launch-evolution
 
 # Purpose

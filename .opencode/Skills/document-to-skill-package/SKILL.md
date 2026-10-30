@@ -1,6 +1,7 @@
 ---
 name: document-to-skill-package
 description: Use when converting a structured markdown document plus a mapping file into a Codex skill package under .opencode/skills. Creates SKILL.md and mapped reference files by splitting the source document on top-level headings in deterministic order.
+compatibility: opencode
 ---
 
 # Document To Skill Package

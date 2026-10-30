@@ -1,3 +1,9 @@
+---
+name: launch-operationalization-synthesis
+description: The launch-operationalization-synthesis skill combines Stage 7 readiness, deployment, monitoring, analytics, and tooling work into a launch-ready operational package.
+compatibility: opencode
+---
+
 # Skill — launch-operationalization-synthesis
 
 # Purpose

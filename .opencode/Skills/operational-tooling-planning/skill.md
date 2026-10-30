@@ -1,3 +1,9 @@
+---
+name: operational-tooling-planning
+description: The operational-tooling-planning skill defines the operational tools and support workflows needed after launch.
+compatibility: opencode
+---
+
 # Skill — operational-tooling-planning
 
 # Purpose

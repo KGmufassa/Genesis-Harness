@@ -39,7 +39,7 @@ schemas that drive the harness.
 
 ```
 .opencode/                  OpenCode agent configuration and skills
-   Skills/                   82 skill packages (skill.md + refs + scripts)
+   Skills/                   87 skill packages (skill.md + refs + scripts)
   package.json              Only dependency: @opencode-ai/plugin
 Build-Plans/                Stage output and build-status tracking
   Build-status/             JSON state files (architecture, UX, planning, etc.)
@@ -85,11 +85,19 @@ No TypeScript/JavaScript build systems. Python utility scripts use **unittest**:
 python -m unittest discover .opencode/Skills/stage-summary/tests
 python -m unittest .opencode/Skills/stage-summary/tests/test_generate_stage_summaries.py
 python -m unittest .opencode/Skills/stage-summary/tests/test_generate_stage_summaries.StageSummaryScriptTests.test_generates_summary_for_populated_stage_recursively
+python -m unittest discover .opencode/Skills/global-stage-readiness-audit/tests
+python -m unittest discover .opencode/Skills/change-intake-router/tests
+python -m unittest discover .opencode/Skills/skill-registry-builder/tests
 ```
 
 JSON validation:
 ```sh
 check-jsonschema --schemafile System-References/Schemas/stage-1-output.schema.json Build-Plans/Build-status/Planning-state.json
+```
+
+Dependency-free readiness validation:
+```sh
+python3 .opencode/Skills/global-stage-readiness-audit/scripts/run_readiness_audit.py --stage 1 --proposed-status ready_for_stage_2
 ```
 
 ---
@@ -112,7 +120,7 @@ SERVICE-  ENTITY-  API-  INTEGRATION-  INFRA-  SECURITY-  SCALE-
 JOURNEY-  SCREEN-  BEHAVIOR-  STATE-  A11Y-  UI-BLUEPRINT-  VISUAL-SPEC-
 UI-ELEMENT-  ROUTE-  ACTION-  DESIGN-SYSTEM-  SLICE-  TICKET-  AGENT-
 BATCH-  VALIDATION-  VISUAL-QA-
-ARTIFACT-  LAUNCH-GATE-  TELEMETRY-  EXPERIMENT-
+ARTIFACT-  LAUNCH-GATE-  TELEMETRY-  EXPERIMENT-  CHANGE-
 ```
 
 IDs are stable once created. If a concept changes materially, update the

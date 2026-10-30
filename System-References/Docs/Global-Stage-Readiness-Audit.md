@@ -22,6 +22,14 @@ Use:
 global-stage-readiness-audit
 ```
 
+Executable command:
+
+```sh
+python3 .opencode/Skills/global-stage-readiness-audit/scripts/run_readiness_audit.py \
+  --stage <1-8> \
+  --proposed-status <stage-status>
+```
+
 The audit validates:
 
 * required output files exist
@@ -76,6 +84,14 @@ Build-Plans/Build-status/Stage-5-readiness-audit.json
   "handoff_mode": "next_stage | feedback_routes | terminal",
   "global_workflow_contract": "System-References/Docs/Global-Stage-Workflow-Contract.md",
   "required_files_present": false,
+  "local_assessment_summary": {
+    "required": false,
+    "path": "",
+    "present": false,
+    "matches_canonical_outputs": false,
+    "assessment": "",
+    "blocking_gaps": []
+  },
   "workflow_outcome_evidence": {
     "required": false,
     "workflow_evidence_present": false,
@@ -146,8 +162,10 @@ Build-Plans/Build-status/Stage-5-readiness-audit.json
     "required": false,
     "ui_blueprint_refs_present": false,
     "visual_spec_refs_present": false,
+    "visual_reference_refs_present": false,
     "design_system_refs_present": false,
     "visual_acceptance_criteria_mapped": false,
+    "visual_reference_compliance_recorded": false,
     "preview_or_visual_qa_evidence_present": false,
     "design_system_compliance_recorded": false,
     "visual_drift_status_recorded": false,

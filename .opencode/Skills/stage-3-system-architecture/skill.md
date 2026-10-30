@@ -1,3 +1,9 @@
+---
+name: stage-3-system-architecture
+description: The stage-3-system-architecture command orchestrates Stage 3.
+compatibility: opencode
+---
+
 # Command — stage-3-system-architecture
 
 # Purpose

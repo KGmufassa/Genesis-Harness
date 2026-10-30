@@ -1,3 +1,9 @@
+---
+name: roadmap-evolution-planning
+description: The roadmap-evolution-planning skill evolves the roadmap using post-launch evidence.
+compatibility: opencode
+---
+
 # Skill — roadmap-evolution-planning
 
 # Purpose

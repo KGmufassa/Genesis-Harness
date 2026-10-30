@@ -1,3 +1,9 @@
+---
+name: business-and-scalability-validation
+description: The business-and-scalability-validation skill validates -
+compatibility: opencode
+---
+
 # Skill — business-and-scalability-validation
 
 # Purpose

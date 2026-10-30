@@ -34,8 +34,8 @@
     ]
   },
   "statistics": {
-    "skills_scanned": 85,
-    "skills_included": 25,
+    "skills_scanned": 87,
+    "skills_included": 27,
     "stage_associated_skills_excluded": 60,
     "non_skill_artifacts_ignored": 1
   },
@@ -385,6 +385,76 @@
       "inferred_metadata": true
     },
     {
+      "skill_id": "Vibe-security",
+      "name": "vibe-security",
+      "aliases": [
+        "Vibe-security",
+        "vibe-security"
+      ],
+      "folder": "Vibe-security",
+      "source_path": ".opencode/Skills/Vibe-security/skill.md",
+      "stage_associated": false,
+      "description": "This skill helps Claude write secure web applications. Use this when working on any web application or when a user requests a scan or audit to ensure security best practices are followed.",
+      "domains": [
+        "code audit",
+        "code quality",
+        "documentation"
+      ],
+      "capabilities": [
+        "review code"
+      ],
+      "task_triggers": [
+        "audit codebase for bloat",
+        "document technology guidance",
+        "find vulnerabilities",
+        "find what to delete",
+        "list commands",
+        "research best practices",
+        "security review",
+        "show help card"
+      ],
+      "input_requirements": [
+        "skill.md file",
+        "codebase or diff context"
+      ],
+      "outputs": [
+        "help card"
+      ],
+      "tools_or_scripts": [],
+      "references": [],
+      "constraints": [
+        "Defense in depth: Never rely on a single security control",
+        "Input validation: Never trust user input, validate everything server-side",
+        "Each user must only access/modify their own data",
+        "Exception: Only use sequential IDs if explicitly requested by user",
+        "**Privilege Escalation**: Validate role changes server-side; never trust role info from client",
+        "`Strict`: Cookie never sent cross-site (best security)",
+        "**Token presence check**: CSRF validation must NOT depend on whether the token is present, always require it",
+        "**Subdomains**: CSRF tokens should be scoped because subdomain takeover can lead to CSRF",
+        "**GET requests with side effects**: Never perform state changes on GET",
+        "[ ] Secure and HttpOnly flags on session cookies",
+        "Only accept paths (e.g., `/dashboard`) not full URLs",
+        "Never MD5, SHA1, or plain SHA256",
+        "Only allow requests to pre-approved domains",
+        "Never rely on just one check",
+        "ORDER BY clauses (often overlooked—can't use parameters, must whitelist)",
+        "Table and column names (can't parameterize—must whitelist)",
+        "**Error handling**: Never expose SQL errors to users",
+        "[ ] Never use user input directly in file paths",
+        "[ ] Algorithm explicitly specified on verification (never trust token header)",
+        "[ ] Tokens stored in httpOnly cookies (not localStorage/sessionStorage)"
+      ],
+      "rule_engine_tags": [
+        "code audit",
+        "code quality",
+        "documentation",
+        "vibe-security"
+      ],
+      "selection_priority": "high",
+      "risk_flags": [],
+      "inferred_metadata": true
+    },
+    {
       "skill_id": "Wireframe-generator",
       "name": "creating-dynamic-wireframes",
       "aliases": [
@@ -498,6 +568,47 @@
         "documentation"
       ],
       "selection_priority": "high",
+      "risk_flags": [],
+      "inferred_metadata": true
+    },
+    {
+      "skill_id": "change-intake-router",
+      "name": "change-intake-router",
+      "aliases": [
+        "change-intake-router"
+      ],
+      "folder": "change-intake-router",
+      "source_path": ".opencode/Skills/change-intake-router/skill.md",
+      "stage_associated": false,
+      "description": "Route approved-product changes to the earliest affected Genesis stage, create compact CHANGE records after approval, enforce single-writer ID locks, and audit scoped changes before merge.",
+      "domains": [
+        "code audit"
+      ],
+      "capabilities": [
+        "generate report"
+      ],
+      "task_triggers": [
+        "audit codebase for bloat",
+        "find what to delete"
+      ],
+      "input_requirements": [
+        "skill.md file",
+        "codebase or diff context"
+      ],
+      "outputs": [
+        "report"
+      ],
+      "tools_or_scripts": [],
+      "references": [],
+      "constraints": [
+        "distinguish an active-stage refinement from a change to approved scope",
+        "create one compact change record only after approval"
+      ],
+      "rule_engine_tags": [
+        "change-intake-router",
+        "code audit"
+      ],
+      "selection_priority": "normal",
       "risk_flags": [],
       "inferred_metadata": true
     },
@@ -1284,20 +1395,20 @@
       "folder": "stage-summary",
       "source_path": ".opencode/Skills/stage-summary/skill.md",
       "stage_associated": false,
-      "description": "Scans Build-Plans Stage-1 through Stage-8 folders, reads nested JSON artifacts, and writes one markdown summary file per populated stage.",
+      "description": "Generate local Stage 5-8 markdown assessment summaries from canonical stage JSON outputs.",
       "domains": [
         "general"
       ],
       "capabilities": [
         "enforce rules",
         "generate report",
+        "review code",
         "tag findings"
       ],
       "task_triggers": [
-        "One or more stage folders have JSON artifacts that need a human-readable rollup.",
-        "The repository contains `Build-Plans/Stage-1` through `Build-Plans/Stage-8` folders.",
-        "The summary must be deterministic and grounded only in the JSON on disk.",
-        "The user wants one markdown summary per populated stage, not one markdown file per JSON artifact."
+        "A Stage 5-8 command is assembling final outputs for ready, blocked, or",
+        "The summary must be deterministic and grounded only in the canonical JSON",
+        "The user needs a clear local markdown artifact to assess what the stage did"
       ],
       "input_requirements": [
         "skill.md file",
@@ -1309,15 +1420,19 @@
       "tools_or_scripts": [],
       "references": [],
       "constraints": [
-        "The summary must be deterministic and grounded only in the JSON on disk.",
-        "only populated stage folders produced markdown files"
+        "The summary must be deterministic and grounded only in the canonical JSON",
+        "scan only top-level `*.json` files in the selected stage folder",
+        "read only the matching `Build-Plans/Build-status/Stage-N-readiness-audit.json`",
+        "only populated Stage 5-8 folders produced markdown files"
       ],
       "rule_engine_tags": [
         "general",
         "stage-summary"
       ],
       "selection_priority": "normal",
-      "risk_flags": [],
+      "risk_flags": [
+        "read-only"
+      ],
       "inferred_metadata": true
     },
     {

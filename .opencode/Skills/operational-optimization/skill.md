@@ -1,3 +1,9 @@
+---
+name: operational-optimization
+description: The operational-optimization skill analyzes operational burden after launch and recommends improvements.
+compatibility: opencode
+---
+
 # Skill — operational-optimization
 
 # Purpose

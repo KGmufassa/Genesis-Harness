@@ -1,3 +1,9 @@
+---
+name: technical-and-operational-validation
+description: The technical-and-operational-validation skill validates -
+compatibility: opencode
+---
+
 # Skill — technical-and-operational-validation
 
 # Purpose

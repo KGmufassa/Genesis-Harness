@@ -1,3 +1,9 @@
+---
+name: validation-synthesis
+description: The validation-synthesis skill combines all Stage 2 validation intelligence into -
+compatibility: opencode
+---
+
 # Skill — validation-synthesis
 
 # Purpose

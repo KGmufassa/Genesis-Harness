@@ -7,6 +7,7 @@ description: >
   "lazy-mode debt", "what did lazy-mode defer", "list the shortcuts",
   "lazy-mode ledger", or "what did we mark to do later". One-shot report,
   changes nothing.
+compatibility: opencode
 ---
 # Lazy Mode Debt
 

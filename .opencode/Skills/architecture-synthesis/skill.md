@@ -1,3 +1,9 @@
+---
+name: architecture-synthesis
+description: The architecture-synthesis skill combines all Stage 3 architecture intelligence into final architecture outputs.
+compatibility: opencode
+---
+
 # Skill — architecture-synthesis
 
 # Purpose

@@ -1,3 +1,9 @@
+---
+name: stage-7-launch-operationalization
+description: The stage-7-launch-operationalization command orchestrates Stage 7.
+compatibility: opencode
+---
+
 # Command — stage-7-launch-operationalization
 
 # Purpose

@@ -63,6 +63,20 @@ Use it for:
 
 ---
 
+# Executable Runner
+
+Run the audit after final outputs are assembled:
+
+```sh
+python3 .opencode/Skills/global-stage-readiness-audit/scripts/run_readiness_audit.py \
+  --stage 6 \
+  --proposed-status ready_for_stage_7
+```
+
+The runner uses `workflow_validation.py` to execute the repository's JSON Schema subset and resolve stable IDs plus file-and-JSON-Pointer references. It writes the stage audit and updates global workflow state. A non-ready result exits nonzero after preserving the failed audit and revision loops.
+
+---
+
 # Audit Checks
 
 For Stage 5 format `2.0`, audit `00-stage-context.json`, all eight manifest

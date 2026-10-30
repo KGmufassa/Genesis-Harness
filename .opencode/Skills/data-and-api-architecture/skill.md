@@ -1,3 +1,9 @@
+---
+name: data-and-api-architecture
+description: The data-and-api-architecture skill designs the data model and API architecture.
+compatibility: opencode
+---
+
 # Skill — data-and-api-architecture
 
 # Purpose

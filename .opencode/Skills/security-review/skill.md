@@ -2,6 +2,7 @@
 name: security-review
 description: Use this dynamic agent skill when code changes touch authentication, authorization, API routes, database access, user input, file uploads, payments, webhooks, secrets, AI endpoints, sensitive data, logging, or deployment configuration. It scans changed security surfaces, selects context-aware checks, ranks findings by severity, patches safe issues when permitted, and reports verification and residual risk.
 origin: ECC
+compatibility: opencode
 ---
 
 # Security Review Skill

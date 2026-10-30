@@ -41,6 +41,16 @@
           "accepted_by": {
             "type": "string"
           },
+          "acceptance_authority": {
+            "type": "string",
+            "enum": ["user", "delegated_policy"]
+          },
+          "approval_ref": {
+            "type": "string"
+          },
+          "delegated_policy_ref": {
+            "type": "string"
+          },
           "accepted_at": {
             "type": "string"
           },
@@ -66,6 +76,18 @@
             "type": "string"
           }
         },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "severity": { "enum": ["high", "critical"] }
+              }
+            },
+            "then": {
+              "required": ["accepted_by", "acceptance_authority", "approval_ref", "mitigation", "owner_stage", "revisit_trigger"]
+            }
+          }
+        ],
         "additionalProperties": true
       }
     }

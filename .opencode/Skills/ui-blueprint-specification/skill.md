@@ -1,3 +1,9 @@
+---
+name: ui-blueprint-specification
+description: The ui-blueprint-specification skill transforms Stage 4 UX requirements into implementation-ready UI blueprints without generating frontend code.
+compatibility: opencode
+---
+
 # Skill — ui-blueprint-specification
 
 # Purpose

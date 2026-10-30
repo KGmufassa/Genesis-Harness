@@ -1,3 +1,9 @@
+---
+name: stage-2-research-and-validation
+description: The stage-2-research-and-validation command orchestrates Stage 2.
+compatibility: opencode
+---
+
 # Command — stage-2-research-and-validation
 
 # Purpose

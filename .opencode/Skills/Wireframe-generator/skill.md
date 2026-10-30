@@ -2,6 +2,7 @@
 name: creating-dynamic-wireframes
 description: Reads product documentation or PRD files and generates structured, low-fidelity wireframes with deterministic page architecture, state definitions, trigger mapping, and annotated ASCII layouts. Supports dynamic workflow detection and safe update mode.
 Default file: docs/Frontend/ui-ux-design/ux-flows/overview.md
+compatibility: opencode
 ---
 
 # Creating Dynamic Wireframes

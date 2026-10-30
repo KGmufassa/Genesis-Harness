@@ -1,3 +1,9 @@
+---
+name: system-topology-design
+description: The system-topology-design skill defines the high-level technical system shape.
+compatibility: opencode
+---
+
 # Skill — system-topology-design
 
 # Purpose

@@ -87,6 +87,7 @@ ARTIFACT-
 LAUNCH-GATE-
 TELEMETRY-
 EXPERIMENT-
+CHANGE-
 ```
 
 IDs should be stable once created. If a concept changes materially, update the object and preserve references rather than silently replacing the ID.
@@ -473,6 +474,9 @@ Risk acceptance ledger structure:
       "risk": "",
       "severity": "low | medium | high | critical",
       "accepted_by": "",
+      "acceptance_authority": "user | delegated_policy",
+      "approval_ref": "",
+      "delegated_policy_ref": "",
       "accepted_at": "",
       "acceptance_reason": "",
       "mitigation": "",
@@ -489,6 +493,9 @@ Risk acceptance ledger structure:
 Rules:
 
 * accepted high and critical risks must include owner stage, mitigation, downstream visibility, and revisit trigger
+* accepted high and critical risks require explicit user approval unless a checked project policy delegates that authority
+* delegated acceptance must record `acceptance_authority: delegated_policy`, `delegated_policy_ref`, the acting identity in `accepted_by`, and an `approval_ref`
+* agents may identify, mitigate, escalate, or propose acceptance of high and critical risks, but may not silently accept them
 * accepted high and critical risks must appear in the next stage handoff
 * accepted launch risks must be visible to Stage 8
 * expired or superseded accepted risks must be revisited before a ready completion status is used
@@ -731,6 +738,38 @@ ARTIFACT-*
 ```
 
 Readiness must fail when launch-critical downstream outputs reference missing, duplicate, or stale upstream IDs unless the active stage contract profile allows an explicit accepted exception.
+
+---
+
+# Scoped Change Layer
+
+Approved-product changes use `change-intake-router`; they do not create Stage 9.
+
+Canonical files:
+
+```text
+System-References/Schemas/change-record.schema.json
+Build-Plans/Build-status/Change-ledger.json
+Build-Plans/Changes/CHANGE-NNN/change-record.json
+```
+
+Rules:
+
+* work in an active, unapproved owning stage remains an ordinary stage refinement and creates no `CHANGE-` record
+* approved-scope changes route to the earliest materially affected stage
+* one authoritative change record stores approval, route, affected IDs, preserved behavior, validation level, risks, evidence, and completion state
+* the ledger is only an index and affected-ID lock table
+* only one active change may write a stable ID
+* scoped work must not overwrite baseline global stage status or baseline readiness audits
+* material escalation requires renewed user review before scope expands
+* only a passed scoped audit may set `ready_to_merge`
+* `completed` requires merge plus post-merge verification
+
+Use:
+
+```sh
+python3 .opencode/Skills/change-intake-router/scripts/route_change.py "<request>"
+```
 
 ---
 

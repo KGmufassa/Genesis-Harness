@@ -78,3 +78,5 @@ Version rules:
 - major: breaking schema or architectural changes
 - minor: new templates, extensions, pages, or capabilities
 - patch: corrections and clarification
+
+Draft-to-stable promotion follows `MAINTENANCE.md` and requires three completed Stage 4 uses across two products plus responsive, accessibility, routing, and gap-resolution evidence.

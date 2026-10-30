@@ -1,6 +1,7 @@
 ---
 name: systematic-debugger
 description: Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes
+compatibility: opencode
 ---
 
 # Systematic Debugger

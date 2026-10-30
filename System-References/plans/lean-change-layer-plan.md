@@ -3,12 +3,12 @@
 ## Approval Status
 
 ```text
-Status: proposed
-Implementation authorized: no
-Required next action: user review and approval
+Status: approved and minimally implemented
+Implementation authorized: yes, by user request on 2026-08-17
+Required next action: exercise the router on a supervised scoped change
 ```
 
-This document defines the full proposed scope for adding features, pages, backend revisions, repairs, and post-launch improvements without restarting or bypassing the Genesis eight-stage workflow. No implementation work may begin until the user explicitly approves this plan.
+This document defines the full scope for adding features, pages, backend revisions, repairs, and post-launch improvements without restarting or bypassing the Genesis eight-stage workflow. The initial implementation intentionally covers deterministic routing, compact records, ID locks, schema validation, and completion auditing; deferred enhancements remain governed by the non-goals below.
 
 ---
 
@@ -1180,6 +1180,4 @@ Consider only after real usage demonstrates a need:
 
 ## Approval Decision
 
-The user should approve, revise, or reject this plan before implementation.
-
-Approval authorizes only the scoped implementation described here. Any material expansion into baseline services, semantic merging, parallel change orchestration, or additional workflow stages requires separate approval.
+Approved on **2026-08-17** for the minimal implementation described in the approval block. Any material expansion into baseline services, semantic merging, automatic branch/worktree mutation, parallel change orchestration, or additional workflow stages requires separate approval.

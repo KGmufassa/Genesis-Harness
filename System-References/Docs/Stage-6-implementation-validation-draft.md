@@ -64,6 +64,12 @@ The resolver never writes or migrates Stage 5 files. Future generated agents
 must follow this same format detection and must execute batch tickets according
 to dependency-valid `execution_waves`.
 
+## Scoped Change Compatibility
+
+When `scoped_change` is present, Stage 6 may consume the approved `CHANGE-` record and its embedded one-ticket execution packet without claiming a normal Stage 5 finalization. The record, approval, affected-ID locks, ticket skills, acceptance criteria, preserved behavior, evidence obligations, and validation level must pass the change audit. Store scoped readiness attempts under the change directory; do not overwrite baseline readiness audits or change `Global-workflow-state.json.current_stage`.
+
+This path does not weaken normal workflow evidence, security, accessibility, visual QA, artifact evidence, regression, or risk-acceptance requirements.
+
 The `stage-6-implementation-validation` command orchestrates Stage 6.
 
 It transforms:
@@ -558,10 +564,15 @@ For frontend tickets requiring preview or visual QA, Stage 6 must record:
   "preview_url": "",
   "visual_qa_results": [],
   "responsive_validation_results": [],
+  "visual_reference_refs": [],
+  "visual_reference_compliance": {},
   "design_system_compliance": {},
-  "visual_drift_status": "visual_match | minor_visual_drift | major_visual_drift | requires_user_review"
+  "visual_drift_status": "visual_match | minor_visual_drift | major_visual_drift | requires_user_review",
+  "visual_drift_source": "ui_blueprint_drift | visual_spec_drift | visual_reference_drift | design_system_drift | implementation_only_drift"
 }
 ```
+
+When `visual_reference_refs` are present, Stage 6 must record `visual_reference_compliance` and identify `visual_drift_source`; design-system compliance alone is not a substitute.
 
 Each agent assignment must include:
 

@@ -1,3 +1,9 @@
+---
+name: ux-interaction-synthesis
+description: The ux-interaction-synthesis skill combines all Stage 4 UX and interaction intelligence into final outputs.
+compatibility: opencode
+---
+
 # Skill — ux-interaction-synthesis
 
 # Purpose

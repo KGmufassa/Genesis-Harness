@@ -1,3 +1,9 @@
+---
+name: ui-architecture-template-selection
+description: The ui-architecture-template-selection skill selects the structural UI architecture template and extensions that ui-blueprint-specification should use when generating page/component blueprints.
+compatibility: opencode
+---
+
 # Skill — ui-architecture-template-selection
 
 # Purpose

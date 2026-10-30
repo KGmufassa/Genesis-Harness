@@ -1,3 +1,9 @@
+---
+name: dependency-and-risk-analysis
+description: The dependency-and-risk-analysis skill is responsible for -
+compatibility: opencode
+---
+
 # Skill — dependency-and-risk-analysis
 
 # Purpose

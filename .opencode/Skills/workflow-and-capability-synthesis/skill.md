@@ -1,3 +1,9 @@
+---
+name: workflow-and-capability-synthesis
+description: The workflow-and-capability-synthesis skill is responsible for transforming -
+compatibility: opencode
+---
+
 # Skill — workflow-and-capability-synthesis
 
 # Purpose

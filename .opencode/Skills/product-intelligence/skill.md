@@ -1,3 +1,9 @@
+---
+name: product-intelligence
+description: The product-intelligence skill interprets raw product intent and turns it into the first structured Stage 1 product model.
+compatibility: opencode
+---
+
 # Skill — product-intelligence
 
 # Purpose

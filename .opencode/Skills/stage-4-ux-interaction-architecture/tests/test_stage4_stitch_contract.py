@@ -33,6 +33,8 @@ class Stage4StitchContractTests(unittest.TestCase):
         self.assertIn("visual-only", command)
         self.assertIn("Stage 5 handoff impact is `none`", command)
         self.assertIn("Build-Plans/Stage-4/Screen-shots/", command)
+        self.assertIn("read-only capability preflight", command)
+        self.assertIn("screen generate/update", command)
 
     def test_stage_4_consumers_reference_stitch_visual_source_boundary(self) -> None:
         synthesis = self._read(".opencode/Skills/ux-interaction-synthesis/skill.md")

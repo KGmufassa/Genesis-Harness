@@ -1,3 +1,9 @@
+---
+name: stage-1-product-initialization
+description: The Stage-1-product-initialization command orchestrates the Stage 1 skills in sequence.
+compatibility: opencode
+---
+
 # Command — Stage-1-product-initialization
 
 # Purpose

@@ -6,6 +6,7 @@ description: >
   persistent mode, and not a per-repo number. Trigger when the user asks
   "lazy-mode gain", "what does lazy-mode save", "show lazy-mode impact",
   "lazy-mode scoreboard".
+compatibility: opencode
 ---
 # Lazy Mode Gain
 

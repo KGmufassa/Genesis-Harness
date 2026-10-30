@@ -1,3 +1,9 @@
+---
+name: mvp-and-optimization
+description: The mvp-and-optimization skill is responsible for -
+compatibility: opencode
+---
+
 # Skill — mvp-and-optimization
 
 # Purpose

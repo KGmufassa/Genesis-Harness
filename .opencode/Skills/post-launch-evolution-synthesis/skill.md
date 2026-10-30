@@ -1,3 +1,9 @@
+---
+name: post-launch-evolution-synthesis
+description: The post-launch-evolution-synthesis skill combines Stage 8 findings into a coherent evolution plan.
+compatibility: opencode
+---
+
 # Skill — post-launch-evolution-synthesis
 
 # Purpose

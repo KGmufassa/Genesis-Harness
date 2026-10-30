@@ -1,3 +1,9 @@
+---
+name: integration-and-infrastructure-architecture
+description: The integration-and-infrastructure-architecture skill designs the external integration model and infrastructure foundation.
+compatibility: opencode
+---
+
 # Skill — integration-and-infrastructure-architecture
 
 # Purpose

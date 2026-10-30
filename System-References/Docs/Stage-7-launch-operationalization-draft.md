@@ -159,8 +159,11 @@ The Stage 6 handoff should be normalized into:
   "accepted_risks": [],
   "visual_qa_results": [],
   "responsive_validation_results": [],
+  "visual_reference_refs": [],
+  "visual_reference_compliance": {},
   "design_system_compliance": {},
   "visual_drift_status": "",
+  "visual_drift_source": "",
   "dev_server_url": "",
   "artifact_refs": []
 }
@@ -168,7 +171,7 @@ The Stage 6 handoff should be normalized into:
 
 Stage 7 must not mark launch-ready while unresolved launch-critical Stage 6 blockers remain, unless they are explicitly accepted as known launch risks.
 
-Stage 7 must not mark launch-ready while launch-critical frontend work has unresolved visual QA failures, unresolved responsive validation failures, unresolved UI architecture/layout pattern/component-family/template-deviation compliance failures, unresolved design system compliance failures, missing required preview evidence, or `major_visual_drift`, unless each item is explicitly accepted as a known launch risk.
+Stage 7 must not mark launch-ready while launch-critical frontend work has unresolved visual QA failures, unresolved responsive validation failures, unresolved UI architecture/layout pattern/component-family/template-deviation compliance failures, unresolved `visual_reference_compliance`, unresolved design system compliance failures, missing required preview evidence, an unexplained `visual_drift_source`, or `major_visual_drift`, unless each item is explicitly accepted as a known launch risk.
 
 ---
 

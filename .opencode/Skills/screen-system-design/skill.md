@@ -1,3 +1,9 @@
+---
+name: screen-system-design
+description: The screen-system-design skill defines the screen architecture needed to support user journeys and interactions.
+compatibility: opencode
+---
+
 # Skill — screen-system-design
 
 # Purpose

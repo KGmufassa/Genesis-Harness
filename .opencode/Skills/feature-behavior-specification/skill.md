@@ -1,3 +1,9 @@
+---
+name: feature-behavior-specification
+description: The feature-behavior-specification skill defines how product features behave in response to user actions and system conditions.
+compatibility: opencode
+---
+
 # Skill — feature-behavior-specification
 
 # Purpose

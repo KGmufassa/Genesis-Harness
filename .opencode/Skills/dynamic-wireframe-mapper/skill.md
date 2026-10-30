@@ -4,6 +4,7 @@ description: |
   Dynamically analyzes a provided document (PRD, UI/UX design draft, or user flow)
   and generates a component dependency wireframe graph showing how components,
   states, and systems interact.
+compatibility: opencode
 ---
   This skill adapts its output based on the document type and extracts:
   - Component relationships

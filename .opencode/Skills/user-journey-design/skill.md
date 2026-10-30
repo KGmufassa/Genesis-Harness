@@ -1,3 +1,9 @@
+---
+name: user-journey-design
+description: The user-journey-design skill defines the main user journeys and outcome paths.
+compatibility: opencode
+---
+
 # Skill — user-journey-design
 
 # Purpose

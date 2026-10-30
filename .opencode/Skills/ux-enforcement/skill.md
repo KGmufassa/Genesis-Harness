@@ -1,6 +1,7 @@
 ---
 name: ux-enforcement
 description: Validate and enforce that implemented interfaces correctly follow the planned UX. This skill ensures that user flows, interactions, and states are implemented as intended, with no missing steps, hidden actions, or usability regressions.
+compatibility: opencode
 ---
 
 ## Purpose

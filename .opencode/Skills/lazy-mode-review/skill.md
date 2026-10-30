@@ -8,6 +8,7 @@ description: >
   delete", "is this over-engineered", "simplify review", or when the agent
   detects unnecessary complexity. Complements correctness-focused review,
   this one only hunts complexity.
+compatibility: opencode
 ---
 # Lazy Mode Review
 

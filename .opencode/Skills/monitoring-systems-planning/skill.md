@@ -1,3 +1,9 @@
+---
+name: monitoring-systems-planning
+description: The monitoring-systems-planning skill defines the operational monitoring model for production.
+compatibility: opencode
+---
+
 # Skill — monitoring-systems-planning
 
 # Purpose

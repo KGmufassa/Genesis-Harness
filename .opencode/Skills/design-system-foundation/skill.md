@@ -1,3 +1,9 @@
+---
+name: design-system-foundation
+description: The design-system-foundation skill defines the shared visual system that all Stage 4 UI blueprints must follow.
+compatibility: opencode
+---
+
 # Skill — design-system-foundation
 
 # Purpose

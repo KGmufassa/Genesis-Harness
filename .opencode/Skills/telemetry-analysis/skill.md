@@ -1,3 +1,9 @@
+---
+name: telemetry-analysis
+description: The telemetry-analysis skill analyzes live product signals after launch.
+compatibility: opencode
+---
+
 # Skill — telemetry-analysis
 
 # Purpose

@@ -61,6 +61,13 @@ class Stage7Stage8ReadinessContractTests(unittest.TestCase):
         self.assertIn("Build-Plans/Build-status/Stage-8-readiness-audit.json", contract)
         self.assertIn("Stage 8 is terminal and cyclical", contract)
 
+    def test_standalone_audit_doc_matches_new_control_shape(self) -> None:
+        audit_doc = self._read("System-References/Docs/Global-Stage-Readiness-Audit.md")
+        self.assertIn('"local_assessment_summary": {', audit_doc)
+        self.assertIn('"visual_reference_refs_present": false', audit_doc)
+        self.assertIn('"visual_reference_compliance_recorded": false', audit_doc)
+        self.assertIn("run_readiness_audit.py", audit_doc)
+
     def test_stage_6_and_stage_7_schemas_include_workflow_outcome_contract(self) -> None:
         stage_6_schema = json.loads(
             (REPOSITORY_ROOT / "System-References/Schemas/stage-6-output.schema.json").read_text(

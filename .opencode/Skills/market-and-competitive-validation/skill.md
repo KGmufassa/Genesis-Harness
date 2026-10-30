@@ -1,3 +1,9 @@
+---
+name: market-and-competitive-validation
+description: The market-and-competitive-validation skill validates -
+compatibility: opencode
+---
+
 # Skill — market-and-competitive-validation
 
 # Purpose

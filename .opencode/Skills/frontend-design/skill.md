@@ -1,6 +1,7 @@
 ---
 name: frontend-design
 description: Create distinctive, production-grade frontend interfaces with a clear aesthetic direction and high design quality. Routes layout, token systems, responsive behavior, motion, anti-pattern avoidance, and stack-specific implementation across a wide range of app surface types.
+compatibility: opencode
 ---
 
 # Frontend Design

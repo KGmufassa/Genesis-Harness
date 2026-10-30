@@ -1330,6 +1330,8 @@ EXCLUSIONS AND DEFERRED SCOPE:
 PROTOTYPE REQUEST:
 ```
 
+Before the prototype request, run a read-only MCP capability preflight and record the discovered server and tool names for project create/reuse, screen generate/update, screen list/read, and screenshot/export operations. Mark availability `available`, `partial`, or `unavailable`; partial capability requires the same explicit fallback decision as unavailability.
+
 The prototype request should ask Stitch to propose launch-critical pages, major feature regions, reusable components, and interaction affordances. It must not ask Stitch to invent product scope, backend services, permissions, or implementation tickets.
 
 ## Page-Level Confirmation

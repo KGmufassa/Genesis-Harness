@@ -8,6 +8,7 @@ description: >
   fifty. Supports intensity levels: lite, full (default), ultra. Always active
   when creating or updating code in this repository.
 argument-hint: "[lite|full|ultra]"
+compatibility: opencode
 ---
 # Lazy Mode
 

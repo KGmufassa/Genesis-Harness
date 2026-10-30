@@ -1,3 +1,9 @@
+---
+name: analytics-framework-planning
+description: The analytics-framework-planning skill defines how product success and user behavior will be measured after launch.
+compatibility: opencode
+---
+
 # Skill — analytics-framework-planning
 
 # Purpose

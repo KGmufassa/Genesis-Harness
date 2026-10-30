@@ -2,6 +2,7 @@
 name: commit-summary
 description: Creates a concise commit title and brief 20-30 word description summarizing codebase changes from git diff, git status, changed files, or user-provided change notes.
 origin: ECC
+compatibility: opencode
 ---
 
 # Commit Summary Skill

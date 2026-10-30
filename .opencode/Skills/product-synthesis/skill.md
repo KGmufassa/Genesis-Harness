@@ -1,3 +1,9 @@
+---
+name: product-synthesis
+description: The product-synthesis skill reconciles all Stage 1 outputs into a complete product initialization package.
+compatibility: opencode
+---
+
 # Skill — product-synthesis
 
 # Purpose

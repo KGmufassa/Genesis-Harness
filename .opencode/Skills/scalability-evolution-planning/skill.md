@@ -1,3 +1,9 @@
+---
+name: scalability-evolution-planning
+description: The scalability-evolution-planning skill analyzes scaling, performance, cost, and operational capacity signals after launch.
+compatibility: opencode
+---
+
 # Skill — scalability-evolution-planning
 
 # Purpose

@@ -11,6 +11,7 @@ metadata:
   scope: implementation
   output-format: code
   related-skills: 
+compatibility: opencode
 ---
 
 # Swift Expert

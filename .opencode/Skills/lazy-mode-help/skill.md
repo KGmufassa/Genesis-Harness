@@ -4,6 +4,7 @@ description: >
   Quick-reference card for all lazy-mode modes, skills, and commands.
   One-shot display, not a persistent mode. Trigger when the user says
   "lazy-mode help", "what lazy-mode commands", "how do I use lazy-mode".
+compatibility: opencode
 ---
 # Lazy Mode Help
 

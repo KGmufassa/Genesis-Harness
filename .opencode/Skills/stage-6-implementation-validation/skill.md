@@ -34,6 +34,14 @@ This is the Stage 6 command skill. It is not a single implementation subskill.
 
 ---
 
+# Scoped Change Input
+
+When `scoped_change` is present, load the approved `CHANGE-` record and its embedded execution packet instead of claiming a normal Stage 5 finalization. Require a valid change schema, matching affected-ID locks, one ticket with normal skill/acceptance/validation fields, preserved-behavior checks, and the routed validation level. Write scoped audits under the change directory and do not overwrite baseline stage audits or `Global-workflow-state.json.current_stage`.
+
+The scoped path does not relax workflow evidence, security, accessibility, visual QA, artifact evidence, regression, or risk-acceptance rules.
+
+---
+
 # Cognitive Boundary
 
 Stage 6 asks:
@@ -81,6 +89,7 @@ The command must load this file at the beginning of Stage 6, update it after eac
   "stage": "Stage 6",
   "command": "stage-6-implementation-validation",
   "status": "not_started",
+  "scoped_change": {},
   "stage_5_inputs": {},
   "build_tickets": {},
   "agent_assignment_plan": {},

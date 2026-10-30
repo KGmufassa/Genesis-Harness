@@ -1,3 +1,9 @@
+---
+name: launch-readiness-validation
+description: The launch-readiness-validation skill validates whether the implemented system is ready for launch preparation.
+compatibility: opencode
+---
+
 # Skill — launch-readiness-validation
 
 # Purpose

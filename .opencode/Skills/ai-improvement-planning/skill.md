@@ -1,3 +1,9 @@
+---
+name: ai-improvement-planning
+description: The ai-improvement-planning skill evaluates AI quality signals and plans AI system improvements.
+compatibility: opencode
+---
+
 # Skill — ai-improvement-planning
 
 # Purpose

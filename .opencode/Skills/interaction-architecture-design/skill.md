@@ -1,3 +1,9 @@
+---
+name: interaction-architecture-design
+description: The interaction-architecture-design skill defines how users interact with product workflows and system responses.
+compatibility: opencode
+---
+
 # Skill — interaction-architecture-design
 
 # Purpose

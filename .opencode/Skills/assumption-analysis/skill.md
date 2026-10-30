@@ -1,3 +1,9 @@
+---
+name: assumption-analysis
+description: The assumption-analysis skill extracts and prioritizes assumptions from Stage 1 outputs.
+compatibility: opencode
+---
+
 # Skill — assumption-analysis
 
 # Purpose

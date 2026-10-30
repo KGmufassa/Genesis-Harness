@@ -1,3 +1,9 @@
+---
+name: state-transition-and-accessibility-design
+description: The state-transition-and-accessibility-design skill defines user-visible state transitions and accessibility foundations.
+compatibility: opencode
+---
+
 # Skill — state-transition-and-accessibility-design
 
 # Purpose

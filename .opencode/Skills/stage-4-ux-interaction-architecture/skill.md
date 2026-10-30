@@ -1,3 +1,9 @@
+---
+name: stage-4-ux-interaction-architecture
+description: The stage-4-ux-interaction-architecture command orchestrates Stage 4.
+compatibility: opencode
+---
+
 # Command — stage-4-ux-interaction-architecture
 
 # Purpose
@@ -528,6 +534,8 @@ The library is read-only during normal Stage 4 runs. Record template deviations 
 ## 10. Run The Stitch MCP Prototype And Page-Confirmation Loop
 
 Use the selected design system, UI architecture template, journeys, screen system, feature behaviors, states, accessibility constraints, and upstream scope to create or update Stitch screens.
+
+Run a read-only capability preflight before generating anything. Record the discovered MCP server and tool names for project create/reuse, screen generate/update, screen list/read, and screenshot/export operations in `stitch_prototyping.prototype_constraints`. Set `stitch_prototyping.availability` to `available`, `unavailable`, or `partial`. Missing create, read, or screenshot capability makes availability `partial` and requires the same explicit fallback decision as an unavailable server.
 
 Required shared state updates:
 
